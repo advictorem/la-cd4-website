@@ -215,12 +215,11 @@ a.city-bar__link, button.city-bar__link { display: inline-flex; align-items: cen
 .faq__answer { padding: 0 0 var(--s5); max-width: var(--measure); color: var(--ink-2); }
 .faq__answer ul { list-style: none; margin: var(--s3) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s2) var(--s5); }
 
-/* FAQ categories (home) and jump links (FAQ page) */
-.faq-cats { display: grid; gap: var(--s6) var(--s7); }
-@media (min-width: 62rem) { .faq-cats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.faq-cats__title { font-family: var(--font-serif); font-size: var(--step-2); font-weight: 600; }
-.faq--compact { margin-top: var(--s3); }
-.faq--compact summary { font-size: var(--step-0); font-weight: 600; padding: var(--s4) 0; }
+/* FAQ categories: small uppercase label (same style as "Quick Resource Links") above each group */
+.faq-wrap { margin-inline: auto; }
+.faq-cat { margin-top: var(--s7); }
+.faq-cat .section-label { margin-bottom: 0; }
+.faq-cat .faq { margin-top: var(--s3); }
 .faq-jump ul { display: flex; flex-wrap: wrap; gap: var(--s3); list-style: none; margin: 0; padding: 0; }
 
 /* ---------- Header tools: weather, search ---------- */

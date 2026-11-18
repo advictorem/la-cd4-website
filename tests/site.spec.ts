@@ -320,7 +320,10 @@ test.describe("home page sections", () => {
   });
   test("FAQ: three categories on the home page, with a button to the full FAQ page in About", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator(".faq-cats__title")).toHaveText(["Housing", "Safety", "Contact Our Office"]);
+    await expect(page.locator(".faq-cat .section-label")).toHaveText(["Housing", "Safety", "Contact Our Office"]);
+    // Category labels use the same style as the "Quick Resource Links" label.
+    const style = (sel: string) => page.locator(sel).first().evaluate((e) => { const c = getComputedStyle(e); return [c.fontSize, c.fontWeight, c.textTransform, c.letterSpacing, c.color].join("|"); });
+    expect(await style(".faq-cat .section-label")).toBe(await style("#quick-title"));
     const first = page.locator(".faq__item").first();
     await expect(first.locator(".faq__answer")).toBeHidden();
     await first.locator("summary").click();

@@ -78,7 +78,7 @@ Focus is always a 3px navy outline with a white halo (gold on dark surfaces). Fo
 | Topic buttons | Ten outlined pill buttons, icon + title, no descriptions. |
 | Neighborhood photo tiles | Photo, gradient, title and one short sentence; image zooms on hover/focus (not under reduced motion). The same photo is the header background of each neighborhood page. |
 | Community Updates | "Latest"-style list: rule, category, title, date. Four most recent on the home page. |
-| FAQ | Native `<details>` accordions. The home page shows two questions in each of three categories (Housing, Safety, Contact Our Office) with a "Read more FAQs" button; the full list is at `/faq/`, under About CD4. |
+| FAQ | Native `<details>` accordions. The home page shows one centered column with two questions under each of three category labels (Housing, Safety, Contact Our Office; same small uppercase label style as "Quick Resource Links") and a "Read more FAQs" button; the full list is at `/faq/`, under About CD4. |
 | Footer social row | Single-color brand glyphs (Simple Icons, CC0) with text names for assistive technology. |
 
 Colored top and left edge bars were removed from all tiles and cards. Topic color now appears only in icons, tints and page headers.

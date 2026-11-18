@@ -19,8 +19,8 @@ export default function FaqPage() {
               </ul>
             </nav>
             {faqCategories.map((c) => (
-              <section key={c.id} id={c.id} aria-labelledby={`${c.id}-h`} style={{ marginTop: "var(--s7)", scrollMarginTop: "1rem" }}>
-                <h2 id={`${c.id}-h`} style={{ fontSize: "var(--step-2)" }}>{c.title}</h2>
+              <section key={c.id} id={c.id} className="faq-cat" aria-labelledby={`${c.id}-h`} style={{ scrollMarginTop: "1rem" }}>
+                <h2 id={`${c.id}-h`} className="section-label">{c.title}</h2>
                 <FaqList items={c.items} />
               </section>
             ))}
