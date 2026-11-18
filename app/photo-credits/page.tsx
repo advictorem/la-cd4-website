@@ -32,7 +32,9 @@ export default function PhotoCredits() {
               <span className="muted">Neighborhood pages: {{ councils: "councils and community groups", civic: "libraries, markets and post offices", safety: "police and fire stations", parks: "parks and recreation" }[k]}</span>
               <span>
                 <strong>{p.source ? <SmartLink href={p.source}>{p.title}</SmartLink> : p.title}</strong><br />
-                By {p.artist}, via Wikimedia Commons. Licensed {p.licenseUrl ? <SmartLink href={p.licenseUrl}>{p.license}</SmartLink> : p.license}. Cropped and resized.
+                {p.source
+                  ? <>By {p.artist}, via Wikimedia Commons. Licensed {p.licenseUrl ? <SmartLink href={p.licenseUrl}>{p.license}</SmartLink> : p.license}. Cropped and resized.</>
+                  : <>{p.artist}. {p.license}. Cropped.</>}
               </span>
             </li>
           ))}

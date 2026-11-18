@@ -41,7 +41,7 @@ export default async function NeighborhoodPage({ params }: { params: Promise<{ s
             {projects.length > 0 && (
               <section aria-labelledby="projects" className="projects-feature">
                 <h2 id="projects"><span className="projects-feature__icon"><Icon name="pin" size={26} /></span>Projects and Updates in This Area</h2>
-                <LatestList items={projects} />
+                <LatestList items={projects} calendar />
               </section>
             )}
           </div>

@@ -308,7 +308,7 @@ html[data-citynav="loaded"] #citybar-fallback { display: none; }
 .quick__item:hover { background: var(--c-tint); border-color: var(--c-accent); color: var(--ink); }
 .quick__item:hover .quick__arrow { transform: translateX(3px); }
 .quick__icon { width: 2.5rem; height: 2.5rem; display: grid; place-items: center; border-radius: var(--radius-s); background: var(--c-tint); color: var(--c-ink); }
-.quick__item:hover .quick__icon { background: #fff; }
+.quick__item:hover .quick__icon { background: transparent; } /* icon sits directly on the hover fill, no box */
 .quick__label { font-weight: 700; line-height: 1.25; display: block; }
 .quick__hint { font-size: var(--step--1); color: var(--muted); display: block; margin-top: 2px; line-height: 1.35; }
 .quick__arrow { color: var(--c-ink); transition: transform var(--ease); }
@@ -399,9 +399,19 @@ html[data-citynav="loaded"] #citybar-fallback { display: none; }
 @media (min-width: 62rem) { .split--sticky { align-items: stretch; } .sticky-col { position: sticky; top: var(--s4); align-self: start; } }
 
 /* Projects and Updates: featured band on neighborhood pages */
-.projects-feature { margin-top: var(--s8); padding: var(--s6); border-radius: var(--radius-m); background: var(--wash); border-top: 4px solid var(--city-navy); }
+.projects-feature { margin-top: var(--s8); padding: var(--s6); border-radius: var(--radius-m); background: var(--wash); }
 .projects-feature h2 { display: flex; align-items: center; gap: var(--s4); font-size: clamp(1.75rem, 1.2rem + 2vw, 2.25rem); line-height: 1.15; margin-bottom: var(--s5); }
 .projects-feature__icon { flex: none; display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--city-navy); color: #fff; }
+
+/* Dated list: month / year calendar tile beside each update */
+.dated { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s4); }
+.dated__item { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: var(--s5); padding: var(--s4); background: #fff; border: 1px solid var(--line); border-radius: var(--radius-m); }
+.dated__tile { display: grid; width: 5rem; text-align: center; border: 2px solid var(--city-navy); border-radius: var(--radius-s); overflow: hidden; background: #fff; font-weight: 700; line-height: 1.2; }
+.dated__month { background: var(--city-navy); color: #fff; padding: 0.5rem 0.25rem; font-size: 1.25rem; }
+.dated__year { color: var(--city-navy); padding: 0.4rem 0.25rem; font-size: 1.125rem; }
+.dated h3 { font-size: var(--step-1); font-weight: 600; line-height: 1.3; margin-top: var(--s1); }
+.dated h3 a { color: var(--ink); text-decoration: none; }
+.dated h3 a:hover { text-decoration: underline; text-decoration-thickness: 2px; color: var(--blue-700); }
 
 /* MyLA311 call to action, in the blue of the MyLA311 logo (#00609a) */
 .report311 { --m311: #00609a; display: grid; justify-items: start; gap: var(--s3); padding: var(--s5); border-radius: var(--radius-m); background: #e3f1f9; border: 1px solid #a9d0e6; color: var(--ink); }
@@ -414,7 +424,7 @@ html[data-citynav="loaded"] #citybar-fallback { display: none; }
 
 /* Filled topic cards (Related topics): tinted with the topic color; outline only on hover and focus */
 .card--filled { background: var(--c-tint); border-color: transparent; }
-.card--filled .card__icon { background: #fff; }
+.card--filled .card__icon { background: transparent; width: auto; } /* no box on a filled card */
 .card--filled p { color: var(--ink-2); }
 .card--filled:has(a.card__link:hover), .card--filled:has(a.card__link:focus-visible) { border-color: var(--c-accent); box-shadow: 0 0 0 1px var(--c-accent); }
 
@@ -533,3 +543,14 @@ html[data-citynav="loaded"] #citybar-fallback { display: none; }
 }
 
 @media (min-width: 62rem) { .grid--topics > :nth-last-child(-n+2) { grid-column: span 2; } }
+
+/* Small screens: keep the Projects band and its date rows inside the viewport */
+.dated__item > div, .projects-feature h2 { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 30rem) {
+  .projects-feature { padding: var(--s4); }
+  .projects-feature h2 { gap: var(--s3); font-size: 1.5rem; }
+  .projects-feature__icon { width: 40px; height: 40px; }
+  .dated__item { gap: var(--s3); padding: var(--s3); }
+  .dated__tile { width: 4rem; }
+  .dated__month { font-size: 1.0625rem; } .dated__year { font-size: 1rem; }
+}

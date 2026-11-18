@@ -50,8 +50,7 @@ export const resourcePhotos: Record<"councils" | "civic" | "safety" | "parks", P
     source: "https://commons.wikimedia.org/wiki/File:FEMA_-_35786_-_Town_hall_meeting_in_Iowa.jpg" },
   civic: { src: "/images/resources/civic-v2.webp", alt: "", title: "Hollywood Post Office front view", artist: "Andrew Tilles", license: "CC BY-SA 4.0",
     licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0", source: "https://commons.wikimedia.org/wiki/File:Hollywood_Post_Office_front_view.jpg" },
-  safety: { src: "/images/resources/safety-v2.webp", alt: "", title: "LAPD Rampart Community Police Station", artist: "Lapdrampart (Wikimedia Commons user)", license: "CC BY-SA 3.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0", source: "https://commons.wikimedia.org/wiki/File:LAPD_Rampart_Community_Police_Station.JPG" },
+  safety: { src: "/images/resources/safety-v3.webp", alt: "", title: "Los Angeles police vehicle", ...SUPPLIED },
   parks: { src: "/images/resources/parks.webp", alt: "", title: "Downtown LA from Griffith Park", artist: "Serouj", license: "Public domain",
     source: "https://commons.wikimedia.org/wiki/File:Downtown_LA_from_Griffith_Park.jpg" },
 };

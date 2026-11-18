@@ -77,7 +77,7 @@ export default function HomePage() {
 
       <section className="section section--centered" aria-labelledby="topics-title">
         <div className="container">
-          <h2 id="topics-title">Topics & Resources</h2>
+          <h2 id="topics-title" className="section-title">Topics & Resources</h2>
           <p className="section-intro">Plain-language guides to City programs, with links to the agencies that run them.</p>
           <TopicPills topics={topics} />
           <p style={{ marginTop: "var(--s5)" }}><SmartLink className="arrow-link" href="/topics-resources/">All topics <Icon name="arrow" size={16} /></SmartLink></p>
@@ -86,7 +86,7 @@ export default function HomePage() {
 
       <section className="section section--wash" aria-labelledby="hoods-title">
         <div className="container">
-          <SectionHead id="hoods-title" title="Explore Your Neighborhood" intro="Neighborhood Councils, libraries, parks, and public safety contacts for each part of the district."
+          <SectionHead home id="hoods-title" title="Explore Your Neighborhood"
             action={<SmartLink className="arrow-link" href="/neighborhoods/">All neighborhoods <Icon name="arrow" size={16} /></SmartLink>} />
           <div className="grid grid--3">
             {content.neighborhoods().map((n) => <NeighborhoodCard key={n.slug} n={n} />)}
@@ -97,7 +97,7 @@ export default function HomePage() {
       <section className="section section--cream" aria-labelledby="updates-title">
         <div className="container">
           <div className="latest-head">
-            <h2 id="updates-title">Community Updates</h2>
+            <h2 id="updates-title" className="section-title">Community Updates</h2>
             <SmartLink className="arrow-link" href="/news/">See all <Icon name="arrow" size={16} /></SmartLink>
           </div>
           <LatestList items={updates.slice(0, 4)} />
@@ -106,7 +106,7 @@ export default function HomePage() {
 
       <section className="section" aria-labelledby="events-title">
         <div className="container">
-          <SectionHead id="events-title" title="Events"
+          <SectionHead home id="events-title" title="Events"
             action={<SmartLink className="arrow-link" href="/events/">Events calendar and past events <Icon name="arrow" size={16} /></SmartLink>} />
           {upcoming.length ? <EventList events={upcoming.slice(0, 4)} /> : (
             <EmptyState title="No upcoming events are listed"
@@ -136,7 +136,7 @@ export default function HomePage() {
         <div className="container">
           <div className="contact-cols">
             <div>
-              <h2 id="contact-title">Contact & Stay Connected</h2>
+              <h2 id="contact-title" className="section-title">Contact & Stay Connected</h2>
               <p className="muted" style={{ marginTop: "0.75rem", maxWidth: "40ch" }}>Reach the district office, or subscribe to email updates about services, events, and your neighborhood.</p>
               <div className="btn-row" style={{ marginTop: "1.5rem" }}>
                 <ButtonLink href="/need-help/">Contact the office</ButtonLink>
@@ -167,7 +167,7 @@ export default function HomePage() {
 
       <section className="section" aria-labelledby="faq-title">
         <div className="container faq-wrap">
-          <h2 id="faq-title">Frequently Asked Questions</h2>
+          <h2 id="faq-title" className="section-title">Frequently Asked Questions</h2>
           {faqCategories.map((cat) => (
             <section key={cat.id} className="faq-cat" aria-labelledby={`faq-${cat.id}`}>
               <h3 id={`faq-${cat.id}`} className="section-label">{cat.title}</h3>

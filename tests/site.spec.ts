@@ -526,6 +526,21 @@ test.describe("sign-up prompt", () => {
   });
 });
 
+test("home section titles share one size and weight; quick-link hover has no white icon box", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  for (const name of ["Topics & Resources", "Explore Your Neighborhood", "Community Updates", "Events", "Contact & Stay Connected", "Frequently Asked Questions"]) {
+    const h = page.getByRole("heading", { level: 2, name, exact: true });
+    await expect(h).toHaveCSS("font-size", "48px");
+    await expect(h).toHaveCSS("font-weight", "400");
+    await expect(h).toHaveCSS("line-height", "55.008px");
+  }
+  await expect(page.locator("main")).not.toContainText("public safety contacts for each part of the district");
+  const item = page.locator(".quick__item").first();
+  await item.hover();
+  await expect(item.locator(".quick__icon")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+});
+
 test.describe("neighborhood pages", () => {
   for (const slug of ["reseda", "encino", "hollywood-hollywood-hills", "los-feliz-silver-lake", "sherman-oaks-van-nuys", "studio-city-cahuenga-pass"]) {
     test(`${slug}: layout and content rules`, async ({ page }) => {
@@ -555,9 +570,15 @@ test.describe("neighborhood pages", () => {
       await expect(box.locator("img")).toHaveCSS("width", "78px");
       await expect(box.getByRole("link", { name: /Open MyLA311/ })).toHaveAttribute("target", "_blank");
       const proj = main.locator(".projects-feature h2");
-      if (await proj.count()) { await expect(proj).toHaveCSS("font-size", "36px"); await expect(proj.locator("svg")).toHaveCount(1); }
+      if (await proj.count()) { await expect(proj).toHaveCSS("font-size", "36px"); await expect(proj.locator("svg")).toHaveCount(1);
+        await expect(main.locator(".projects-feature")).toHaveCSS("border-top-width", "0px");
+        const tile = main.locator(".dated__tile").first();
+        await expect(tile.locator(".dated__month")).toHaveText(/^[A-Z][a-z]{2}$/);
+        await expect(tile.locator(".dated__year")).toHaveText(/^20\d\d$/);
+        expect(await main.locator(".dated__tile").count()).toBe(await main.locator(".dated__item").count()); }
       // Related topics: filled with the topic tint, no visible outline until hover.
       const card = main.locator(".card--filled").first();
+      await expect(card.locator(".card__icon")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)"); // no white icon box on a filled card
       await expect(main.locator(".card--filled")).toHaveCount(3);
       expect(await card.evaluate((e) => getComputedStyle(e).backgroundColor)).not.toBe("rgb(255, 255, 255)");
       await expect(card).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");

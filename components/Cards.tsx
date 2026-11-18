@@ -37,7 +37,27 @@ export function NeighborhoodCard({ n, level = "h3" }: { n: Neighborhood; level?:
 }
 
 /** "Latest"-style list of community updates: rule, category, title, date. */
-export function LatestList({ items }: { items: HotTopic[] }) {
+/** calendar: each item leads with a small month / year date tile (neighborhood "Projects and Updates"). */
+export function LatestList({ items, calendar }: { items: HotTopic[]; calendar?: boolean }) {
+  if (calendar) {
+    return (
+      <ul className="dated" role="list">
+        {items.map((h) => (
+          <li key={h.slug} className="dated__item">
+            <time className="dated__tile" dateTime={h.sourceUpdated.slice(0, 7)}>
+              <span className="visually-hidden">Source information dated </span>
+              <span className="dated__month">{formatDate(h.sourceUpdated, { month: "short" })}</span>{" "}
+              <span className="dated__year">{formatDate(h.sourceUpdated, { year: "numeric" })}</span>
+            </time>
+            <div>
+              <p className="latest__cat">{h.kicker}</p>
+              <h3><SmartLink href={`/${h.slug}/`}>{h.title}</SmartLink></h3>
+            </div>
+          </li>
+        ))}
+      </ul>
+    );
+  }
   return (
     <ul className="latest" role="list">
       {items.map((h) => (
@@ -115,11 +135,11 @@ export function PlaceList({ heading, image, places }: { heading: string; image: 
   );
 }
 
-export function SectionHead({ title, intro, action, id }: { title: string; intro?: string; action?: ReactNode; id?: string }) {
+export function SectionHead({ title, intro, action, id, home }: { title: string; intro?: string; action?: ReactNode; id?: string; home?: boolean }) {
   return (
     <div className="section-head">
       <div>
-        <h2 id={id}>{title}</h2>
+        <h2 id={id} className={home ? "section-title" : undefined}>{title}</h2>
         {intro && <p>{intro}</p>}
       </div>
       {action}
