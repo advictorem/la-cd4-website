@@ -1,11 +1,10 @@
 import { notFound } from "next/navigation";
 import { content } from "@/lib/content-adapter";
-import { site } from "@/content/site";
 import { pageMeta } from "@/lib/metadata";
-import { PageHeader, PageFoot, ContactActions } from "@/components/Layout";
-import { PlaceList, QuickService, LatestList, TopicCard } from "@/components/Cards";
+import { PageHeader, PageFoot, Report311 } from "@/components/Layout";
+import { PlaceList, LatestList, TopicCard } from "@/components/Cards";
 import { SmartLink } from "@/components/SmartLink";
-import { neighborhoodPhotos } from "@/content/images";
+import { neighborhoodPhotos, resourcePhotos } from "@/content/images";
 
 export const dynamicParams = false;
 export const generateStaticParams = () => content.neighborhoods().map((n) => ({ slug: n.slug }));
@@ -25,34 +24,30 @@ export default async function NeighborhoodPage({ params }: { params: Promise<{ s
     <>
       <PageHeader title={n.title} eyebrow={n.region} lede={n.blurb} image={photo?.src} crumbs={[{ label: "Neighborhoods", href: "/neighborhoods/" }, { label: n.title }]} />
       <div className="container section">
-        <section aria-labelledby="about" className="prose" style={{ marginBottom: "var(--s7)" }}>
-          <h2 id="about" style={{ fontSize: "var(--step-2)", marginTop: 0 }}>About {n.title}</h2>
-          {n.overview.map((p, i) => <p key={i}>{p}</p>)}
-        </section>
-        <section aria-labelledby="quick">
-          <h2 id="quick" className="visually-hidden">Quick actions</h2>
-          <ul className="quick" role="list">
-            <QuickService href={site.myla311.web} label="Report an issue" hint="MyLA311 service requests" color="teal" icon="phone" />
-            <QuickService href="/need-help/" label="Request assistance" hint="Contact the district office" color="city" icon="mail" />
-            <QuickService href="/district-4/#map" label="District map" hint="See the district boundaries" color="slate" icon="map" />
-          </ul>
-        </section>
-
-        <div className="split" style={{ marginTop: "var(--s7)" }}>
-          <section aria-labelledby="local">
-            <h2 id="local" style={{ fontSize: "var(--step-3)", marginBottom: "var(--s5)" }}>Local resources</h2>
-            <div className="dir">
-              <PlaceList heading="Neighborhood Councils & community groups" icon="people" places={n.councils} />
-              <PlaceList heading="Libraries, markets & post offices" icon="building" places={n.civic} />
-              <PlaceList heading="Police & fire stations" icon="shield" places={n.safety} />
-              <PlaceList heading="Parks & recreation" icon="tree" places={n.recreation} />
-            </div>
-            <p className="small muted" style={{ marginTop: "var(--s5)" }}>Listings are carried over from the current CD4 website and are being re-confirmed. For emergencies call 911; do not rely on station phone numbers.</p>
-          </section>
+        {/* The right column stays in view while the left column scrolls, and releases at Related topics. */}
+        <div className="split split--sticky">
           <div>
-            <ContactActions heading="Report a problem in this area" />
+            <section aria-labelledby="local">
+              <h2 id="local" style={{ fontSize: "var(--step-3)", marginBottom: "var(--s5)" }}>Local Resources</h2>
+              <div className="dir">
+                <PlaceList heading="Neighborhood Councils & Community Groups" image={resourcePhotos.councils.src} places={n.councils} />
+                <PlaceList heading="Libraries, Markets & Post Offices" image={resourcePhotos.civic.src} places={n.civic} />
+                <PlaceList heading="Police & Fire Stations" image={resourcePhotos.safety.src} places={n.safety} />
+                <PlaceList heading="Parks & Recreation" image={resourcePhotos.parks.src} places={n.recreation} />
+              </div>
+              <p className="small muted" style={{ marginTop: "var(--s5)" }}>Listings are carried over from the current CD4 website and are being re-confirmed. For emergencies call 911; do not rely on station phone numbers.</p>
+            </section>
+            {projects.length > 0 && (
+              <section aria-labelledby="projects" style={{ marginTop: "var(--s8)" }}>
+                <h2 id="projects" style={{ fontSize: "var(--step-2)", marginBottom: "var(--s5)" }}>Projects and Updates in This Area</h2>
+                <LatestList items={projects} />
+              </section>
+            )}
+          </div>
+          <div className="sticky-col">
+            <Report311 />
             <nav className="panel" aria-label="Other neighborhoods" style={{ marginTop: "var(--s5)" }}>
-              <h2>Other neighborhoods</h2>
+              <h2>Other Neighborhoods</h2>
               <ul role="list" className="stack" style={{ ["--flow" as string]: "0.5rem" }}>
                 {others.map((o) => <li key={o.slug}><SmartLink href={`/neighborhood/${o.slug}/`}>{o.title}</SmartLink></li>)}
               </ul>
@@ -60,24 +55,11 @@ export default async function NeighborhoodPage({ params }: { params: Promise<{ s
           </div>
         </div>
 
-        {projects.length > 0 && (
-          <section aria-labelledby="projects" style={{ marginTop: "var(--s8)" }}>
-            <h2 id="projects" style={{ fontSize: "var(--step-2)", marginBottom: "var(--s5)" }}>Projects and updates in this area</h2>
-            <LatestList items={projects} />
-          </section>
-        )}
         <section aria-labelledby="topics" style={{ marginTop: "var(--s8)" }}>
-          <h2 id="topics" style={{ fontSize: "var(--step-2)", marginBottom: "var(--s5)" }}>Related topics</h2>
-          <div className="grid grid--3">{topics.map((t) => <TopicCard key={t.slug} topic={t} />)}</div>
+          <h2 id="topics" style={{ fontSize: "var(--step-2)", marginBottom: "var(--s5)" }}>Related Topics</h2>
+          <div className="grid grid--3">{topics.map((t) => <TopicCard key={t.slug} topic={t} filled />)}</div>
         </section>
-        {photo && (
-          <p className="small muted" style={{ marginTop: "var(--s7)" }}>
-            Header photo: {photo.source ? <SmartLink href={photo.source}>{photo.title}</SmartLink> : photo.title}. {photo.source
-              ? <>By {photo.artist}, {photo.licenseUrl ? <SmartLink href={photo.licenseUrl}>{photo.license}</SmartLink> : photo.license}, via Wikimedia Commons (cropped).</>
-              : <>{photo.artist}.</>} <SmartLink href="/photo-credits/">Photo credits</SmartLink>
-          </p>
-        )}
-        <PageFoot meta={n.meta} title={n.title} />
+        <PageFoot title={n.title} shareOnly />
       </div>
     </>
   );

@@ -6,10 +6,11 @@ import { formatDate } from "@/lib/content-adapter";
 import { Icon } from "./Icon";
 import { SmartLink, isExternal } from "./SmartLink";
 
-export function TopicCard({ topic, level = "h3" }: { topic: Topic; level?: "h2" | "h3" }) {
+/** filled: the card is tinted with its topic color and shows an outline only on hover/focus (used for "Related topics"). */
+export function TopicCard({ topic, level = "h3", filled }: { topic: Topic; level?: "h2" | "h3"; filled?: boolean }) {
   const H = level;
   return (
-    <article className="card card--topic" data-color={topic.color}>
+    <article className={`card card--topic${filled ? " card--filled" : ""}`} data-color={topic.color}>
       <div className="card__head">
         <span className="card__icon"><Icon name={topic.icon} size={22} /></span>
         <H style={{ fontSize: "var(--step-1)", fontFamily: "var(--font-sans)", fontWeight: 700, letterSpacing: 0, lineHeight: 1.3 }}>
@@ -94,11 +95,13 @@ export function ResourceLinkList({ links, color }: { links: ResourceLink[]; colo
   );
 }
 
-export function PlaceList({ heading, icon, places }: { heading: string; icon: IconName; places: Place[] }) {
+/** One Local Resources category: photo thumbnail, Title Case heading, list of places. */
+export function PlaceList({ heading, image, places }: { heading: string; image: string; places: Place[] }) {
   if (!places.length) return null;
   return (
-    <section>
-      <h3><Icon name={icon} size={20} />{heading}</h3>
+    <section className="places-block">
+      <div className="places-block__img"><Image src={image} alt="" fill sizes="(min-width: 48rem) 30vw, 100vw" /></div>
+      <h3>{heading}</h3>
       <ul className="places" role="list">
         {places.map((p) => (
           <li key={p.name}>

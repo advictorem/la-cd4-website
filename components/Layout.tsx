@@ -66,7 +66,9 @@ export function EmptyState({ title, children, actions }: { title: string; childr
 }
 
 /** Page footer strip: review date, source, share. */
-export function PageFoot({ meta, title }: { meta?: ContentMeta; title: string }) {
+/** shareOnly: no review line, share control centered (neighborhood pages). */
+export function PageFoot({ meta, title, shareOnly }: { meta?: ContentMeta; title: string; shareOnly?: boolean }) {
+  if (shareOnly) return <div className="page-foot page-foot--center"><ShareControl title={title} /></div>;
   return (
     <div className="page-foot">
       <p className="meta-line">
@@ -95,6 +97,20 @@ export function ContactActions({ heading = "Need help with a City service?" }: {
       </div>
       <p style={{ marginTop: "1rem" }}><SmartLink href="/need-help/">Contact the district office</SmartLink></p>
       <p className="small" style={{ marginTop: "0.5rem", color: "#c9d1e6" }}>{site.myla311.phoneLabel}</p>
+    </aside>
+  );
+}
+
+/** MyLA311 call to action in the MyLA311 blue, with the official logo (neighborhood pages). */
+export function Report311({ heading = "Report a problem in this area" }: { heading?: string }) {
+  const c = site.contact;
+  return (
+    <aside className="report311" aria-label="Report a problem">
+      <Image src="/brand/myla311-logo.png" alt="MyLA311" width={87} height={80} />
+      <h2>{heading}</h2>
+      <p>Request City services such as pothole repair, graffiti removal, and bulky-item pickup.</p>
+      <SmartLink href={site.myla311.web} className="btn report311__btn">Open MyLA311</SmartLink>
+      <p className="report311__or"><span>or</span> <SmartLink href="/need-help/">Contact the district office</SmartLink> directly at <a href={c.phoneHref}>{c.phone}</a></p>
     </aside>
   );
 }

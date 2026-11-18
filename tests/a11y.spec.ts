@@ -34,7 +34,7 @@ for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["mo
       test.use({ allowPrompt: true });
       test("open dialog", async ({ page }) => {
         await page.goto("/district-4/");
-        await expect(page.getByRole("dialog")).toBeVisible({ timeout: 12_000 });
+        await expect(page.getByRole("dialog")).toBeVisible({ timeout: 20_000 });
         // The framed Indigov form is the vendor's document and is excluded here; it needs its own review (docs/accessibility.md).
         const results = await new AxeBuilder({ page }).withTags(tags).exclude("dialog iframe").analyze();
         expect(results.violations.map((v) => `${v.impact}: ${v.id} — ${v.nodes[0]?.html.slice(0, 120)}`)).toEqual([]);

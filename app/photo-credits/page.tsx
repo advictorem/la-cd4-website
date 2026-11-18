@@ -1,4 +1,4 @@
-import { heroPhoto, neighborhoodPhotos } from "@/content/images";
+import { heroPhoto, neighborhoodPhotos, resourcePhotos } from "@/content/images";
 import { content } from "@/lib/content-adapter";
 import { pageMeta } from "@/lib/metadata";
 import { PageHeader } from "@/components/Layout";
@@ -27,6 +27,15 @@ export default function PhotoCredits() {
               </li>
             ) : null;
           })}
+          {Object.entries(resourcePhotos).map(([k, p]) => (
+            <li key={k}>
+              <span className="muted">Neighborhood pages: {{ councils: "councils and community groups", civic: "libraries, markets and post offices", safety: "police and fire stations", parks: "parks and recreation" }[k]}</span>
+              <span>
+                <strong>{p.source ? <SmartLink href={p.source}>{p.title}</SmartLink> : p.title}</strong><br />
+                By {p.artist}, via Wikimedia Commons. Licensed {p.licenseUrl ? <SmartLink href={p.licenseUrl}>{p.license}</SmartLink> : p.license}. Cropped and resized.
+              </span>
+            </li>
+          ))}
         </ul>
       </div>
     </>

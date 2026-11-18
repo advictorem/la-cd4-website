@@ -57,7 +57,7 @@ Color never carries meaning alone: every colored element also has a text label a
 | ResourceLinkList | `Cards.tsx` | row hover / focus; description and owning agency |
 | EventList / Calendar | `Events.tsx` | list and calendar views (`aria-pressed`); empty month; today; past events; "Today" disabled when current |
 | AccessibleEmbed | `AccessibleEmbed.tsx` | idle (nothing loaded) → loading (announced) → ready; permanent fallback link |
-| ShareControl | `ShareControl.tsx` | copy success / failure announced via `role="status"` |
+| ShareControl | `ShareControl.tsx` | "Share This Page" with two icon buttons (Copy link, Email), each with a hidden text name; copy success / failure announced via `role="status"`. Centered on neighborhood pages (`PageFoot shareOnly`). |
 | ContactActions, RepresentationNotice, StagingBanner, EmptyState, PageFoot | `Layout.tsx` | RepresentationNotice renders nothing unless configured; `.skeleton` loading state in `app/loading.tsx` |
 | Footer | `Footer.tsx` | — |
 
@@ -116,3 +116,14 @@ Stored in `public/brand/`, byte-for-byte as downloaded on 2026-11-17, never reco
 | `cd4-map.svg` | District outline from the live CD4 theme (`/wp-content/themes/nithya-raman/images/CD4-map.svg`) |
 
 Use of each mark needs City approval (see the launch checklist).
+
+## Neighborhood page template
+
+| Part | Rule |
+|---|---|
+| Order | Header photo, then Local Resources straight away (no "About" text), Projects and Updates, Related Topics, Share This Page. No review line or photo credit on the page; credits are on `/photo-credits/`. |
+| Local Resources | Four `PlaceList` blocks in a 2 x 2 grid (one column on phones). Each has a 16:9 stock photo above a Title Case heading; no icons. The photos are decorative (`alt=""`) and are the same on every neighborhood page (`resourcePhotos` in `content/images.ts`). |
+| MyLA311 box (`Report311`) | Light blue panel in the MyLA311 logo blue (`#00609a` button, `#e3f1f9` background) with the official logo, unaltered. Large heading, full-width "Open MyLA311" button, then "or Contact the district office directly" with the office phone from `site.contact`. |
+| Sticky column | From 62rem up, the MyLA311 box and Other Neighborhoods stay 16px from the top while the left column scrolls, and release where Related Topics begins. Not sticky on smaller screens. |
+| Related Topics | `TopicCard filled`: card filled with the topic tint, white icon box, no border; the accent outline appears only on hover and keyboard focus. |
+

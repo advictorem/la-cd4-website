@@ -4,11 +4,10 @@ import { Icon } from "./Icon";
 
 const noop = () => () => {};
 
-/** Inline share actions for the current page: copy link, email, and the device share sheet when available. */
+/** Share actions for the current page: icon buttons to copy the link or email it. */
 export function ShareControl({ title }: { title: string }) {
   const [status, setStatus] = useState("");
   const url = useSyncExternalStore(noop, () => window.location.href, () => "");
-  const canShare = useSyncExternalStore(noop, () => typeof navigator.share === "function", () => false);
 
   async function copy() {
     try {
@@ -23,14 +22,11 @@ export function ShareControl({ title }: { title: string }) {
 
   return (
     <div className="share" role="group" aria-label="Share this page">
-      <span className="share__label">Share</span>
-      <button type="button" className="btn btn--secondary btn--small" onClick={copy}><Icon name="link" size={16} />Copy link</button>
-      <a className="btn btn--secondary btn--small" href={mail}><Icon name="mail" size={16} />Email</a>
-      {canShare && (
-        <button type="button" className="btn btn--secondary btn--small" onClick={() => navigator.share({ title, url: window.location.href }).catch(() => {})}>
-          <Icon name="arrow" size={16} />More
-        </button>
-      )}
+      <span className="share__label">Share This Page</span>
+      <div className="share__actions">
+        <button type="button" className="share__btn" onClick={copy}><Icon name="link" size={20} /><span className="visually-hidden">Copy link</span></button>
+        <a className="share__btn" href={mail}><Icon name="mail" size={20} /><span className="visually-hidden">Email</span></a>
+      </div>
       <span className="share__status" role="status" aria-live="polite">{status}</span>
     </div>
   );

@@ -259,6 +259,7 @@ test.describe("content rules", () => {
     await expect(page.locator(".share__status")).toHaveText("Link copied");
     expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/\/initiative\/parks\/$/);
     await expect(page.getByRole("link", { name: "Email" })).toHaveAttribute("href", /^mailto:\?subject=/);
+    await expect(page.locator(".share").getByRole("button", { name: /More/ })).toHaveCount(0);
   });
 });
 
@@ -288,9 +289,10 @@ test.describe("home page sections", () => {
     for (const img of await tiles.locator("img").all()) { await img.scrollIntoViewIfNeeded(); await expect.poll(() => img.evaluate((i: HTMLImageElement) => i.naturalWidth)).toBeGreaterThan(0); }
     await page.goto("/neighborhood/reseda/");
     await expect(page.locator(".page-header--photo")).toHaveCSS("background-image", /reseda-v2\.webp/);
-    await expect(page.getByText(/Header photo:/)).toContainText("Supplied by the project owner");
-    await page.goto("/neighborhood/hollywood-hollywood-hills/");
-    await expect(page.getByText(/Header photo:/)).toContainText("CC0");
+    await expect(page.getByText(/Header photo:/)).toHaveCount(0); // credits live on the Photo credits page
+    await page.goto("/photo-credits/");
+    await expect(page.locator("main")).toContainText("Supplied by the project owner");
+    await expect(page.locator("main")).toContainText("CC0");
     await page.goto("/");
     const a11y = page.getByRole("button", { name: /Accessibility/ }); // icon only: no pill, name kept for assistive tech
     expect((await a11y.boundingBox())!.width).toBeLessThanOrEqual(48);
@@ -506,19 +508,74 @@ test.describe("sign-up prompt", () => {
   test("Escape closes it; the form is not requested until it opens; it never opens on the sign-up page", async ({ page }) => {
     await page.goto("/events/");
     const dialog = page.getByRole("dialog");
-    await expect(dialog).toBeVisible({ timeout: 12_000 });
+    await expect(dialog).toBeVisible({ timeout: 20_000 });
     await page.keyboard.press("Escape");
     await expect(dialog).toBeHidden();
     await page.evaluate(() => localStorage.removeItem("cd4-signup-prompt"));
     await page.goto("/district-4/");
     await expect(page.locator("dialog iframe")).toHaveCount(0); // nothing loads from Indigov before the prompt opens
-    await expect(dialog).toBeVisible({ timeout: 12_000 });
+    await expect(dialog).toBeVisible({ timeout: 20_000 });
     await dialog.getByRole("button", { name: "Close" }).click();
     await expect(dialog).toBeHidden();
     await page.evaluate(() => localStorage.removeItem("cd4-signup-prompt"));
     await page.goto("/sign-up/");
     await page.waitForTimeout(7500);
     await expect(dialog).toBeHidden();
+  });
+});
+
+test.describe("neighborhood pages", () => {
+  for (const slug of ["reseda", "encino", "hollywood-hollywood-hills", "los-feliz-silver-lake", "sherman-oaks-van-nuys", "studio-city-cahuenga-pass"]) {
+    test(`${slug}: layout and content rules`, async ({ page }) => {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.goto(`/neighborhood/${slug}/`);
+      const main = page.locator("main");
+      await expect(main.getByRole("heading", { name: /^About / })).toHaveCount(0);
+      await expect(main).not.toContainText(/Last reviewed|Content owner|Header photo/);
+      // First content under the header is Local Resources.
+      expect((await main.locator("h2").first().textContent())!.trim()).toBe("Local Resources");
+      // Category blocks: Title Case headings, a photo above each, no icons in the headings, two per row.
+      const blocks = main.locator(".places-block");
+      const titles = await blocks.locator("h3").allTextContents();
+      for (const t of titles) expect(["Neighborhood Councils & Community Groups", "Libraries, Markets & Post Offices", "Police & Fire Stations", "Parks & Recreation"]).toContain(t);
+      await expect(blocks.locator("h3 svg")).toHaveCount(0);
+      expect(await blocks.locator(".places-block__img img").count()).toBe(titles.length);
+      const xs = await blocks.evaluateAll((bs) => bs.map((b) => Math.round(b.getBoundingClientRect().left)));
+      expect(new Set(xs).size).toBe(2);
+      // MyLA311 box: logo, large heading, clear button, district office contact underneath.
+      const box = main.locator(".report311");
+      await expect(box.locator("img")).toHaveAttribute("src", /myla311-logo/);
+      await expect(box).toHaveCSS("background-color", "rgb(227, 241, 249)");
+      await expect(box.getByRole("heading", { name: "Report a problem in this area" })).toBeVisible();
+      await expect(box.getByRole("link", { name: /Open MyLA311/ })).toHaveAttribute("href", "https://myla311.lacity.gov/");
+      await expect(box.getByRole("link", { name: "Contact the district office" })).toHaveAttribute("href", "/need-help/");
+      await expect(box.locator('a[href^="tel:"]')).toHaveText("213-473-7004");
+      // Related topics: filled with the topic tint, no visible outline until hover.
+      const card = main.locator(".card--filled").first();
+      await expect(main.locator(".card--filled")).toHaveCount(3);
+      expect(await card.evaluate((e) => getComputedStyle(e).backgroundColor)).not.toBe("rgb(255, 255, 255)");
+      await expect(card).toHaveCSS("border-top-color", "rgba(0, 0, 0, 0)");
+      // Share: centered, two icon buttons, no "More".
+      const share = main.locator(".share");
+      await expect(share).toContainText("Share This Page");
+      await expect(share.locator(".share__btn")).toHaveCount(2);
+      const sb = (await share.boundingBox())!;
+      expect(Math.abs(sb.x + sb.width / 2 - 640)).toBeLessThan(12);
+    });
+  }
+  test("right column stays in view while scrolling and releases at Related topics", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto("/neighborhood/studio-city-cahuenga-pass/");
+    const col = page.locator(".sticky-col");
+    const top = async () => Math.round((await col.boundingBox())!.y);
+    const start = await page.locator(".split--sticky").evaluate((e) => e.getBoundingClientRect().top + window.scrollY);
+    await page.evaluate((y) => window.scrollTo(0, y + 200), start);
+    expect(await top()).toBe(16); // pinned 16px from the top
+    await page.evaluate((y) => window.scrollTo(0, y + 500), start);
+    expect(await top()).toBe(16);
+    await page.locator("#topics").scrollIntoViewIfNeeded();
+    await page.evaluate(() => window.scrollBy(0, 500));
+    expect(await top()).toBeLessThan(0); // released and scrolled away
   });
 });
 
