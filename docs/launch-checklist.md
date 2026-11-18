@@ -25,7 +25,9 @@ Nothing below has been done on production. Items marked **City** need a named Ci
 
 ## Data and imagery added in revision 2
 - [ ] Confirm usage rights for the home hero panorama (`public/images/cd4-hills-panorama.webp`).
-- [ ] City review of the six Wikimedia Commons neighborhood photos and their credit lines (`/photo-credits/`).
+- [ ] Confirm source, license and credit wording for the five supplied neighborhood photos (`/photo-credits/`); several look like stock, listing or magazine images that need a license.
+- [ ] Confirm the Los Feliz & Silver Lake photo shows the right place (it appears to be Echo Park Lake, which is outside the district).
+- [ ] Replace the Encino photo with a higher-resolution file (current one is 612 px wide).
 - [ ] Weather/air-quality source: Open-Meteo's free tier is for non-commercial use with attribution. Confirm that fits City use, buy their plan, or switch to National Weather Service + AirNow (AirNow needs a free API key).
 - [ ] AccuWeather: obtain an API key and confirm their attribution/logo terms, then set `ACCUWEATHER_API_KEY` in Vercel. Until then the readout is credited to Open-Meteo, which is where the numbers come from. The AccuWeather code path has not been exercised with a real key.
 - [ ] Google Places: create a key restricted to the site's domains and the Places API, set `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`, and test address suggestions. Not yet tested with a real key. Review Google's terms and privacy impact first.

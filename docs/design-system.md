@@ -85,7 +85,7 @@ Colored top and left edge bars were removed from all tiles and cards. Topic colo
 
 ## Photography
 
-Credits and licenses are in `content/images.ts` and published at `/photo-credits/`. Neighborhood photos are from Wikimedia Commons (five CC BY-SA, one CC0), cropped and resized; CC BY-SA requires the credit to stay with the image and any adaptation to carry the same license. The home hero panorama was supplied by the project owner and its usage rights still need to be confirmed.
+Credits and licenses are in `content/images.ts` and published at `/photo-credits/`. The home hero panorama and five neighborhood photos (Encino, Los Feliz & Silver Lake, Reseda, Sherman Oaks & Van Nuys, Studio City) were supplied by the project owner; their sources and usage rights still need to be confirmed. The Hollywood photo is from Wikimedia Commons (CC0). The Encino file is only 612 px wide and is soft when used as a page header.
 
 ## City toolbar
 

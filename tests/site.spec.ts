@@ -287,8 +287,14 @@ test.describe("home page sections", () => {
     expect(Math.max(...lens) - Math.min(...lens)).toBeLessThanOrEqual(12);
     for (const img of await tiles.locator("img").all()) { await img.scrollIntoViewIfNeeded(); await expect.poll(() => img.evaluate((i: HTMLImageElement) => i.naturalWidth)).toBeGreaterThan(0); }
     await page.goto("/neighborhood/reseda/");
-    await expect(page.locator(".page-header--photo")).toHaveCSS("background-image", /reseda\.webp/);
-    await expect(page.getByText(/Header photo:/)).toContainText("CC BY-SA 3.0");
+    await expect(page.locator(".page-header--photo")).toHaveCSS("background-image", /reseda-v2\.webp/);
+    await expect(page.getByText(/Header photo:/)).toContainText("Supplied by the project owner");
+    await page.goto("/neighborhood/hollywood-hollywood-hills/");
+    await expect(page.getByText(/Header photo:/)).toContainText("CC0");
+    await page.goto("/");
+    const a11y = page.getByRole("button", { name: /Accessibility/ }); // icon only: no pill, name kept for assistive tech
+    expect((await a11y.boundingBox())!.width).toBeLessThanOrEqual(48);
+    await expect(a11y).toHaveCSS("border-top-width", "0px");
   });
   test("community updates list shows four dated items and a See all link", async ({ page }) => {
     await page.goto("/");

@@ -71,7 +71,11 @@ export default async function NeighborhoodPage({ params }: { params: Promise<{ s
           <div className="grid grid--3">{topics.map((t) => <TopicCard key={t.slug} topic={t} />)}</div>
         </section>
         {photo && (
-          <p className="small muted" style={{ marginTop: "var(--s7)" }}>Header photo: {photo.source ? <SmartLink href={photo.source}>{photo.title}</SmartLink> : photo.title} by {photo.artist}, {photo.licenseUrl ? <SmartLink href={photo.licenseUrl}>{photo.license}</SmartLink> : photo.license}, via Wikimedia Commons (cropped).</p>
+          <p className="small muted" style={{ marginTop: "var(--s7)" }}>
+            Header photo: {photo.source ? <SmartLink href={photo.source}>{photo.title}</SmartLink> : photo.title}. {photo.source
+              ? <>By {photo.artist}, {photo.licenseUrl ? <SmartLink href={photo.licenseUrl}>{photo.license}</SmartLink> : photo.license}, via Wikimedia Commons (cropped).</>
+              : <>{photo.artist}.</>} <SmartLink href="/photo-credits/">Photo credits</SmartLink>
+          </p>
         )}
         <PageFoot meta={n.meta} title={n.title} />
       </div>
