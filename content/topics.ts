@@ -38,7 +38,7 @@ export const topics: Topic[] = [
     agencies: [
       { name: "LA Sanitation & Environment", role: "Trash, recycling, organics, sewers, and stormwater", href: "https://www.lacitysan.org/" },
       { name: "Los Angeles Department of Water and Power", role: "Water and power service, conservation programs", href: "https://www.ladwp.com/" },
-      { name: "StreetsLA (Bureau of Street Services)", role: "Street trees and the urban forest", href: "https://streetsla.lacity.gov/" },
+      { name: "StreetsLA (Bureau of Street Services)", role: "Street trees and the urban forest", href: "https://streets.lacity.gov/" },
     ],
     related: ["parks", "transit-mobility"],
     meta: meta("environment", "Council District 4 office with LASAN / LADWP"),
@@ -85,7 +85,7 @@ export const topics: Topic[] = [
       "Which City and County agencies do what",
     ],
     resources: [
-      { label: "Request outreach through LA-HOP", href: "https://www.la-hop.org/", agency: "LAHSA", description: "The Los Angeles Homeless Outreach Portal sends a request to an outreach team. It is not an emergency service." },
+      { label: "Request outreach through LA-HOP", href: "https://www.lahsa.org/portal/apps/la-hop/", agency: "LAHSA", description: "The Los Angeles Homeless Outreach Portal sends a request to an outreach team. It is not an emergency service." },
       { label: "Los Angeles Homeless Services Authority (LAHSA)", href: "https://www.lahsa.org/", agency: "LAHSA", description: "Shelter and housing programs, how to get help, and service-provider information." },
       { label: "211 LA", href: "https://211la.org/", agency: "211 LA County", description: "24-hour referrals for shelter, food, health care, and other services. Dial 211." },
       { label: "LA County Department of Mental Health: get help now", href: "https://dmh.lacounty.gov/get-help-now/", agency: "LA County DMH", description: "Mental health support and the County help line." },
@@ -265,7 +265,7 @@ export const topics: Topic[] = [
       "How to bid on City contracts",
     ],
     resources: [
-      { label: "Economic & Workforce Development Department", href: "https://ewddlacity.com/", agency: "EWDD", description: "BusinessSource Centers, loans, and workforce programs." },
+      { label: "Economic & Workforce Development Department", href: "https://ewdd.lacity.gov/", agency: "EWDD", description: "BusinessSource Centers, loans, and workforce programs." },
       { label: "Office of Finance: business taxes and forms", href: "https://finance.lacity.gov/forms-list", agency: "Office of Finance", description: "Register a business and file City business tax forms." },
       { label: "Building permits and plan check", href: "https://ladbs.org/services/core-services/plan-check-permit", agency: "LADBS", description: "Permits for tenant improvements, signs, and changes of use." },
       { label: "City contracting opportunities (RAMP)", href: "https://www.rampla.org/s/", agency: "City of Los Angeles", description: "Register as a vendor and find open bids." },
@@ -278,7 +278,7 @@ export const topics: Topic[] = [
       { title: "Get free advising", body: "BusinessSource Centers offer one-on-one help with planning, financing, and licensing." },
     ],
     agencies: [
-      { name: "Economic & Workforce Development Department", role: "Business assistance and workforce programs", href: "https://ewddlacity.com/" },
+      { name: "Economic & Workforce Development Department", role: "Business assistance and workforce programs", href: "https://ewdd.lacity.gov/" },
       { name: "Office of Finance", role: "Business registration and taxes", href: "https://finance.lacity.gov/" },
       { name: "Department of Building and Safety", role: "Permits and inspections", href: "https://www.ladbs.org/" },
     ],
@@ -300,7 +300,7 @@ export const topics: Topic[] = [
       { label: "Los Angeles Department of Transportation", href: "https://ladot.lacity.gov/", agency: "LADOT", description: "Traffic, parking, and street-safety programs." },
       { label: "LADOT Transit (DASH and Commuter Express)", href: "https://www.ladottransit.com/", agency: "LADOT", description: "Routes, schedules, and fares." },
       { label: "Metro", href: "https://www.metro.net/", agency: "LA Metro", description: "Bus and rail trip planning, fares, and service alerts." },
-      { label: "StreetsLA", href: "https://streetsla.lacity.gov/", agency: "Bureau of Street Services", description: "Pothole repair, resurfacing, sidewalks, and street trees." },
+      { label: "StreetsLA", href: "https://streets.lacity.gov/", agency: "Bureau of Street Services", description: "Pothole repair, resurfacing, sidewalks, and street trees." },
       { label: "Pay or contest a parking citation", href: "https://prodpci.etimspayments.com/pbw/include/laopm/pvb_home.html", agency: "LADOT", description: "Online payment and review requests." },
     ],
     steps: [
@@ -310,7 +310,7 @@ export const topics: Topic[] = [
     ],
     agencies: [
       { name: "Los Angeles Department of Transportation", role: "Traffic operations, parking, and street-safety projects", href: "https://ladot.lacity.gov/" },
-      { name: "StreetsLA", role: "Street and sidewalk maintenance", href: "https://streetsla.lacity.gov/" },
+      { name: "StreetsLA", role: "Street and sidewalk maintenance", href: "https://streets.lacity.gov/" },
       { name: "LA Metro", role: "Regional bus and rail service", href: "https://www.metro.net/" },
     ],
     related: ["public-safety", "environment"],

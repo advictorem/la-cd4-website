@@ -20,7 +20,7 @@ export default function NewsPage() {
       <div className="container section">
         <section aria-labelledby="community-updates">
           <SectionHead id="community-updates" title="Community updates" intro="Neutral background on projects and issues in the district, with links to the responsible agencies." />
-          <div className="updates">{content.hotTopics().map((h, i) => <UpdateCard key={h.slug} h={h} feature={i === 0} />)}</div>
+          <div className="updates">{content.hotTopics().map((h, i) => <UpdateCard key={h.slug} h={h} feature={i < 2} />)}</div>
         </section>
 
         <section aria-labelledby="events" style={{ marginTop: "var(--s8)" }}>

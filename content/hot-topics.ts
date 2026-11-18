@@ -46,7 +46,7 @@ export const hotTopics: HotTopic[] = [
       ] },
       { heading: "Know-your-rights materials and legal help", links: [
         { label: "Know Your Rights card (multiple languages)", href: "https://www.nilc.org/resources/know-your-rights-card/", agency: "National Immigration Law Center" },
-        { label: "Mayor's Office of Immigrant Affairs", href: "https://mayor.lacity.gov/immigrants", agency: "City of Los Angeles", description: "City programs and referrals for immigrant Angelenos." },
+        { label: "Civil + Human Rights and Equity Department", href: "https://civilandhumanrights.lacity.org/", agency: "City of Los Angeles", description: "City office that handles discrimination complaints and civil rights resources." },
         { label: "LA County Office of Immigrant Affairs", href: "https://oia.lacounty.gov/", agency: "LA County", description: "Free and low-cost legal services and referrals." },
         { label: "Los Angeles Unified parent portal", href: "https://parentportalapp.lausd.net/parentaccess/", agency: "LAUSD", description: "Update a student's emergency contacts." },
       ] },
@@ -77,7 +77,7 @@ export const hotTopics: HotTopic[] = [
         { label: "Building permits for repair and rebuilding", href: "https://www.ladbs.org/", agency: "LADBS" },
       ] },
       { heading: "Businesses and workers", links: [
-        { label: "Economic & Workforce Development Department", href: "https://ewddlacity.com/", agency: "EWDD" },
+        { label: "Economic & Workforce Development Department", href: "https://ewdd.lacity.gov/", agency: "EWDD" },
         { label: "LA County Department of Economic Opportunity", href: "https://opportunity.lacounty.gov/", agency: "LA County" },
       ] },
       { heading: "Prepare for the next emergency", links: [

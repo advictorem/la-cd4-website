@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-11-18T02:08:07.495Z",
+  "total": 202,
+  "ok": 192,
+  "blocked": [
+    {
+      "url": "https://www.ladottransit.com/",
+      "from": "/city-service/for-residents/",
+      "status": 403
+    },
+    {
+      "url": "https://recovery.lacounty.gov/debris-removal",
+      "from": "/city-service/emergency-services/",
+      "status": 403
+    },
+    {
+      "url": "https://dmh.lacounty.gov/",
+      "from": "/initiative/homelessness/",
+      "status": 403
+    },
+    {
+      "url": "https://www.hhwnc.org/",
+      "from": "/neighborhood/hollywood-hollywood-hills/",
+      "status": 403
+    },
+    {
+      "url": "https://www.nilc.org/resources/know-your-rights-card/",
+      "from": "/immigrant-rights-resources/",
+      "status": 403
+    },
+    {
+      "url": "https://oia.lacounty.gov/",
+      "from": "/immigrant-rights-resources/",
+      "status": 403
+    },
+    {
+      "url": "https://www.nilc.org/",
+      "from": "/immigrant-rights-resources/",
+      "status": 403
+    },
+    {
+      "url": "https://recovery.lacounty.gov/",
+      "from": "/wildfire-recovery-resources/",
+      "status": 403
+    },
+    {
+      "url": "https://www.disasterassistance.gov/",
+      "from": "/wildfire-recovery-resources/",
+      "status": 403
+    },
+    {
+      "url": "https://codelibrary.amlegal.com/codes/los_angeles/latest/lamc/0-0-0-166122",
+      "from": "/hollywood-hills-tourism/",
+      "status": 403
+    }
+  ],
+  "broken": []
+}

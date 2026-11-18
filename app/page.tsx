@@ -84,7 +84,7 @@ export default function HomePage() {
           <SectionHead id="updates-title" title="Community Updates" intro="Background and official sources on projects and issues affecting the district."
             action={<SmartLink className="arrow-link" href="/news/">News & events <Icon name="arrow" size={16} /></SmartLink>} />
           <div className="updates">
-            {updates.map((h, i) => <UpdateCard key={h.slug} h={h} feature={i === 0} />)}
+            {updates.map((h, i) => <UpdateCard key={h.slug} h={h} feature={i < 2} />)}
           </div>
         </div>
       </section>

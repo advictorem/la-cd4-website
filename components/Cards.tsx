@@ -32,7 +32,7 @@ export function NeighborhoodCard({ n }: { n: Neighborhood }) {
 
 export function UpdateCard({ h, feature }: { h: HotTopic; feature?: boolean }) {
   return (
-    <article className={`card card--update${feature ? " card--feature" : ""}`} data-color={h.color}>
+    <article className={`card card--update${feature ? " card--lead" : ""}`} data-color={h.color}>
       <span className="chip"><Icon name={h.icon} size={14} />{h.kicker}</span>
       <h3><SmartLink className="card__link" href={`/${h.slug}/`}>{h.title}</SmartLink></h3>
       <p>{h.summary}</p>

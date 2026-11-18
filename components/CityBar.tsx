@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Script from "next/script";
 import { site } from "@/content/site";
 import { SmartLink } from "./SmartLink";
 import { LanguageMenu } from "./LanguageMenu";
@@ -11,7 +10,7 @@ import { LanguageMenu } from "./LanguageMenu";
  *   live CD4 site today — seal, LOS ANGELES, Sign Up for Updates, Windstorm & Fire Updates,
  *   311 City Services, LA City Directory, Select Language. Built here at the 47px height the
  *   City specifies, with the official seal artwork unmodified.
- * mode "official": loads the City-maintained widget from navbar.lacity.org (v4.0), which renders
+ * mode "official": the City-maintained widget from navbar.lacity.org (v4.0) is loaded by OfficialNavbarLoader and renders
  *   "An Official Website of the City of Los Angeles" + City Services + City Directory. Items the
  *   widget does not include move to a CD4 utility row beneath it so no link is duplicated.
  * See docs/design-system.md#city-toolbar for the trade-offs.
@@ -21,9 +20,6 @@ export function CityBar() {
   if (site.cityNavbar === "official") {
     return (
       <>
-        {/* CityBar is rendered only from the root layout, where beforeInteractive is supported. */}
-        {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
-        <Script src="https://navbar.lacity.org/global_nav.js" strategy="beforeInteractive" />
         <nav className="utility-row on-dark" aria-label="Council District 4 utilities">
           <div className="container city-bar__inner">
             <ul className="city-bar__links" role="list">

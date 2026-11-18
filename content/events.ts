@@ -21,7 +21,8 @@ export const events: EventRecord[] = (scrape.events as RawEvent[])
     timeText: e.time ?? undefined,
     location: e.location ?? undefined,
     summary: e.summary ? tidy(e.summary.split(/\s(?:DATE|WHEN)\s?:/)[0]) : undefined,
-    links: e.links.filter((l) => l.label.length > 3 && !/^here$/i.test(l.label)).map((l) => ({ label: l.label, href: l.url })),
+    // Registration links for past events (webinar sign-ups) expire, so they are not carried over.
+    links: e.links.filter((l) => l.label.length > 3 && !/^here$/i.test(l.label) && !/zoom\.us|givebutter|eventbrite/i.test(l.url)).map((l) => ({ label: l.label, href: l.url })),
     sourceUrl: e.url,
   }))
   .sort((a, b) => b.date.localeCompare(a.date));

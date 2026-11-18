@@ -66,7 +66,7 @@ export const serviceCategories: ServiceCategory[] = [
     groups: [
       { heading: "Start and register", links: [
         { label: "Business taxes and forms", href: "https://finance.lacity.gov/forms-list", agency: "Office of Finance" },
-        { label: "Economic & Workforce Development Department", href: "https://ewddlacity.com/", agency: "EWDD", description: "BusinessSource Centers, loans, and hiring programs." },
+        { label: "Economic & Workforce Development Department", href: "https://ewdd.lacity.gov/", agency: "EWDD", description: "BusinessSource Centers, loans, and hiring programs." },
         { label: "LA Optimized", href: "https://www.lacityoptimized.org/", agency: "EWDD", description: "Digital help for small businesses." },
       ] },
       { heading: "Permits", links: [

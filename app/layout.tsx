@@ -7,6 +7,7 @@ import "@/styles/base.css";
 import "@/styles/components.css";
 import { site } from "@/content/site";
 import { CityBar } from "@/components/CityBar";
+import { OfficialNavbarLoader } from "@/components/OfficialNavbarLoader";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Footer } from "@/components/Footer";
 import { StagingBanner } from "@/components/Layout";
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <a className="skip-link" href="#main">Skip to main content</a>
         <StagingBanner />
+        {site.cityNavbar === "official" && <OfficialNavbarLoader />}
         <CityBar />
         <SiteHeader />
         <main id="main" tabIndex={-1}>{children}</main>
