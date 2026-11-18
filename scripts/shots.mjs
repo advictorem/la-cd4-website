@@ -1,4 +1,4 @@
-// Usage: node scripts/shots.mjs <baseUrl> <outDir> [path ...]  — captures desktop + mobile screenshots.
+// Usage: node scripts/shots.mjs <baseUrl> <outDir> [path ...]  — captures full-page desktop (1440) + mobile (375) PNG screenshots.
 import { chromium } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 const [base, out, ...paths] = process.argv.slice(2);
