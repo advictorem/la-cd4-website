@@ -541,6 +541,19 @@ test("home section titles share one size and weight; quick-link hover has no whi
   await expect(item.locator(".quick__icon")).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
 });
 
+test("the MyLA311 box matches the neighborhood pages on other templates", async ({ page }) => {
+  for (const path of ["/city-service/for-residents/", "/initiative/renters-rights/", "/district-4/", "/faq/", "/wildfire-recovery-resources/"]) {
+    await page.goto(path);
+    const box = page.locator("main .report311");
+    await expect(box, path).toHaveCount(1);
+    await expect(box).toHaveCSS("background-color", "rgb(227, 241, 249)");
+    await expect(box.locator("img")).toHaveAttribute("src", /myla311-logo/);
+    await expect(box.getByRole("link", { name: /Open MyLA311/ })).toHaveAttribute("href", "https://myla311.lacity.gov/");
+    await expect(box).toContainText("Or contact MyLA311 by dialing 311 or (213) 473-3231");
+    await expect(page.locator("main .panel--navy")).toHaveCount(0);
+  }
+});
+
 test.describe("neighborhood pages", () => {
   for (const slug of ["reseda", "encino", "hollywood-hollywood-hills", "los-feliz-silver-lake", "sherman-oaks-van-nuys", "studio-city-cahuenga-pass"]) {
     test(`${slug}: layout and content rules`, async ({ page }) => {

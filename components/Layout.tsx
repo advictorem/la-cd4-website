@@ -88,28 +88,19 @@ export function PageFoot({ meta, title, shareOnly }: { meta?: ContentMeta; title
 
 /** Get Help / 311 actions used at the end of resource pages. */
 export function ContactActions({ heading = "Need help with a City service?" }: { heading?: string }) {
-  return (
-    <aside className="panel panel--navy on-dark" aria-label="Get help">
-      <h2>{heading}</h2>
-      <p>Most requests start with MyLA311. If you are not sure which agency to contact, or a request has stalled, the district office can help.</p>
-      <div className="btn-row" style={{ marginTop: "1rem" }}>
-        <ButtonLink href={site.myla311.web}>Open MyLA311</ButtonLink>
-      </div>
-      <p style={{ marginTop: "1rem" }}><SmartLink href="/need-help/">Contact the district office</SmartLink></p>
-      <p className="small" style={{ marginTop: "0.5rem", color: "#c9d1e6" }}>{site.myla311.phoneLabel}</p>
-    </aside>
-  );
+  return <Report311 heading={heading} label="Get help" office />;
 }
 
 /** MyLA311 call to action in the MyLA311 blue, with the official logo (neighborhood pages). */
-export function Report311({ heading = "Report a problem in this area" }: { heading?: string }) {
+export function Report311({ heading = "Report a problem in this area", label = "Report a problem", office }: { heading?: string; label?: string; office?: boolean }) {
   return (
-    <aside className="report311" aria-label="Report a problem">
+    <aside className="report311" aria-label={label}>
       <Image src="/brand/myla311-logo.png" alt="MyLA311" width={78} height={72} />
       <h2>{heading}</h2>
       <p>Request City services such as pothole repair, graffiti removal, and bulky-item pickup.</p>
       <SmartLink href={site.myla311.web} className="btn report311__btn">Open MyLA311</SmartLink>
       <p className="report311__or">Or contact MyLA311 by dialing <a href="tel:311">311</a> or <a href="tel:+12134733231">(213) 473-3231</a></p>
+      {office && <p className="report311__or">Not sure which agency to contact, or a request has stalled? <SmartLink href="/need-help/">Contact the district office</SmartLink></p>}
     </aside>
   );
 }
