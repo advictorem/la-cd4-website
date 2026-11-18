@@ -22,14 +22,13 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
   );
 }
 
-export function PageHeader({ title, lede, crumbs, color, icon, eyebrow, image, children }: { title: string; lede?: string; crumbs: Crumb[]; color?: ColorFamily; icon?: IconName; eyebrow?: string; image?: string; children?: ReactNode }) {
+export function PageHeader({ title, lede, crumbs, color, eyebrow, image, children }: { title: string; lede?: string; crumbs: Crumb[]; color?: ColorFamily; /** Accepted but no longer shown: page titles have no icon. */ icon?: IconName; eyebrow?: string; image?: string; children?: ReactNode }) {
   return (
     <div className={`page-header on-dark${color ? "" : " page-header--plain"}${image ? " page-header--photo" : ""}`} data-color={color}
       style={image ? { backgroundImage: `linear-gradient(90deg, rgb(4 24 74 / 0.88) 0%, rgb(4 24 74 / 0.7) 55%, rgb(4 24 74 / 0.35) 100%), url(${image})` } : undefined}>
       <div className="container page-header__inner">
         <Breadcrumbs items={crumbs} />
         <div className="page-header__title">
-          {icon && <span className="page-header__icon"><Icon name={icon} size={28} /></span>}
           <div>
             {eyebrow && <p className="eyebrow">{eyebrow}</p>}
             <h1>{title}</h1>

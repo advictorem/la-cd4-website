@@ -146,8 +146,6 @@ html[data-citynav="loaded"] #citybar-fallback { display: none; }
 .page-header .site-search button { background: var(--city-gold); border-color: var(--city-gold); color: var(--city-navy); }
 .page-header .site-search button:hover { background: #ffd47f; }
 /* Topic pages keep their color in the icon block. */
-.page-header__icon { flex: none; width: 3.25rem; height: 3.25rem; display: grid; place-items: center; border-radius: var(--radius-m); background: #fff; color: var(--c-ink); margin-top: 0.2rem; }
-@media (max-width: 40rem) { .page-header__icon { display: none; } }
 
 /* ---------- Hero (photo, parallax) ---------- */
 .hero { border-bottom: 1px solid var(--line); overflow: clip; }
@@ -539,7 +537,7 @@ html[data-citynav="loaded"] #citybar-fallback { display: none; }
   .btn, .card, .quick__item, .notice, .panel, .chip { border: 1px solid CanvasText; }
   .site-nav__btn[aria-expanded="true"], .site-nav__btn[data-current="true"] { border-bottom-color: Highlight; }
   .cal td[data-today] .cal__num { outline: 2px solid Highlight; }
-  .card__icon, .quick__icon, .page-header__icon { forced-color-adjust: none; }
+  .card__icon, .quick__icon { forced-color-adjust: none; }
 }
 
 @media (min-width: 62rem) { .grid--topics > :nth-last-child(-n+2) { grid-column: span 2; } }

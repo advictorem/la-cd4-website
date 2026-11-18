@@ -551,6 +551,7 @@ test("the MyLA311 box matches the neighborhood pages on other templates", async 
     await expect(box.getByRole("link", { name: /Open MyLA311/ })).toHaveAttribute("href", "https://myla311.lacity.gov/");
     await expect(box).toContainText("Or contact MyLA311 by dialing 311 or (213) 473-3231");
     await expect(page.locator("main .panel--navy")).toHaveCount(0);
+    await expect(page.locator(".page-header svg")).toHaveCount(0); // no icon box beside page titles
   }
 });
 
