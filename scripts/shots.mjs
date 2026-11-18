@@ -7,6 +7,7 @@ const browser = await chromium.launch({ channel: process.env.PW_CHANNEL || "chro
 for (const [name, viewport] of [["desktop", { width: 1440, height: 900 }], ["mobile", { width: 375, height: 812 }]]) {
   const ctx = await browser.newContext({ viewport, deviceScaleFactor: name === "mobile" ? 2 : 1 });
   const page = await ctx.newPage();
+  if (process.env.VERCEL_SHARE_URL) await page.goto(process.env.VERCEL_SHARE_URL, { waitUntil: "networkidle" }); // authorize a protected preview
   for (const p of paths.length ? paths : ["/"]) {
     await page.goto(base + p, { waitUntil: "networkidle" });
     const file = `${out}/${name}-${p.replace(/\W+/g, "_").replace(/^_|_$/g, "") || "home"}.png`;

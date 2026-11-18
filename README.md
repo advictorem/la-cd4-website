@@ -26,6 +26,12 @@ Environment variables are documented in `.env.example`. None are secrets.
 | `NEXT_PUBLIC_SITE_URL` | `https://cd4.lacity.gov` | Origin used for canonical URLs and the sitemap. |
 | `NEXT_PUBLIC_CITY_NAVBAR` | `reference` | `reference` = toolbar matching the supplied screenshot; `official` = City widget from navbar.lacity.org plus a CD4 utility row. |
 
+## Branches and Vercel
+
+- `staging` — working branch. Every push creates a Vercel **preview** deployment (non-production).
+- `main` — Vercel treats this as the project's production branch, so a push to `main` lands in the project's "production" slot (`la-cd4-website.vercel.app`). That slot is still protected by Vercel Authentication, `noindex`, and bannered as staging, and no custom domain is attached. Merge to `main` deliberately.
+- To test a protected deployment: `BASE_URL=https://<deployment> VERCEL_SHARE_URL='<share link from Vercel>' npm test`.
+
 ## File map
 
 ```

@@ -19,7 +19,7 @@ Target: WCAG 2.2 AA as the quality bar; at minimum WCAG 2.1 AA, the technical st
 
 ## Test results
 
-Run on 2026-11-17 against the production build (`next start`), Chrome 1xx via Playwright. Re-run with `npm test`.
+Run on 2026-11-17 with Chrome via Playwright, first against the local production build (`next start`) and then against the deployed Vercel build (same results). Re-run with `npm test`.
 
 | Check | Scope | Result |
 | --- | --- | --- |
