@@ -72,17 +72,18 @@ export const site = {
   },
 
   /**
-   * Header weather and air-quality readout.
-   * Numbers come from Open-Meteo's free, keyless API (CC BY 4.0, non-commercial tier), fetched by /api/weather.
-   * The readout links to the AccuWeather hourly forecast page chosen by the project owner; AccuWeather itself
-   * offers no keyless data feed and its pages may not be scraped.
+   * Header weather and air-quality readout (served by /api/weather).
+   * With ACCUWEATHER_API_KEY set, conditions come from AccuWeather's API for the location below and the
+   * readout is credited "Powered by AccuWeather". Without a key it uses Open-Meteo's free, keyless API
+   * (CC BY 4.0, non-commercial tier) and is credited to Open-Meteo instead. Air quality is Open-Meteo either way.
    */
   weather: {
-    place: "Encino",
     latitude: 34.159,
     longitude: -118.501,
-    forecastUrl: "https://www.accuweather.com/en/us/encino/91316/hourly-weather-forecast/327083",
-    attribution: { label: "Weather data by Open-Meteo.com", href: "https://open-meteo.com/" },
+    /** From accuweather.com/en/us/encino/91316/…/327083 */
+    accuWeatherLocationKey: "327083",
+    credits: { AccuWeather: "Powered by AccuWeather", "Open-Meteo": "Weather data by Open-Meteo" } as Record<string, string>,
+    attribution: { label: "Weather and air-quality data: Open-Meteo.com", href: "https://open-meteo.com/" },
   },
 
   myla311: {
@@ -126,6 +127,7 @@ export const site = {
   districtMap: {
     embedUrl: "https://www.google.com/maps/d/embed?mid=1qsyjCXVQLPfZpXy-bQCkGai4nr3lFy_h",
     viewerUrl: "https://www.google.com/maps/d/viewer?mid=1qsyjCXVQLPfZpXy-bQCkGai4nr3lFy_h",
+    /** City address lookup. It reads an address from the URL fragment: …/#<address> pre-fills the field and runs the search. */
     lookupUrl: "https://neighborhoodinfo.lacity.gov/",
   },
 } as const;

@@ -24,7 +24,7 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
 
 export function PageHeader({ title, lede, crumbs, color, icon, eyebrow, image, children }: { title: string; lede?: string; crumbs: Crumb[]; color?: ColorFamily; icon?: IconName; eyebrow?: string; image?: string; children?: ReactNode }) {
   return (
-    <div className={`page-header${color ? "" : " page-header--plain"}${image ? " page-header--photo on-dark" : ""}`} data-color={color}
+    <div className={`page-header on-dark${color ? "" : " page-header--plain"}${image ? " page-header--photo" : ""}`} data-color={color}
       style={image ? { backgroundImage: `linear-gradient(90deg, rgb(4 24 74 / 0.88) 0%, rgb(4 24 74 / 0.7) 55%, rgb(4 24 74 / 0.35) 100%), url(${image})` } : undefined}>
       <div className="container page-header__inner">
         <Breadcrumbs items={crumbs} />

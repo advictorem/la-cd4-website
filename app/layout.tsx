@@ -25,8 +25,10 @@ export const viewport: Viewport = { width: "device-width", initialScale: 1, them
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
+        {/* Apply saved accessibility options before first paint (see components/AccessibilityMenu.tsx). */}
+        <script dangerouslySetInnerHTML={{ __html: `try{var p=JSON.parse(localStorage.getItem("cd4-a11y")||"{}"),d=document.documentElement.dataset;if(p.text&&p.text!=="default")d.text=p.text;if(p.contrast)d.contrast="high";if(p.links)d.links="underline";if(p.spacing)d.spacing="wide";if(p.motion)d.motion="off"}catch(e){}` }} />
         <a className="skip-link" href="#main">Skip to main content</a>
         <StagingBanner />
         {site.cityNavbar === "official" && <OfficialNavbarLoader />}

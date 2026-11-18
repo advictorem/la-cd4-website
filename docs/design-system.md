@@ -67,11 +67,14 @@ Focus is always a 3px navy outline with a white halo (gold on dark surfaces). Fo
 
 | Pattern | Notes |
 | --- | --- |
-| Photo hero with parallax | `background-attachment: fixed` with a navy gradient over the left half so white text stays readable. Falls back to a normal background for reduced motion, touch devices and narrow screens. |
-| Header weather + air quality | `WeatherWidget` reads `/api/weather` (server route, cached 15 min). Line icons for sky condition and air. Shows nothing if no reading is available. Links to the AccuWeather hourly page for Encino. |
+| Photo hero with parallax | `HeroParallax` shifts a taller photo layer at 35% of scroll speed, so the image scrolls more slowly than the content. A navy gradient keeps white text readable. No movement under reduced motion or when "Pause motion" is on. |
+| Header weather + air quality | `WeatherWidget` reads `/api/weather` (server route, cached 15 min). Line icons, not a link. The small grey credit names the service that supplied the reading: "Powered by AccuWeather" when `ACCUWEATHER_API_KEY` is set, otherwise "Weather data by Open-Meteo". |
 | Global search | Search button at the end of the navigation row (beside Menu on small screens) opens one field under the header on every page; same prompt as the hero field. Escape closes and returns focus. |
 | Quick Resource Links | Six task tiles, no colored edge bars. |
-| District Checker | "Am I in District 4?" with the district outline map. The check opens the City's lookup in a small window (`PopupLink`), because the lookup forbids framing. |
+| District Checker | "Am I in District 4?" with the district outline map and an address field (`AddressCheck`). "Check" opens the City's lookup in a small window with the address in the URL fragment, which the lookup reads and searches. Google Places suggestions appear when `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is set. Nothing typed is sent to this site. |
+| Interior page headers | Dark blue (`--city-navy`) with white text on every interior page; topic pages keep their color in the icon block. |
+| Accessibility menu | First-party options in the header: text size, high contrast, underline links, readable spacing, pause motion, reset. Stored in the browser; no third-party overlay script. |
+| City Clerk band | Uses the Clerk's purple `#451149`, taken from the official logo, with the logo on a white panel. |
 | Topic buttons | Ten outlined pill buttons, icon + title, no descriptions. |
 | Neighborhood photo tiles | Photo, gradient, title and one short sentence; image zooms on hover/focus (not under reduced motion). The same photo is the header background of each neighborhood page. |
 | Community Updates | "Latest"-style list: rule, category, title, date. Four most recent on the home page. |

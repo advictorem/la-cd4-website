@@ -27,7 +27,10 @@ Nothing below has been done on production. Items marked **City** need a named Ci
 - [ ] Confirm usage rights for the home hero panorama (`public/images/cd4-hills-panorama.webp`).
 - [ ] City review of the six Wikimedia Commons neighborhood photos and their credit lines (`/photo-credits/`).
 - [ ] Weather/air-quality source: Open-Meteo's free tier is for non-commercial use with attribution. Confirm that fits City use, buy their plan, or switch to National Weather Service + AirNow (AirNow needs a free API key).
-- [ ] Confirm linking the weather readout to AccuWeather is acceptable for an official site.
+- [ ] AccuWeather: obtain an API key and confirm their attribution/logo terms, then set `ACCUWEATHER_API_KEY` in Vercel. Until then the readout is credited to Open-Meteo, which is where the numbers come from. The AccuWeather code path has not been exercised with a real key.
+- [ ] Google Places: create a key restricted to the site's domains and the Places API, set `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`, and test address suggestions. Not yet tested with a real key. Review Google's terms and privacy impact first.
+- [ ] Confirm the City's address lookup will keep accepting an address in the URL fragment (observed behavior, not a documented interface).
+- [ ] Accessibility menu: confirm with the City's accessibility reviewer that a built-in options panel is preferred to the UserWay widget used on mayor.lacity.gov.
 - [ ] Confirm the social accounts listed in the footer will continue after the representation transition.
 - [ ] Editorial approval of the home-page FAQ answers.
 

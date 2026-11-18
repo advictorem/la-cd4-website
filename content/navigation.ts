@@ -1,5 +1,5 @@
 export interface NavLink { label: string; href: string; description?: string }
-export interface NavSection { id: string; label: string; href: string; overview: string; groups: { heading?: string; links: NavLink[] }[] }
+export interface NavSection { id: string; label: string; href: string; overview: string; /** Hide the "All …" link at the top of the dropdown. */ hideOverview?: boolean; groups: { heading?: string; links: NavLink[] }[] }
 
 /** Six primary sections. Every section has a real landing page (href). */
 export const primaryNav: NavSection[] = [
@@ -40,17 +40,15 @@ export const primaryNav: NavSection[] = [
     ],
   },
   {
-    id: "neighborhoods", label: "Neighborhoods", href: "/neighborhoods/", overview: "All neighborhoods",
+id: "neighborhoods", label: "Neighborhoods", href: "/neighborhoods/", overview: "All neighborhoods", hideOverview: true,
     groups: [
-      { heading: "San Fernando Valley", links: [
+      { links: [
         { label: "Encino", href: "/neighborhood/encino/" },
+        { label: "Hollywood & Hollywood Hills", href: "/neighborhood/hollywood-hollywood-hills/" },
+        { label: "Los Feliz & Silver Lake", href: "/neighborhood/los-feliz-silver-lake/" },
         { label: "Reseda", href: "/neighborhood/reseda/" },
         { label: "Sherman Oaks & Van Nuys", href: "/neighborhood/sherman-oaks-van-nuys/" },
         { label: "Studio City & Cahuenga Pass", href: "/neighborhood/studio-city-cahuenga-pass/" },
-      ] },
-      { heading: "Hills & Central LA", links: [
-        { label: "Hollywood & Hollywood Hills", href: "/neighborhood/hollywood-hollywood-hills/" },
-        { label: "Los Feliz & Silver Lake", href: "/neighborhood/los-feliz-silver-lake/" },
       ] },
     ],
   },

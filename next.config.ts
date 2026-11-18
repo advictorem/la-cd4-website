@@ -3,16 +3,17 @@ import type { NextConfig } from "next";
 const isProd = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 const isDev = process.env.NODE_ENV === "development";
 const officialNavbar = process.env.NEXT_PUBLIC_CITY_NAVBAR === "official";
+const googlePlaces = Boolean(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY); // address suggestions in the District Checker
 
 // Content Security Policy. Third parties are limited to the official City navbar (when enabled)
 // and the existing form/map providers that the live site already embeds.
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${officialNavbar ? " https://navbar.lacity.org" : ""}${isProd ? "" : " https://vercel.live"}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${officialNavbar ? " https://navbar.lacity.org" : ""}${googlePlaces ? " https://maps.googleapis.com" : ""}${isProd ? "" : " https://vercel.live"}`,
   `style-src 'self' 'unsafe-inline'${officialNavbar ? " https://fonts.googleapis.com" : ""}`,
   `font-src 'self' data:${officialNavbar ? " https://fonts.gstatic.com" : ""}`,
   "img-src 'self' data: blob:",
-  `connect-src 'self'${isProd ? "" : " https://vercel.live wss://ws-us3.pusher.com"}`,
+  `connect-src 'self'${googlePlaces ? " https://maps.googleapis.com https://places.googleapis.com" : ""}${isProd ? "" : " https://vercel.live wss://ws-us3.pusher.com"}`,
   `frame-src https://forms.indigov.com https://www.google.com https://docs.google.com${isProd ? "" : " https://vercel.live"}`,
   "form-action 'self'",
   "base-uri 'self'",

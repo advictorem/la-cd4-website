@@ -22,13 +22,14 @@ export function TopicCard({ topic, level = "h3" }: { topic: Topic; level?: "h2" 
 }
 
 /** Photo tile: the whole tile is one link; the image zooms slightly on hover and focus. */
-export function NeighborhoodCard({ n }: { n: Neighborhood }) {
+export function NeighborhoodCard({ n, level = "h3" }: { n: Neighborhood; level?: "h2" | "h3" }) {
   const photo = neighborhoodPhotos[n.slug];
+  const H = level;
   return (
     <article className="tile">
       {photo && <Image className="tile__img" src={photo.src} alt="" fill sizes="(min-width: 62rem) 33vw, (min-width: 40rem) 50vw, 100vw" />}
       <div className="tile__body">
-        <h3><SmartLink className="tile__link" href={`/neighborhood/${n.slug}/`}>{n.title}</SmartLink></h3>
+        <H><SmartLink className="tile__link" href={`/neighborhood/${n.slug}/`}>{n.title}</SmartLink></H>
         <p>{n.blurb}</p>
       </div>
     </article>

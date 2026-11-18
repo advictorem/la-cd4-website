@@ -8,6 +8,7 @@ import { Icon } from "./Icon";
 import { SmartLink } from "./SmartLink";
 import { SiteSearch } from "./SiteSearch";
 import { WeatherWidget } from "./WeatherWidget";
+import { AccessibilityMenu } from "./AccessibilityMenu";
 
 const sectionFor = (path: string): string | null => {
   if (/^\/(city-services|city-service)\//.test(path)) return "services";
@@ -93,6 +94,7 @@ export function SiteHeader() {
           </Link>
           <div className="masthead__tools">
             <WeatherWidget />
+            <AccessibilityMenu />
             {searchToggle("masthead")}
             <button ref={menuBtn} type="button" className="menu-toggle" aria-expanded={menuOpen} aria-controls="primary-nav" onClick={() => setMenuOpen(!menuOpen)}>
               <Icon name={menuOpen ? "close" : "menu"} size={20} />
@@ -114,7 +116,7 @@ export function SiteHeader() {
                     <Icon name="chevron" size={16} />
                   </button>
                   <div id={`nav-panel-${s.id}`} className="site-nav__panel" hidden={!expanded}>
-                    <SmartLink href={s.href} className="site-nav__overview arrow-link">{s.overview}<Icon name="arrow" size={16} /></SmartLink>
+                    {!s.hideOverview && <SmartLink href={s.href} className="site-nav__overview arrow-link">{s.overview}<Icon name="arrow" size={16} /></SmartLink>}
                     <div className="site-nav__groups">
                       {s.groups.map((g, gi) => (
                         <div className="site-nav__group" key={gi}>

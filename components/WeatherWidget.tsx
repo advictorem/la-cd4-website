@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { site } from "@/content/site";
 
-interface Reading { place: string; tempF: number; condition: string; kind: string; isDay: boolean; aqi: number | null; aqiCategory: string | null }
+interface Reading { tempF: number; condition: string; kind: string; isDay: boolean; aqi: number | null; aqiCategory: string | null; source: string }
 
 /** Minimal line icons for sky conditions (24px grid, same stroke as the rest of the icon set). */
 const sky: Record<string, string> = {
@@ -27,6 +27,7 @@ function Line({ d, size = 22 }: { d: string; size?: number }) {
 /**
  * Current temperature and air quality for the district, read from /api/weather.
  * Shows nothing until a real reading arrives, and nothing if the source is unavailable.
+ * The credit line names whichever service supplied the reading; it is not a link.
  */
 export function WeatherWidget() {
   const [r, setR] = useState<Reading | null>(null);
@@ -40,23 +41,24 @@ export function WeatherWidget() {
   }, []);
   if (!r) return <div className="weather" data-empty="" />;
   return (
-    <a className="weather" href={site.weather.forecastUrl} rel="noopener noreferrer">
-      <span className="weather__item">
-        <Line d={sky[iconFor(r)]} size={24} />
-        <span className="visually-hidden">{r.place} weather: </span>
-        <span className="weather__temp">{r.tempF}°</span>
-        <span className="visually-hidden">, {r.condition.toLowerCase()}.</span>
-      </span>
-      {r.aqi !== null && (
+    <div className="weather" role="group" aria-label="Current weather and air quality">
+      <p className="weather__row">
         <span className="weather__item">
-          <Line d={sky.air} size={20} />
-          <span className="visually-hidden">Air quality: </span>
-          <span className="weather__aqi">AQI {r.aqi}</span>
-          <span className="weather__cat">{r.aqiCategory}</span>
+          <Line d={sky[iconFor(r)]} size={24} />
+          <span className="visually-hidden">Temperature: </span>
+          <span className="weather__temp">{r.tempF}°</span>
+          <span className="visually-hidden">, {r.condition.toLowerCase()}.</span>
         </span>
-      )}
-      <span className="weather__place" aria-hidden="true">{r.place}</span>
-      <span className="visually-hidden"> Hourly forecast on AccuWeather (external site)</span>
-    </a>
+        {r.aqi !== null && (
+          <span className="weather__item">
+            <Line d={sky.air} size={20} />
+            <span className="visually-hidden">Air quality: </span>
+            <span className="weather__aqi">AQI {r.aqi}</span>
+            <span className="weather__cat">{r.aqiCategory}</span>
+          </span>
+        )}
+      </p>
+      <p className="weather__credit">{site.weather.credits[r.source] ?? ""}</p>
+    </div>
   );
 }

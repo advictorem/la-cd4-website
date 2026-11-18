@@ -23,6 +23,13 @@ for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["mo
       const results = await new AxeBuilder({ page }).withTags(tags).analyze();
       expect(results.violations.map((v) => `${v.impact}: ${v.id} — ${v.nodes[0]?.html.slice(0, 120)}`)).toEqual([]);
     });
+    test("accessibility menu open, with high contrast on", async ({ page }) => {
+      await page.goto("/");
+      await page.getByRole("button", { name: /Accessibility/ }).click();
+      await page.getByRole("switch", { name: /High contrast/ }).click();
+      const results = await new AxeBuilder({ page }).withTags(tags).analyze();
+      expect(results.violations.map((v) => `${v.impact}: ${v.id} — ${v.nodes[0]?.html.slice(0, 120)}`)).toEqual([]);
+    });
     test("calendar view and language menu", async ({ page }) => {
       await page.goto("/events/");
       await page.getByRole("button", { name: "Calendar" }).click();

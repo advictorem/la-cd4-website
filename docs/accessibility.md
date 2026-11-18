@@ -17,6 +17,10 @@ Target: WCAG 2.2 AA as the quality bar; at minimum WCAG 2.1 AA, the technical st
 - `prefers-reduced-motion` removes transitions; `forced-colors` keeps borders and current-state indicators; text reflows at 320 CSS px.
 - `lang="en"` on the document; language-menu entries carry their own `lang`.
 
+## Accessibility options menu
+
+The header has an Accessibility button with text size, high contrast, underline links, readable spacing and pause motion. It is part of this site's own code. The Mayor's site uses the third-party UserWay overlay for a similar purpose; an overlay was not added here because it loads an outside script and does not replace accessible markup. The menu supplements, and does not replace, browser and operating-system settings, which the site also honors.
+
 ## Test results
 
 Run on 2026-11-17 with Chrome via Playwright, first against the local production build (`next start`) and then against the deployed Vercel build (same results). Re-run with `npm test`.
@@ -31,7 +35,7 @@ Run on 2026-11-17 with Chrome via Playwright, first against the local production
 | Token contrast | 80 foreground/background pairs | All meet 4.5:1 text / 3:1 graphics (topic ink ≥ 7:1 on white) |
 | Lighthouse (mobile emulation, local) | Home, a topic guide, Events | Accessibility 100, Best Practices 100, Performance 88–91; SEO flags only the intentional noindex |
 | Images | All templates, all widths | No broken images; decorative marks have empty alt, logos are named |
-| End-to-end total | `tests/site.spec.ts` + `tests/a11y.spec.ts` | 131 tests, 131 passed (after the revision 2 home page changes) |
+| End-to-end total | `tests/site.spec.ts` + `tests/a11y.spec.ts` | 138 tests, 138 passed (after the revision 3 changes) |
 
 ## Not tested here (needs people and devices)
 

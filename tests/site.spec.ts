@@ -51,7 +51,13 @@ test.describe("navigation", () => {
     const buttons = nav.locator(".site-nav__btn");
     await expect(buttons).toHaveCount(6);
     await expect(buttons).toHaveText([/City Services/, /Topics & Resources/, /Neighborhoods/, /News & Events/, /About CD4/, /Contact/]);
-    for (const id of ["services", "topics", "neighborhoods", "news", "about", "contact"]) {
+    // Neighborhoods lists its six pages in one column and has no "All" link; its landing page is linked from the home page and breadcrumbs.
+    await page.locator("#nav-btn-neighborhoods").click();
+    await expect(page.locator("#nav-panel-neighborhoods a")).toHaveCount(6);
+    await expect(page.locator("#nav-panel-neighborhoods .site-nav__overview")).toHaveCount(0);
+    await expect(page.locator("#nav-panel-neighborhoods .site-nav__group")).toHaveCount(1);
+    await page.keyboard.press("Escape");
+    for (const id of ["services", "topics", "news", "about", "contact"]) {
       await page.locator(`#nav-btn-${id}`).click();
       const overview = page.locator(`#nav-panel-${id} .site-nav__overview`);
       await expect(overview).toBeVisible();
@@ -259,12 +265,13 @@ test.describe("home page sections", () => {
   test("greeting, actions, and section order", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Welcome to the\s*Council District 4\s*Information Hub/);
+    await expect(page.locator(".hero .eyebrow")).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Get in Touch With Us" })).toHaveAttribute("href", "/need-help/");
     const report = page.getByRole("link", { name: /Report a City Issue/ });
     await expect(report).toHaveAttribute("href", "https://myla311.lacity.gov/");
     await expect(report.locator("img")).toHaveAttribute("src", /myla311-logo/);
     const h2 = await page.locator("main h2").allTextContents();
-    expect(h2.map((t) => t.trim())).toEqual(["Quick Resource Links", "Am I in District 4?", "Topics & Resources", "Explore Your Neighborhood", "Community Updates", "Events", expect.stringContaining("Elections"), "Contact & Stay Connected", "Frequently Asked Questions"]);
+    expect(h2.map((t) => t.trim()).filter((t) => t !== "Accessibility options")).toEqual(["Quick Resource Links", "Am I in District 4?", "Topics & Resources", "Explore Your Neighborhood", "Community Updates", "Events", expect.stringContaining("Elections"), "Contact & Stay Connected", "Frequently Asked Questions"]);
   });
   test("topics are a cluster of ten buttons without descriptions", async ({ page }) => {
     await page.goto("/");
@@ -288,15 +295,22 @@ test.describe("home page sections", () => {
     await expect(page.locator(".latest__item")).toHaveCount(4);
     await expect(page.getByRole("link", { name: "See all" })).toHaveAttribute("href", "/news/");
   });
-  test("address check opens a small window instead of leaving the site", async ({ page }) => {
+  test("address check opens the City lookup in a small window with the address filled in", async ({ page }) => {
     await page.addInitScript(() => { (window as unknown as { __opened: unknown[] }).__opened = []; window.open = (...a: unknown[]) => { (window as unknown as { __opened: unknown[] }).__opened.push(a); return { focus() {} } as unknown as Window; }; });
     await page.goto("/");
-    await page.getByRole("link", { name: /Check my address/ }).click();
+    const form = page.locator(".address-check");
+    await form.getByRole("button", { name: "Check" }).click();
+    await expect(form.getByRole("alert")).toContainText("Enter a street address"); // empty field: nothing opens
+    expect(await page.evaluate(() => (window as unknown as { __opened: unknown[] }).__opened.length)).toBe(0);
+    await form.getByLabel("Street address").fill("200 N Spring St, Los Angeles");
+    await page.keyboard.press("Enter");
     const opened = await page.evaluate(() => (window as unknown as { __opened: string[][] }).__opened);
     expect(opened).toHaveLength(1);
-    expect(opened[0][0]).toBe("https://neighborhoodinfo.lacity.gov/");
+    expect(opened[0][0]).toBe("https://neighborhoodinfo.lacity.gov/#200%20N%20Spring%20St%2C%20Los%20Angeles");
     expect(opened[0][2]).toMatch(/popup=yes,width=560,height=760/);
     await expect(page).toHaveURL(/\/$/); // still on the home page
+    await expect(page.getByRole("link", { name: /View the district map/ })).toHaveCount(0);
+    expect(await page.locator("form.address-check").getAttribute("action")).toBeNull(); // nothing is posted to this site
   });
   test("FAQ answers open and close", async ({ page }) => {
     await page.goto("/");
@@ -326,26 +340,103 @@ test.describe("home page sections", () => {
 });
 
 test.describe("weather widget", () => {
-  test("shows temperature and air quality from the data route and links to the forecast", async ({ page }) => {
-    await page.route("**/api/weather/", (r) => r.fulfill({ json: { place: "Encino", tempF: 62, condition: "Clear", kind: "clear", isDay: false, aqi: 41, aqiCategory: "Good" } }));
+  test("shows temperature and air quality, is not a link, and credits the real data source", async ({ page }) => {
+    await page.route("**/api/weather/", (r) => r.fulfill({ json: { tempF: 62, condition: "Clear", kind: "clear", isDay: false, aqi: 41, aqiCategory: "Good", source: "AccuWeather" } }));
     await page.goto("/district-4/");
-    const w = page.locator("a.weather");
+    const w = page.getByRole("group", { name: "Current weather and air quality" });
     await expect(w).toContainText("62°");
     await expect(w).toContainText("AQI 41");
-    await expect(w).toHaveAttribute("href", /accuweather\.com\/en\/us\/encino\/91316\/hourly-weather-forecast\/327083/);
-    await expect(w).toHaveAccessibleName(/Encino weather:\s*62°\s*, clear\.\s*Air quality:\s*AQI 41\s*Good.*Hourly forecast on AccuWeather/);
+    await expect(w).not.toContainText("Encino");
+    await expect(w.locator("a")).toHaveCount(0);
+    await expect(page.locator("a.weather")).toHaveCount(0);
+    await expect(w.locator(".weather__credit")).toHaveText("Powered by AccuWeather");
     await expect(w.locator("svg").first()).toHaveAttribute("fill", "none"); // line icon
+    // The credit never claims AccuWeather when another service supplied the reading.
+    await page.route("**/api/weather/", (r) => r.fulfill({ json: { tempF: 60, condition: "Cloudy", kind: "cloud", isDay: true, aqi: null, aqiCategory: null, source: "Open-Meteo" } }));
+    await page.reload();
+    await expect(page.locator(".weather__credit")).toHaveText("Weather data by Open-Meteo");
   });
   test("renders nothing when the source is unavailable", async ({ page }) => {
     await page.route("**/api/weather/", (r) => r.fulfill({ status: 503, json: { error: "unavailable" } }));
     await page.goto("/district-4/");
-    await expect(page.locator("a.weather")).toHaveCount(0);
     await expect(page.locator(".weather")).toBeEmpty();
   });
   test("live route returns a real reading or an honest 503", async ({ request }) => {
     const res = await request.get("/api/weather/");
     expect([200, 503]).toContain(res.status());
     if (res.status() === 200) { const j = await res.json(); expect(typeof j.tempF).toBe("number"); expect(j.tempF).toBeGreaterThan(-20); expect(j.tempF).toBeLessThan(130); }
+  });
+});
+
+test.describe("accessibility menu", () => {
+  test("options apply, persist across pages, and reset", async ({ page }) => {
+    await page.goto("/district-4/");
+    const toggle = page.getByRole("button", { name: /Accessibility/ });
+    await toggle.click();
+    const panel = page.getByRole("group", { name: "Accessibility options" });
+    const base = await page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).fontSize));
+    await panel.getByRole("button", { name: "Larger text" }).click();
+    expect(await page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).fontSize))).toBeCloseTo(base * 1.25, 1);
+    await panel.getByRole("switch", { name: /High contrast/ }).click();
+    await panel.getByRole("switch", { name: /Underline links/ }).click();
+    await panel.getByRole("switch", { name: /Pause motion/ }).click();
+    await expect(panel.getByRole("switch", { name: /High contrast/ })).toHaveAttribute("aria-checked", "true");
+    await expect(page.locator("html")).toHaveAttribute("data-contrast", "high");
+    expect(await page.locator("main a").first().evaluate((a) => getComputedStyle(a).textDecorationLine)).toContain("underline");
+    await page.keyboard.press("Escape");
+    await expect(panel).toBeHidden();
+    await expect(toggle).toBeFocused();
+    await page.goto("/events/"); // preferences carry over
+    await expect(page.locator("html")).toHaveAttribute("data-text", "larger");
+    await expect(page.locator("html")).toHaveAttribute("data-motion", "off");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+    await page.getByRole("button", { name: /Accessibility/ }).click();
+    await page.getByRole("button", { name: "Reset" }).click();
+    await expect(page.locator("html")).not.toHaveAttribute("data-text", /.+/);
+    await expect(page.locator("html")).not.toHaveAttribute("data-contrast", /.+/);
+  });
+  test("pause motion stops the hero parallax; otherwise the photo moves slower than the page", async ({ page }) => {
+    await page.goto("/");
+    const y = () => page.locator(".hero__bg").evaluate((e) => new DOMMatrix(getComputedStyle(e).transform).m42);
+    await page.evaluate(() => window.scrollTo(0, 300));
+    await expect.poll(y).toBeGreaterThan(50);
+    expect(await y()).toBeLessThan(300); // slower than the scroll itself
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.getByRole("button", { name: /Accessibility/ }).click();
+    await page.getByRole("switch", { name: /Pause motion/ }).click();
+    await page.keyboard.press("Escape");
+    await page.evaluate(() => window.scrollTo(0, 300));
+    await page.waitForTimeout(200);
+    expect(await y()).toBe(0);
+  });
+});
+
+test.describe("interior pages", () => {
+  test("page headers are dark blue with white text", async ({ page }) => {
+    for (const route of ["/city-services/", "/initiative/parks/", "/events/", "/need-help/", "/search/"]) {
+      await page.goto(route);
+      const h = page.locator(".page-header");
+      await expect(h, route).toHaveCSS("background-color", "rgb(4, 24, 74)");
+      await expect(h.locator("h1"), route).toHaveCSS("color", "rgb(255, 255, 255)");
+    }
+  });
+  test("topics page starts with the button cluster; neighborhoods page is three columns of photo tiles", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/topics-resources/");
+    await expect(page.locator("main .pills .pill")).toHaveCount(10);
+    await page.goto("/neighborhoods/");
+    const xs = await page.locator(".tile").evaluateAll((ts) => ts.map((t) => Math.round(t.getBoundingClientRect().left)));
+    expect(xs).toHaveLength(6);
+    expect(new Set(xs).size).toBe(3);
+  });
+  test("City Clerk section uses the Clerk purple; social icons invert on hover", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".clerk")).toHaveCSS("background-color", "rgb(69, 17, 73)");
+    const icon = page.locator(".site-footer__social a").first();
+    await icon.scrollIntoViewIfNeeded();
+    await icon.hover();
+    await expect(icon).toHaveCSS("color", "rgb(255, 255, 255)");
+    await expect(icon).toHaveCSS("background-color", "rgb(4, 24, 74)");
   });
 });
 

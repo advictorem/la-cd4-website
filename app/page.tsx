@@ -6,7 +6,8 @@ import { heroPhoto } from "@/content/images";
 import { primaryNav } from "@/content/navigation";
 import { SiteSearch } from "@/components/SiteSearch";
 import { ButtonLink, SmartLink } from "@/components/SmartLink";
-import { PopupLink } from "@/components/PopupLink";
+import { AddressCheck } from "@/components/AddressCheck";
+import { HeroParallax } from "@/components/HeroParallax";
 import { Icon } from "@/components/Icon";
 import { TopicPills, NeighborhoodCard, LatestList, QuickService, SectionHead } from "@/components/Cards";
 import { EventList } from "@/components/Events";
@@ -24,10 +25,10 @@ export default function HomePage() {
 
   return (
     <>
-      <section className="hero hero--photo on-dark" aria-labelledby="hero-title" style={{ ["--hero-img" as string]: `url(${heroPhoto.src})` }}>
+      <section className="hero hero--photo on-dark" aria-labelledby="hero-title">
+        <HeroParallax src={heroPhoto.src} />
         <div className="container hero__inner">
           <div className="hero__content">
-            <p className="eyebrow">City of Los Angeles</p>
             <h1 id="hero-title">
               <span className="hero__pre">Welcome to the </span>
               <span className="hero__name">Council District 4 </span>
@@ -68,11 +69,7 @@ export default function HomePage() {
             <p className="eyebrow" style={{ color: "var(--muted)" }}>District Checker</p>
             <h2 id="checker-title">Am I in District 4?</h2>
             <p className="lede" style={{ marginTop: "var(--s3)" }}>The district spans the San Fernando Valley, the Hollywood Hills, and central Los Angeles. Some neighborhoods are split between Council districts, so check your address to be sure.</p>
-            <div className="btn-row" style={{ marginTop: "var(--s5)" }}>
-              <PopupLink className="btn" href={site.districtMap.lookupUrl}>Check my address</PopupLink>
-              <ButtonLink href="/district-4/#map" variant="secondary">View the district map</ButtonLink>
-            </div>
-            <p className="small muted" style={{ marginTop: "var(--s3)" }}>Opens the City of Los Angeles address lookup in a small window.</p>
+            <AddressCheck />
           </div>
           <Image src="/brand/cd4-map.svg" alt="Outline map of Council District 4, which runs from Reseda and Encino in the San Fernando Valley east to Los Feliz and Silver Lake." width={560} height={300} unoptimized />
         </div>
@@ -120,10 +117,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section section--wash section--tight" aria-labelledby="clerk-title">
+      <section className="section section--tight" aria-labelledby="clerk-title">
         <div className="container">
-          <div className="clerk">
-            <a href="https://clerk.lacity.gov/"><Image src="/brand/city-clerk-logo.svg" alt="Office of the City Clerk" width={200} height={86} unoptimized loading="eager" /></a>
+          <div className="clerk on-dark">
+            <a className="clerk__logo" href="https://clerk.lacity.gov/"><Image src="/brand/city-clerk-logo.svg" alt="Office of the City Clerk" width={200} height={86} unoptimized loading="eager" /></a>
             <div>
               <h2 id="clerk-title">{site.cityClerk.heading}</h2>
               <p style={{ marginTop: "0.5rem", maxWidth: "62ch" }}>{site.cityClerk.body}</p>
