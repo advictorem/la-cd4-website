@@ -24,7 +24,9 @@ Environment variables are documented in `.env.example`. None are secrets.
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_ENV` | `staging` | Anything but `production` keeps noindex headers/meta, `robots.txt` disallow, and the staging banner. |
 | `NEXT_PUBLIC_SITE_URL` | `https://cd4.lacity.gov` | Origin used for canonical URLs and the sitemap. |
-| `NEXT_PUBLIC_CITY_NAVBAR` | `reference` | `reference` = toolbar matching the supplied screenshot; `official` = City widget from navbar.lacity.org plus a CD4 utility row. |
+| `NEXT_PUBLIC_CITY_NAVBAR` | `official` | `official` = City widget from navbar.lacity.org with a matching stand-in bar; `static` = stand-in bar only. |
+| `ACCUWEATHER_API_KEY` | unset | Server-side. When set, weather conditions come from AccuWeather and are credited to it. |
+| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | unset | Enables Google Places address suggestions in the District Checker. |
 
 ## Branches and Vercel
 

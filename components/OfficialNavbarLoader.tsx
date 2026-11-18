@@ -16,7 +16,8 @@ const SRC = "https://navbar.lacity.org/global_nav.js";
  */
 export function OfficialNavbarLoader() {
   useEffect(() => {
-    if (document.getElementById("global_navbar_la_4324422") || document.querySelector(`script[src="${SRC}"]`)) return;
+    if (document.getElementById("global_navbar_la_4324422")) { document.documentElement.dataset.citynav = "loaded"; return; }
+    if (document.querySelector(`script[src="${SRC}"]`)) return;
     const realWrite = document.write.bind(document);
     const realAdd = document.addEventListener.bind(document);
     const pending: EventListener[] = [];
@@ -28,8 +29,13 @@ export function OfficialNavbarLoader() {
     const restore = () => { document.write = realWrite; document.addEventListener = realAdd; };
     const s = document.createElement("script");
     s.src = SRC;
-    s.onload = () => { restore(); pending.forEach((fn) => fn(new Event("DOMContentLoaded"))); };
-    s.onerror = restore; // the CD4 utility row and the rest of the page still work without the widget
+    s.onload = () => {
+      restore();
+      pending.forEach((fn) => fn(new Event("DOMContentLoaded")));
+      // Hide our stand-in bar once the City widget is actually in the page (see styles: html[data-citynav="loaded"]).
+      if (document.getElementById("global_navbar_la_4324422")) document.documentElement.dataset.citynav = "loaded";
+    };
+    s.onerror = restore; // the stand-in bar rendered by CityBar stays in place
     document.head.appendChild(s);
   }, []);
   return null;

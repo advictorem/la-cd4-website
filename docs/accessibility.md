@@ -35,7 +35,7 @@ Run on 2026-11-17 with Chrome via Playwright, first against the local production
 | Token contrast | 80 foreground/background pairs | All meet 4.5:1 text / 3:1 graphics (topic ink ≥ 7:1 on white) |
 | Lighthouse (mobile emulation, local) | Home, a topic guide, Events | Accessibility 100, Best Practices 100, Performance 88–91; SEO flags only the intentional noindex |
 | Images | All templates, all widths | No broken images; decorative marks have empty alt, logos are named |
-| End-to-end total | `tests/site.spec.ts` + `tests/a11y.spec.ts` | 138 tests, 138 passed (after the revision 3 changes) |
+| End-to-end total | `tests/site.spec.ts` + `tests/a11y.spec.ts` | 148 tests, 148 passed (after the revision 5 changes) |
 
 ## Not tested here (needs people and devices)
 
@@ -52,9 +52,10 @@ Run on 2026-11-17 with Chrome via Playwright, first against the local production
 | Embedded Indigov forms (assistance, sign-up) and the Google Form were not audited | Unknown conformance inside the frames | Vendor/City: obtain conformance reports; test separately. This site only supplies the iframe title and fallback link |
 | Google My Maps embed is not fully keyboard or screen-reader accessible | Map content is not available to all users | Text alternative provided (address lookup link, neighborhood list). Consider a City GIS map |
 | "Select Language" hands off to Google Translate | Translated pages are outside this site's control; does not work on protected preview URLs | City decision on translation approach |
-| In `official` toolbar mode the City widget is inserted after page load | 47 px layout shift at the top of the page; the widget's own markup/contrast is ITA's | Not present in default mode; in a server-rendered CMS theme the widget loads normally |
 | White text over photographs (home hero, neighborhood headers, tiles) | Automated tools cannot measure contrast over images. A navy gradient sits behind all such text | Check by eye on real devices; adjust gradient if a replacement photo is lighter |
 | Address lookup opens in a small window | Pop-up blockers may stop it; the link then opens normally in a new tab. The link text says it opens a small window | City may prefer a same-tab link |
+| Timed sign-up prompt | A modal that opens on its own interrupts reading and screen-reader use (WCAG 2.2.4 Interruptions is AAA, so this is not an AA failure). It is a native dialog, closes with Escape, returns focus, waits while the visitor is typing, and appears once per 30 days | City decision whether to keep it; `signupPrompt.enabled` turns it off |
+| City navbar widget | Loaded from navbar.lacity.org; its markup and contrast are ITA's and are not covered by this site's automated scans (tests block it and check the stand-in bar) | ITA |
 | Calendar on small screens shows event markers without visible titles | Sighted users must open the day link or use the list (default view) to read titles; link names remain complete for assistive tech | Acceptable as list is primary; revisit with user testing |
 | Archive and past-event text is shown as originally published | May include capitalised headlines or wording that is not plain language | Editorial decision during migration |
 | PDF and third-party documents linked from pages | Not remediated or checked | Owning agencies |

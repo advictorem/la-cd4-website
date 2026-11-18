@@ -19,27 +19,42 @@ export const site = {
   liveOrigin: "https://cd4.lacity.gov",
   lastContentReview: "2026-11-17",
 
-  /** "reference" matches the supplied toolbar screenshot; "official" loads navbar.lacity.org v4.0. */
-  cityNavbar: (process.env.NEXT_PUBLIC_CITY_NAVBAR ?? "reference") as "reference" | "official",
+  /** "official" loads the City widget from navbar.lacity.org (default); "static" shows only the built-in copy of that bar. */
+  cityNavbar: (process.env.NEXT_PUBLIC_CITY_NAVBAR === "static" ? "static" : "official") as "official" | "static",
 
-  cityBar: {
-    signUp: { label: "Sign Up for Updates", href: "/sign-up/" },
-    alert: { pill: "!", label: "Windstorm & Fire Updates", href: "https://emergency.lacity.gov/updates" },
-    services: { pill: "311", label: "City Services", href: "https://myla311.lacity.gov/" },
-    directory: { pill: "LA", label: "City Directory", href: "https://lacity.gov/directory" },
-    languages: [
-      { code: "es", label: "Español" },
-      { code: "hy", label: "Հայերեն" },
-      { code: "ko", label: "한국어" },
-      { code: "zh-CN", label: "中文（简体）" },
-      { code: "zh-TW", label: "中文（繁體）" },
-      { code: "tl", label: "Tagalog" },
-      { code: "fa", label: "فارسی" },
-      { code: "ru", label: "Русский" },
-      { code: "ja", label: "日本語" },
-      { code: "vi", label: "Tiếng Việt" },
-      { code: "th", label: "ไทย" },
-    ],
+  /** Languages offered in the header language menu (handed to Google Translate's page-translation service). */
+  languages: [
+    { code: "es", label: "Español" },
+    { code: "hy", label: "Հայերեն" },
+    { code: "ko", label: "한국어" },
+    { code: "zh-CN", label: "中文（简体）" },
+    { code: "zh-TW", label: "中文（繁體）" },
+    { code: "tl", label: "Tagalog" },
+    { code: "fa", label: "فارسی" },
+    { code: "ru", label: "Русский" },
+    { code: "ja", label: "日本語" },
+    { code: "vi", label: "Tiếng Việt" },
+    { code: "th", label: "ไทย" },
+  ],
+
+  /**
+   * Sign-up prompt shown once, a few seconds into a visit. Set enabled to false to turn it off.
+   * It frames the district's existing Indigov sign-up form (the same one as /sign-up/). The form's fields,
+   * required marks, steps and button color are set in Indigov, not here: to show only name and email with a
+   * yellow button, create or edit the form in Indigov and put its URL in formUrl.
+   */
+  signupPrompt: {
+    enabled: true,
+    delayMs: 6000,
+    /** After it is closed, do not show it again for this many days. */
+    quietDays: 30,
+    heading: "Sign up for updates",
+    body: "Get District 4 email updates about City services, events, and news in your neighborhood.",
+    later: "Maybe later",
+    formUrl: "https://forms.indigov.com/customers/councilmember-nithyaraman/ea1b0b81-fd18-49ad-ac34-4eb39ae86388",
+    formHeight: 450,
+    /** Page the prompt is never shown on. */
+    href: "/sign-up/",
   },
 
   /**

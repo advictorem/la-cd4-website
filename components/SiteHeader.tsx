@@ -9,6 +9,7 @@ import { SmartLink } from "./SmartLink";
 import { SiteSearch } from "./SiteSearch";
 import { WeatherWidget } from "./WeatherWidget";
 import { AccessibilityMenu } from "./AccessibilityMenu";
+import { LanguageMenu } from "./LanguageMenu";
 
 const sectionFor = (path: string): string | null => {
   if (/^\/(city-services|city-service)\//.test(path)) return "services";
@@ -94,6 +95,7 @@ export function SiteHeader() {
           </Link>
           <div className="masthead__tools">
             <WeatherWidget />
+            <LanguageMenu />
             <AccessibilityMenu />
             {searchToggle("masthead")}
             <button ref={menuBtn} type="button" className="menu-toggle" aria-expanded={menuOpen} aria-controls="primary-nav" onClick={() => setMenuOpen(!menuOpen)}>

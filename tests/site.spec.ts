@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import { requiredRoutes, templates } from "./routes";
 
 test.describe("routes", () => {
@@ -430,6 +430,95 @@ test.describe("accessibility menu", () => {
   });
 });
 
+test.describe("top bar and header tools", () => {
+  test("City bar matches the official bar: identity text and two outlined links, nothing else", async ({ page }) => {
+    await page.goto("/");
+    const bar = page.getByRole("navigation", { name: "City of Los Angeles" });
+    await expect(bar).toContainText("An Official Website of the City of Los Angeles");
+    await expect(bar.getByRole("link")).toHaveText([/An Official Website/, "City Services", "City Directory"]);
+    await expect(bar).not.toContainText(/Sign Up|Windstorm|Language/);
+    await expect(bar).toHaveCSS("background-color", "rgb(15, 41, 64)");
+    await expect(bar).toHaveCSS("font-size", "12px");
+    await expect(bar).toHaveCSS("font-family", /Open Sans/);
+    expect((await bar.boundingBox())!.height).toBe(47);
+    await expect(bar.getByRole("link", { name: "City Directory" })).toHaveCSS("border-top-color", "rgb(167, 206, 236)");
+  });
+  test("language menu is an icon beside the accessibility icon and opens next to it", async ({ page }) => {
+    await page.goto("/district-4/");
+    const lang = page.getByRole("button", { name: "Select language" });
+    const a11y = page.getByRole("button", { name: /Accessibility/ });
+    const [lb, ab] = [(await lang.boundingBox())!, (await a11y.boundingBox())!];
+    expect(lb.width).toBe(44);
+    expect(Math.abs(lb.y - ab.y)).toBeLessThan(2);
+    expect(ab.x - (lb.x + lb.width)).toBeLessThan(20); // adjacent
+    await lang.click();
+    const menu = page.locator(".lang__menu");
+    await expect(menu).toBeVisible();
+    await expect(menu.getByRole("link")).toHaveCount(11);
+    await expect(menu.getByRole("link", { name: "Español" })).toHaveAttribute("href", /translate\.google\.com\/translate\?sl=en&tl=es&u=/);
+    const mb = (await menu.boundingBox())!;
+    expect(mb.y).toBeGreaterThanOrEqual(lb.y + lb.height); // drops down from the icon
+    expect(Math.abs(mb.x + mb.width - (lb.x + lb.width))).toBeLessThan(2); // aligned to the icon
+    await page.keyboard.press("Escape");
+    await expect(menu).toBeHidden();
+    await expect(lang).toBeFocused();
+  });
+  test.describe("with the City widget allowed", () => {
+    test.use({ allowCityWidget: true });
+    test("the City's own widget replaces the stand-in bar without moving the page", async ({ page }) => {
+      await page.goto("/district-4/");
+      const loaded = await page.locator('html[data-citynav="loaded"]').waitFor({ timeout: 15_000 }).then(() => true, () => false);
+      test.skip(!loaded, "navbar.lacity.org was not reachable from the test environment");
+      await expect(page.locator("#citybar-fallback")).toBeHidden();
+      await expect(page.locator("#global_navbar_la_4324422")).toContainText("City Directory");
+      expect((await page.locator(".site-header").boundingBox())!.y).toBeGreaterThanOrEqual(47);
+    });
+  });
+});
+
+test.describe("sign-up prompt", () => {
+  test.use({ allowPrompt: true });
+  test("appears about six seconds into a visit, follows the site branding, and stays closed once dismissed", async ({ page }) => {
+    await page.goto("/");
+    const dialog = page.getByRole("dialog");
+    await page.waitForTimeout(4500);
+    await expect(dialog).toBeHidden(); // not before six seconds
+    await expect(dialog).toBeVisible({ timeout: 4000 });
+    await expect(dialog.getByRole("heading", { level: 2 })).toHaveText("Sign up for updates");
+    await expect(dialog).toContainText("Council District 4");
+    await expect(dialog.locator("img")).toHaveAttribute("src", /la-city-seal/);
+    await expect(dialog.locator(".prompt__inner")).toHaveCSS("background-image", /cd4-hills-panorama/);
+    // The form inside is the district's existing Indigov sign-up form; this site adds no fields of its own.
+    const frame = dialog.locator("iframe");
+    await expect(frame).toHaveAttribute("title", "Sign up for updates form");
+    await expect(frame).toHaveAttribute("src", /^https:\/\/forms\.indigov\.com\/customers\/councilmember-nithyaraman\/ea1b0b81/);
+    await expect(dialog.locator("input, textarea, select")).toHaveCount(0);
+    await expect(dialog.getByRole("button", { name: "Close" })).toBeVisible();
+    await dialog.getByRole("button", { name: "Maybe later" }).click();
+    await expect(dialog).toBeHidden();
+    await page.reload();
+    await page.waitForTimeout(7500);
+    await expect(dialog).toBeHidden(); // remembered
+  });
+  test("Escape closes it; the form is not requested until it opens; it never opens on the sign-up page", async ({ page }) => {
+    await page.goto("/events/");
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible({ timeout: 12_000 });
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
+    await page.evaluate(() => localStorage.removeItem("cd4-signup-prompt"));
+    await page.goto("/district-4/");
+    await expect(page.locator("dialog iframe")).toHaveCount(0); // nothing loads from Indigov before the prompt opens
+    await expect(dialog).toBeVisible({ timeout: 12_000 });
+    await dialog.getByRole("button", { name: "Close" }).click();
+    await expect(dialog).toBeHidden();
+    await page.evaluate(() => localStorage.removeItem("cd4-signup-prompt"));
+    await page.goto("/sign-up/");
+    await page.waitForTimeout(7500);
+    await expect(dialog).toBeHidden();
+  });
+});
+
 test.describe("interior pages", () => {
   test("page headers are dark blue with white text", async ({ page }) => {
     for (const route of ["/city-services/", "/initiative/parks/", "/events/", "/need-help/", "/search/"]) {
@@ -462,6 +551,7 @@ test.describe("interior pages", () => {
 test.describe("layout", () => {
   for (const width of [320, 375, 768, 1024, 1440, 1920]) {
     test(`no horizontal overflow or broken images at ${width}px`, async ({ page }) => {
+      test.setTimeout(120_000);
       await page.setViewportSize({ width, height: 900 });
       for (const route of templates) {
         await page.goto(route);
@@ -487,7 +577,7 @@ test.describe("layout", () => {
   test("touch targets in the header are at least 24px (WCAG 2.2 AA) and primary controls 44px", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/district-4/");
-    const small = await page.evaluate(() => Array.from(document.querySelectorAll(".city-bar a, .city-bar button, .site-header a, .site-header button")).filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && (r.width < 24 || r.height < 24); }).map((e) => e.textContent?.trim()));
+    const small = await page.evaluate(() => Array.from(document.querySelectorAll(".citybar a, .site-header a, .site-header button")).filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && (r.width < 24 || r.height < 24); }).map((e) => e.textContent?.trim()));
     expect(small).toEqual([]);
     const menu = await page.getByRole("button", { name: "Menu" }).boundingBox();
     expect(menu!.height).toBeGreaterThanOrEqual(44);

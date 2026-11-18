@@ -65,11 +65,11 @@ export function AccessibilityMenu() {
   const changed = JSON.stringify(prefs) !== JSON.stringify(DEFAULTS);
   return (
     <div className="a11y" ref={wrap}>
-      <button ref={btn} type="button" className="a11y__toggle" aria-expanded={open} aria-controls={id} onClick={() => setOpen(!open)}>
+      <button ref={btn} type="button" className="icon-btn" aria-expanded={open} aria-controls={id} onClick={() => setOpen(!open)}>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
           <circle cx="12" cy="12" r="9.5" /><circle cx="12" cy="7.2" r="1.1" fill="currentColor" stroke="none" /><path d="M7 10.2c3.3.9 6.7.9 10 0M12 11v3.2M12 14.2l-2.3 4M12 14.2l2.3 4" />
         </svg>
-        <span className="a11y__label">Accessibility</span>
+        <span className="visually-hidden">Accessibility</span>
         {changed && <span className="visually-hidden"> (options on)</span>}
       </button>
       <div id={id} className="a11y__panel" role="group" aria-label="Accessibility options" hidden={!open}>

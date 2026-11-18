@@ -19,7 +19,7 @@ Nothing below has been done on production. Items marked **City** need a named Ci
 - [ ] Set each record's `status` to `verified` and update `verifiedAt` as it is approved.
 
 ## Brand and components (City)
-- [ ] ITA decision on the City toolbar variant; switch to `official` unless the reference variant is approved.
+- [x] City global bar now uses the City's official widget by default.
 - [ ] Permission to use the LA City logo, seal, City Clerk logo and MyLA311 mark as placed.
 - [ ] Confirm the district outline graphic may be reused, or supply an approved map.
 
@@ -35,6 +35,11 @@ Nothing below has been done on production. Items marked **City** need a named Ci
 - [ ] Accessibility menu: confirm with the City's accessibility reviewer that a built-in options panel is preferred to the UserWay widget used on mayor.lacity.gov.
 - [ ] Confirm the social accounts listed in the footer will continue after the representation transition.
 - [ ] Editorial approval of the home-page FAQ answers.
+
+## Revision 5 (top bar, prompt)
+- [ ] Indigov: to show only name and email with a yellow button in the sign-up prompt, create or edit that form in Indigov (fields, required marks, single step, button color), then put its URL in `content/site.ts → signupPrompt.formUrl`. Today's form asks first name, last name, email (required) and phone, over three steps, with a blue button.
+- [ ] City approval of a timed sign-up prompt on an official site, and of its wording.
+- [ ] ITA confirmation that loading the City navbar widget after page load (with the stand-in bar) is acceptable.
 
 ## Forms
 - [ ] Confirm the Indigov forms (assistance, sign-up) will keep their URLs, or supply the new ones.

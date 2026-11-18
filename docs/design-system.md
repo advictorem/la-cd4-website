@@ -87,20 +87,21 @@ Colored top and left edge bars were removed from all tiles and cards. Topic colo
 
 Credits and licenses are in `content/images.ts` and published at `/photo-credits/`. The home hero panorama and five neighborhood photos (Encino, Los Feliz & Silver Lake, Reseda, Sherman Oaks & Van Nuys, Studio City) were supplied by the project owner; their sources and usage rights still need to be confirmed. The Hollywood photo is from Wikimedia Commons (CC0). The Encino file is only 612 px wide and is soft when used as a page header.
 
-## City toolbar
+## City global bar
 
-The supplied screenshot shows the toolbar on the current CD4 site: seal, LOS ANGELES, Sign Up for Updates, Windstorm & Fire Updates, 311 City Services, LA City Directory, Select Language. That bar is built into the CD4 WordPress theme; it is **not** what `navbar.lacity.org/global_nav.js` renders today.
+The top bar is the City's own widget, the same one used on councildistrict5.lacity.gov: "An Official Website of the City of Los Angeles", City Services, City Directory. It is loaded from `navbar.lacity.org/global_nav.js` (v4.0) by `components/OfficialNavbarLoader.tsx`, which runs the unmodified script after hydration because the widget relies on `document.write` and `DOMContentLoaded`.
 
-The City-maintained widget (v4.0) renders "An Official Website of the City of Los Angeles", City Services, and City Directory, at 47px, injected with `document.write`. It has no Sign Up, emergency, or language items.
+`components/CityBar.tsx` also renders a stand-in bar with the widget's measurements (47px, `#0f2940`, Open Sans 12px, links outlined 1px `#A7CEEC` with 6px corners). It is what visitors see until the widget arrives, or if it cannot load, and it is hidden once the widget is in the page, so nothing shifts. Set `NEXT_PUBLIC_CITY_NAVBAR=static` to use only the stand-in and request nothing from navbar.lacity.org.
 
-| Mode | What you get | Trade-off |
-| --- | --- | --- |
-| `reference` (default on staging) | Matches the screenshot. 47px tall, official seal artwork from the City widget, same destinations as the live site | Maintained by CD4, not ITA. Needs ITA sign-off as a permitted variant |
-| `official` | Loads the City widget unmodified (via `components/OfficialNavbarLoader.tsx`, which runs it after hydration because the widget relies on `document.write` and `DOMContentLoaded`); Sign Up, Windstorm & Fire Updates, and Select Language move to a slim CD4 utility row beneath it; 311 and Directory are not repeated | Does not match the screenshot; adds a request to navbar.lacity.org and Google Fonts (the widget loads Open Sans) |
+The earlier CD4 toolbar items were removed from the bar: Sign Up for Updates (now the timed prompt, the Contact menu and the contact band), Windstorm & Fire Updates (Emergency information is in Quick Resource Links and City Services), and Select Language (now an icon in the header).
 
-A production proposal should use `official` unless ITA approves the reference variant. Switch with `NEXT_PUBLIC_CITY_NAVBAR`.
+## Header tools
 
-"Select Language" opens the current page in Google Translate's page-translation service rather than loading the translate script. It only works on publicly reachable URLs, so on a protected preview it will show Google's error page.
+Right side of the masthead: weather and air quality, a language icon, an accessibility icon; then Search at the end of the navigation row. The language icon is a thin-outline glyph drawn for this site (not a stock asset); its list opens directly under the icon and hands the page to Google Translate. Translation links only work on publicly reachable URLs, so they fail on a protected preview.
+
+## Sign-up prompt
+
+`components/SignupPrompt.tsx`, configured in `content/site.ts → signupPrompt`. A native modal `<dialog>` opens six seconds into a visit: hero photo darkened with navy, City seal and "Council District 4" at top center, heading, one sentence, the district's existing Indigov sign-up form in a frame, and "Maybe later". Once closed it stays away for 30 days (stored in the browser). It is not shown on `/sign-up/`, and it waits if the visitor is typing or has a menu open. The form's fields, steps and button color belong to Indigov and cannot be changed from this site.
 
 ## Official marks
 

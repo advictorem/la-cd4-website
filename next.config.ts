@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const isProd = process.env.NEXT_PUBLIC_SITE_ENV === "production";
 const isDev = process.env.NODE_ENV === "development";
-const officialNavbar = process.env.NEXT_PUBLIC_CITY_NAVBAR === "official";
+const officialNavbar = process.env.NEXT_PUBLIC_CITY_NAVBAR !== "static"; // the City widget is the default
 const googlePlaces = Boolean(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY); // address suggestions in the District Checker
 
 // Content Security Policy. Third parties are limited to the official City navbar (when enabled)

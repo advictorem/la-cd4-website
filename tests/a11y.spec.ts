@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import AxeBuilder from "@axe-core/playwright";
 import { templates } from "./routes";
 
@@ -30,10 +30,20 @@ for (const [label, viewport] of [["desktop", { width: 1280, height: 900 }], ["mo
       const results = await new AxeBuilder({ page }).withTags(tags).analyze();
       expect(results.violations.map((v) => `${v.impact}: ${v.id} — ${v.nodes[0]?.html.slice(0, 120)}`)).toEqual([]);
     });
+    test.describe("sign-up prompt", () => {
+      test.use({ allowPrompt: true });
+      test("open dialog", async ({ page }) => {
+        await page.goto("/district-4/");
+        await expect(page.getByRole("dialog")).toBeVisible({ timeout: 12_000 });
+        // The framed Indigov form is the vendor's document and is excluded here; it needs its own review (docs/accessibility.md).
+        const results = await new AxeBuilder({ page }).withTags(tags).exclude("dialog iframe").analyze();
+        expect(results.violations.map((v) => `${v.impact}: ${v.id} — ${v.nodes[0]?.html.slice(0, 120)}`)).toEqual([]);
+      });
+    });
     test("calendar view and language menu", async ({ page }) => {
       await page.goto("/events/");
       await page.getByRole("button", { name: "Calendar" }).click();
-      await page.getByRole("button", { name: /Select Language/ }).click();
+      await page.getByRole("button", { name: "Select language" }).click();
       const results = await new AxeBuilder({ page }).withTags(tags).analyze();
       expect(results.violations.map((v) => `${v.impact}: ${v.id} — ${v.nodes[0]?.html.slice(0, 120)}`)).toEqual([]);
     });
