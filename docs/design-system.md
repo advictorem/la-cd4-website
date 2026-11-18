@@ -101,7 +101,7 @@ Right side of the masthead: weather and air quality, a language icon, an accessi
 
 ## Sign-up prompt
 
-`components/SignupPrompt.tsx`, configured in `content/site.ts → signupPrompt`. A native modal `<dialog>` opens six seconds into a visit: hero photo darkened with navy, City seal and "Council District 4" at top center, heading, one sentence, the district's existing Indigov sign-up form in a frame, and "Maybe later". Once closed it stays away for 30 days (stored in the browser). It is not shown on `/sign-up/`, and it waits if the visitor is typing or has a menu open. The form's fields, steps and button color belong to Indigov and cannot be changed from this site.
+`components/SignupPrompt.tsx`, configured in `content/site.ts → signupPrompt`. A native modal `<dialog>` opens six seconds into a visit: hero photo darkened with navy, City seal and "Council District 4" at top center, a "Close" button, heading, one sentence, and the district's existing Indigov sign-up form in a frame tall enough to keep its button visible when validation messages appear. Once closed it stays away for 30 days (stored in the browser). It is not shown on `/sign-up/`, and it waits if the visitor is typing or has a menu open. The form's fields, steps and button color belong to Indigov and cannot be changed from this site.
 
 ## Official marks
 

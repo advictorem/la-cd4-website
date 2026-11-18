@@ -484,7 +484,8 @@ test.describe("sign-up prompt", () => {
     await page.waitForTimeout(4500);
     await expect(dialog).toBeHidden(); // not before six seconds
     await expect(dialog).toBeVisible({ timeout: 4000 });
-    await expect(dialog.getByRole("heading", { level: 2 })).toHaveText("Sign up for updates");
+    await expect(dialog.getByRole("heading", { level: 2 })).toHaveText("Be the first to know");
+    await expect(dialog).toContainText("what’s happening in your neighborhood");
     await expect(dialog).toContainText("Council District 4");
     await expect(dialog.locator("img")).toHaveAttribute("src", /la-city-seal/);
     await expect(dialog.locator(".prompt__inner")).toHaveCSS("background-image", /cd4-hills-panorama/);
@@ -493,8 +494,10 @@ test.describe("sign-up prompt", () => {
     await expect(frame).toHaveAttribute("title", "Sign up for updates form");
     await expect(frame).toHaveAttribute("src", /^https:\/\/forms\.indigov\.com\/customers\/councilmember-nithyaraman\/ea1b0b81/);
     await expect(dialog.locator("input, textarea, select")).toHaveCount(0);
-    await expect(dialog.getByRole("button", { name: "Close" })).toBeVisible();
-    await dialog.getByRole("button", { name: "Maybe later" }).click();
+    await expect(dialog.getByRole("button", { name: "Close" })).toHaveText("Close"); // visible label beside the X
+    await expect(dialog.getByText(/Maybe later|provided by Indigov/)).toHaveCount(0);
+    expect(Number(await frame.getAttribute("height"))).toBeGreaterThanOrEqual(520); // room for the form's error messages
+    await dialog.getByRole("button", { name: "Close" }).click();
     await expect(dialog).toBeHidden();
     await page.reload();
     await page.waitForTimeout(7500);

@@ -48,11 +48,11 @@ export const site = {
     delayMs: 6000,
     /** After it is closed, do not show it again for this many days. */
     quietDays: 30,
-    heading: "Sign up for updates",
-    body: "Get District 4 email updates about City services, events, and news in your neighborhood.",
-    later: "Maybe later",
+    heading: "Be the first to know",
+    body: "Sign up for email updates on what’s happening in your neighborhood.",
     formUrl: "https://forms.indigov.com/customers/councilmember-nithyaraman/ea1b0b81-fd18-49ad-ac34-4eb39ae86388",
-    formHeight: 450,
+    /** Tall enough for the form's first step with all of its validation messages showing, so its button stays in view. */
+    formHeight: 520,
     /** Page the prompt is never shown on. */
     href: "/sign-up/",
   },
