@@ -1,45 +1,48 @@
 import Image from "next/image";
-import Link from "next/link";
 import { content, splitEvents, todayLA } from "@/lib/content-adapter";
 import { site } from "@/content/site";
+import { faqs } from "@/content/faqs";
+import { heroPhoto } from "@/content/images";
 import { primaryNav } from "@/content/navigation";
 import { SiteSearch } from "@/components/SiteSearch";
 import { ButtonLink, SmartLink } from "@/components/SmartLink";
+import { PopupLink } from "@/components/PopupLink";
 import { Icon } from "@/components/Icon";
-import { TopicCard, NeighborhoodCard, UpdateCard, QuickService, SectionHead } from "@/components/Cards";
+import { TopicPills, NeighborhoodCard, LatestList, QuickService, SectionHead } from "@/components/Cards";
 import { EventList } from "@/components/Events";
+import { FaqList } from "@/components/Faq";
 import { EmptyState, RepresentationNotice } from "@/components/Layout";
 
 export const revalidate = 3600; // re-evaluate "upcoming" hourly
 
 export default function HomePage() {
-  // Topic cards follow the navigation grouping so each row reads as one subject area.
   const order = primaryNav.find((s) => s.id === "topics")!.groups.flatMap((g) => g.links.map((l) => l.href.split("/")[2]));
   const topics = order.map((slug) => content.topic(slug)!).filter(Boolean);
   const { upcoming } = splitEvents(content.events(), todayLA());
-  const updates = content.hotTopics();
+  const updates = [...content.hotTopics()].sort((a, b) => b.sourceUpdated.localeCompare(a.sourceUpdated));
   const c = site.contact;
 
   return (
     <>
-      <section className="hero" aria-labelledby="hero-title">
+      <section className="hero hero--photo on-dark" aria-labelledby="hero-title" style={{ ["--hero-img" as string]: `url(${heroPhoto.src})` }}>
         <div className="container hero__inner">
-          <div>
-            <p className="eyebrow" style={{ color: "var(--muted)" }}>City of Los Angeles</p>
-            <h1 id="hero-title">Council District 4</h1>
+          <div className="hero__content">
+            <p className="eyebrow">City of Los Angeles</p>
+            <h1 id="hero-title">
+              <span className="hero__pre">Welcome to the </span>
+              <span className="hero__name">Council District 4 </span>
+              <span className="hero__post">Information Hub</span>
+            </h1>
             <p className="lede">Find City services, neighborhood information, and resources for your community.</p>
             <SiteSearch id="hero-search" variant="hero" />
             <div className="btn-row">
-              <ButtonLink href="/need-help/">Get Help</ButtonLink>
-              <ButtonLink href={site.myla311.web} variant="secondary">Report a City Issue</ButtonLink>
+              <ButtonLink href="/need-help/">Get in Touch With Us</ButtonLink>
+              <SmartLink href={site.myla311.web} className="btn btn--secondary btn--311">
+                <Image src="/brand/myla311-logo.png" alt="" width={26} height={24} />
+                Report a City Issue
+              </SmartLink>
             </div>
           </div>
-          <figure className="hero__map">
-            <Link href="/district-4/#map" aria-label="About the district and its map">
-              <Image src="/brand/cd4-map.svg" alt="Outline map of Council District 4, which runs from Reseda and Encino in the San Fernando Valley east to Los Feliz and Silver Lake." width={560} height={300} unoptimized priority />
-            </Link>
-            <figcaption>The district spans the San Fernando Valley, the Hollywood Hills, and central Los Angeles. <SmartLink href={site.districtMap.lookupUrl}>Check your address</SmartLink></figcaption>
-          </figure>
         </div>
       </section>
 
@@ -47,7 +50,7 @@ export default function HomePage() {
 
       <section className="section section--tight" aria-labelledby="quick-title">
         <div className="container">
-          <h2 id="quick-title" className="visually-hidden">Quick services</h2>
+          <h2 id="quick-title" className="section-label">Quick Resource Links</h2>
           <ul className="quick" role="list">
             <QuickService href="/need-help/" label="Request assistance" hint="Ask the district office for help" color="city" icon="mail" />
             <QuickService href={site.myla311.web} label="MyLA311" hint="Report an issue or request a service" color="teal" icon="phone" />
@@ -59,17 +62,32 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section section--wash" aria-labelledby="topics-title">
-        <div className="container">
-          <SectionHead id="topics-title" title="Topics & Resources" intro="Plain-language guides to City programs, with links to the agencies that run them."
-            action={<SmartLink className="arrow-link" href="/topics-resources/">All topics <Icon name="arrow" size={16} /></SmartLink>} />
-          <div className="grid grid--4 grid--topics">
-            {topics.map((t) => <TopicCard key={t.slug} topic={t} />)}
+      <section className="section section--cream" aria-labelledby="checker-title">
+        <div className="container checker">
+          <div>
+            <p className="eyebrow" style={{ color: "var(--muted)" }}>District Checker</p>
+            <h2 id="checker-title">Am I in District 4?</h2>
+            <p className="lede" style={{ marginTop: "var(--s3)" }}>The district spans the San Fernando Valley, the Hollywood Hills, and central Los Angeles. Some neighborhoods are split between Council districts, so check your address to be sure.</p>
+            <div className="btn-row" style={{ marginTop: "var(--s5)" }}>
+              <PopupLink className="btn" href={site.districtMap.lookupUrl}>Check my address</PopupLink>
+              <ButtonLink href="/district-4/#map" variant="secondary">View the district map</ButtonLink>
+            </div>
+            <p className="small muted" style={{ marginTop: "var(--s3)" }}>Opens the City of Los Angeles address lookup in a small window.</p>
           </div>
+          <Image src="/brand/cd4-map.svg" alt="Outline map of Council District 4, which runs from Reseda and Encino in the San Fernando Valley east to Los Feliz and Silver Lake." width={560} height={300} unoptimized />
         </div>
       </section>
 
-      <section className="section" aria-labelledby="hoods-title">
+      <section className="section section--centered" aria-labelledby="topics-title">
+        <div className="container">
+          <h2 id="topics-title">Topics & Resources</h2>
+          <p className="section-intro">Plain-language guides to City programs, with links to the agencies that run them.</p>
+          <TopicPills topics={topics} />
+          <p style={{ marginTop: "var(--s5)" }}><SmartLink className="arrow-link" href="/topics-resources/">All topics <Icon name="arrow" size={16} /></SmartLink></p>
+        </div>
+      </section>
+
+      <section className="section section--wash" aria-labelledby="hoods-title">
         <div className="container">
           <SectionHead id="hoods-title" title="Explore Your Neighborhood" intro="Neighborhood Councils, libraries, parks, and public safety contacts for each part of the district."
             action={<SmartLink className="arrow-link" href="/neighborhoods/">All neighborhoods <Icon name="arrow" size={16} /></SmartLink>} />
@@ -81,11 +99,11 @@ export default function HomePage() {
 
       <section className="section section--cream" aria-labelledby="updates-title">
         <div className="container">
-          <SectionHead id="updates-title" title="Community Updates" intro="Background and official sources on projects and issues affecting the district."
-            action={<SmartLink className="arrow-link" href="/news/">News & events <Icon name="arrow" size={16} /></SmartLink>} />
-          <div className="updates">
-            {updates.map((h, i) => <UpdateCard key={h.slug} h={h} feature={i < 2} />)}
+          <div className="latest-head">
+            <h2 id="updates-title">Community Updates</h2>
+            <SmartLink className="arrow-link" href="/news/">See all <Icon name="arrow" size={16} /></SmartLink>
           </div>
+          <LatestList items={updates.slice(0, 4)} />
         </div>
       </section>
 
@@ -147,6 +165,13 @@ export default function HomePage() {
               </ul>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="section" aria-labelledby="faq-title">
+        <div className="container faq-wrap">
+          <h2 id="faq-title">Frequently Asked Questions</h2>
+          <FaqList items={faqs} />
         </div>
       </section>
     </>

@@ -147,9 +147,27 @@ test.describe("search", () => {
   });
   test("header search works from an inner page", async ({ page }) => {
     await page.goto("/district-4/");
-    await page.getByRole("search", { name: "Site search" }).getByRole("searchbox").fill("library");
+    const toggle = page.locator(".search-toggle--nav");
+    await toggle.focus();
+    await page.keyboard.press("Enter");
+    const box = page.getByRole("search", { name: "Site search" }).getByRole("searchbox");
+    await expect(box).toBeFocused(); // focus moves into the field when the panel opens
+    await expect(box).toHaveAttribute("placeholder", "Search services, topics, neighborhoods"); // same prompt as the home hero
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#site-search-panel")).toBeHidden();
+    await expect(toggle).toBeFocused();
+    await toggle.click();
+    await box.fill("library");
     await page.keyboard.press("Enter");
     await expect(page.locator(".results li").first()).toBeVisible();
+  });
+  test("search button is available on small screens too", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/events/");
+    await page.locator(".search-toggle--masthead").click();
+    await page.getByRole("search", { name: "Site search" }).getByRole("searchbox").fill("parking");
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(/\/search\/\?q=parking/);
   });
 });
 
@@ -234,6 +252,100 @@ test.describe("content rules", () => {
     await expect(page.locator(".share__status")).toHaveText("Link copied");
     expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/\/initiative\/parks\/$/);
     await expect(page.getByRole("link", { name: "Email" })).toHaveAttribute("href", /^mailto:\?subject=/);
+  });
+});
+
+test.describe("home page sections", () => {
+  test("greeting, actions, and section order", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Welcome to the\s*Council District 4\s*Information Hub/);
+    await expect(page.getByRole("link", { name: "Get in Touch With Us" })).toHaveAttribute("href", "/need-help/");
+    const report = page.getByRole("link", { name: /Report a City Issue/ });
+    await expect(report).toHaveAttribute("href", "https://myla311.lacity.gov/");
+    await expect(report.locator("img")).toHaveAttribute("src", /myla311-logo/);
+    const h2 = await page.locator("main h2").allTextContents();
+    expect(h2.map((t) => t.trim())).toEqual(["Quick Resource Links", "Am I in District 4?", "Topics & Resources", "Explore Your Neighborhood", "Community Updates", "Events", expect.stringContaining("Elections"), "Contact & Stay Connected", "Frequently Asked Questions"]);
+  });
+  test("topics are a cluster of ten buttons without descriptions", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".pills .pill")).toHaveCount(10);
+    await expect(page.locator(".pills p")).toHaveCount(0);
+  });
+  test("neighborhood tiles have photos and short, even descriptions", async ({ page }) => {
+    await page.goto("/");
+    const tiles = page.locator(".tile");
+    await expect(tiles).toHaveCount(6);
+    const lens = await tiles.locator("p").evaluateAll((ps) => ps.map((p) => p.textContent!.length));
+    expect(Math.max(...lens)).toBeLessThanOrEqual(80);
+    expect(Math.max(...lens) - Math.min(...lens)).toBeLessThanOrEqual(12);
+    for (const img of await tiles.locator("img").all()) { await img.scrollIntoViewIfNeeded(); await expect.poll(() => img.evaluate((i: HTMLImageElement) => i.naturalWidth)).toBeGreaterThan(0); }
+    await page.goto("/neighborhood/reseda/");
+    await expect(page.locator(".page-header--photo")).toHaveCSS("background-image", /reseda\.webp/);
+    await expect(page.getByText(/Header photo:/)).toContainText("CC BY-SA 3.0");
+  });
+  test("community updates list shows four dated items and a See all link", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".latest__item")).toHaveCount(4);
+    await expect(page.getByRole("link", { name: "See all" })).toHaveAttribute("href", "/news/");
+  });
+  test("address check opens a small window instead of leaving the site", async ({ page }) => {
+    await page.addInitScript(() => { (window as unknown as { __opened: unknown[] }).__opened = []; window.open = (...a: unknown[]) => { (window as unknown as { __opened: unknown[] }).__opened.push(a); return { focus() {} } as unknown as Window; }; });
+    await page.goto("/");
+    await page.getByRole("link", { name: /Check my address/ }).click();
+    const opened = await page.evaluate(() => (window as unknown as { __opened: string[][] }).__opened);
+    expect(opened).toHaveLength(1);
+    expect(opened[0][0]).toBe("https://neighborhoodinfo.lacity.gov/");
+    expect(opened[0][2]).toMatch(/popup=yes,width=560,height=760/);
+    await expect(page).toHaveURL(/\/$/); // still on the home page
+  });
+  test("FAQ answers open and close", async ({ page }) => {
+    await page.goto("/");
+    const first = page.locator(".faq__item").first();
+    await expect(first.locator(".faq__answer")).toBeHidden();
+    await first.locator("summary").click();
+    await expect(first.locator(".faq__answer")).toBeVisible();
+    expect(await page.locator(".faq__item").count()).toBeGreaterThanOrEqual(6);
+  });
+  test("footer lists every social network with a named, single-color logo", async ({ page }) => {
+    await page.goto("/district-4/");
+    const links = page.locator(".site-footer__social a");
+    await expect(links).toHaveCount(5);
+    for (const n of ["Instagram", "Facebook", "X", "TikTok", "Bluesky"]) await expect(page.getByRole("link", { name: `Council District 4 on ${n} (external site)` })).toBeVisible();
+    await expect(links.first().locator("svg")).toHaveAttribute("fill", "currentColor");
+  });
+  test("tiles no longer carry colored edge bars", async ({ page }) => {
+    await page.goto("/");
+    for (const sel of [".quick__item", ".tile"]) {
+      const b = await page.locator(sel).first().evaluate((e) => { const c = getComputedStyle(e); return [c.borderLeftWidth, c.borderTopWidth]; });
+      expect(parseFloat(b[0]), sel).toBeLessThanOrEqual(1);
+      expect(parseFloat(b[1]), sel).toBeLessThanOrEqual(1);
+    }
+    await page.goto("/topics-resources/");
+    expect(await page.locator(".card--topic").first().evaluate((e) => getComputedStyle(e).borderTopWidth)).toBe("1px");
+  });
+});
+
+test.describe("weather widget", () => {
+  test("shows temperature and air quality from the data route and links to the forecast", async ({ page }) => {
+    await page.route("**/api/weather/", (r) => r.fulfill({ json: { place: "Encino", tempF: 62, condition: "Clear", kind: "clear", isDay: false, aqi: 41, aqiCategory: "Good" } }));
+    await page.goto("/district-4/");
+    const w = page.locator("a.weather");
+    await expect(w).toContainText("62°");
+    await expect(w).toContainText("AQI 41");
+    await expect(w).toHaveAttribute("href", /accuweather\.com\/en\/us\/encino\/91316\/hourly-weather-forecast\/327083/);
+    await expect(w).toHaveAccessibleName(/Encino weather:\s*62°\s*, clear\.\s*Air quality:\s*AQI 41\s*Good.*Hourly forecast on AccuWeather/);
+    await expect(w.locator("svg").first()).toHaveAttribute("fill", "none"); // line icon
+  });
+  test("renders nothing when the source is unavailable", async ({ page }) => {
+    await page.route("**/api/weather/", (r) => r.fulfill({ status: 503, json: { error: "unavailable" } }));
+    await page.goto("/district-4/");
+    await expect(page.locator("a.weather")).toHaveCount(0);
+    await expect(page.locator(".weather")).toBeEmpty();
+  });
+  test("live route returns a real reading or an honest 503", async ({ request }) => {
+    const res = await request.get("/api/weather/");
+    expect([200, 503]).toContain(res.status());
+    if (res.status() === 200) { const j = await res.json(); expect(typeof j.tempF).toBe("number"); expect(j.tempF).toBeGreaterThan(-20); expect(j.tempF).toBeLessThan(130); }
   });
 });
 

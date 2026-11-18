@@ -17,6 +17,7 @@ const meta = (slug: string): ContentMeta => ({
 export const neighborhoods: Neighborhood[] = [
   {
     slug: "encino", title: "Encino", areas: ["Encino"], region: "San Fernando Valley",
+    blurb: "The westernmost part of the district, in the central San Fernando Valley.",
     overview: [
       "Encino, Spanish for “oak,” is the westernmost part of Council District 4, in the central San Fernando Valley.",
       "The area includes the Ventura Boulevard commercial corridor, Los Encinos State Historic Park, and the Sepulveda Basin Recreation Area.",
@@ -41,6 +42,7 @@ export const neighborhoods: Neighborhood[] = [
   },
   {
     slug: "hollywood-hollywood-hills", title: "Hollywood & Hollywood Hills", areas: ["Hollywood", "Hollywood Hills"], region: "Hollywood Hills & Central LA",
+    blurb: "Hillside communities around the Cahuenga Pass, above the Hollywood flats.",
     overview: [
       "The Hollywood Hills straddle the Cahuenga Pass in the Santa Monica Mountains and include hillside communities such as Beachwood Canyon, Laurel Canyon, Nichols Canyon, Outpost Estates, Whitley Heights, and Lake Hollywood Estates.",
       "The hills meet the Hollywood flats to the south. The area is home to the Hollywood Bowl, the Ford Theatre, and the Hollywood Sign.",
@@ -72,6 +74,7 @@ export const neighborhoods: Neighborhood[] = [
   },
   {
     slug: "los-feliz-silver-lake", title: "Los Feliz & Silver Lake", areas: ["Los Feliz", "Silver Lake"], region: "Hollywood Hills & Central LA",
+    blurb: "Hillside neighborhoods beside Griffith Park and the Silver Lake Reservoir.",
     overview: [
       "Los Feliz is a hillside neighborhood in central Los Angeles next to Griffith Park and the Griffith Observatory.",
       "Silver Lake borders Los Feliz and is divided between Council District 4 and Council District 13. It includes the Silver Lake Reservoir and a network of historic public stairways.",
@@ -103,6 +106,7 @@ export const neighborhoods: Neighborhood[] = [
   },
   {
     slug: "reseda", title: "Reseda", areas: ["Reseda"], region: "San Fernando Valley",
+    blurb: "A west Valley neighborhood centered on Sherman Way and Reseda Boulevard.",
     overview: [
       "Reseda is a west San Fernando Valley neighborhood centered on Sherman Way and Reseda Boulevard, with a mix of homes, apartments, restaurants, and shops.",
       "Only part of Reseda is in Council District 4. Use the district map or the City's address lookup to confirm your Council District.",
@@ -124,6 +128,7 @@ export const neighborhoods: Neighborhood[] = [
   },
   {
     slug: "sherman-oaks-van-nuys", title: "Sherman Oaks & Van Nuys", areas: ["Sherman Oaks", "Van Nuys"], region: "San Fernando Valley",
+    blurb: "Ventura Boulevard, hillside streets, and the civic center of the Valley.",
     overview: [
       "Sherman Oaks sits at the center of the district's stretch of the San Fernando Valley, with shopping and dining along Ventura Boulevard and hillside neighborhoods in the Santa Monica Mountains.",
       "Van Nuys, to the north, is a civic and commercial hub of the Valley. Only part of Van Nuys is in Council District 4.",
@@ -149,6 +154,7 @@ export const neighborhoods: Neighborhood[] = [
   },
   {
     slug: "studio-city-cahuenga-pass", title: "Studio City & Cahuenga Pass", areas: ["Studio City", "Cahuenga Pass"], region: "San Fernando Valley",
+    blurb: "The southeast Valley, from Ventura Boulevard to the Cahuenga Pass.",
     overview: [
       "Studio City, in the southeast San Fernando Valley, takes its name from the studio lot established there in 1927. It includes a stretch of Ventura Boulevard and part of the LA River Greenway.",
       "The Cahuenga Pass, to the east, connects the Valley to Hollywood through the eastern Santa Monica Mountains. Its name comes from the Tongva village of Kawé’nga.",

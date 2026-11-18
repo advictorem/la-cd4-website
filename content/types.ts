@@ -64,6 +64,8 @@ export interface Neighborhood {
   title: string;
   areas: string[];
   region: "San Fernando Valley" | "Hollywood Hills & Central LA";
+  /** One short sentence for tiles; keep all six about the same length. */
+  blurb: string;
   overview: string[];
   councils: Place[];
   civic: Place[];

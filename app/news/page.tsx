@@ -2,7 +2,7 @@ import { content, splitEvents, todayLA, formatDate } from "@/lib/content-adapter
 import { archiveNote } from "@/content/events";
 import { pageMeta } from "@/lib/metadata";
 import { PageHeader, PageFoot, EmptyState } from "@/components/Layout";
-import { UpdateCard, SectionHead } from "@/components/Cards";
+import { LatestList, SectionHead } from "@/components/Cards";
 import { EventList } from "@/components/Events";
 import { SmartLink, ButtonLink } from "@/components/SmartLink";
 import { Icon } from "@/components/Icon";
@@ -20,7 +20,7 @@ export default function NewsPage() {
       <div className="container section">
         <section aria-labelledby="community-updates">
           <SectionHead id="community-updates" title="Community updates" intro="Neutral background on projects and issues in the district, with links to the responsible agencies." />
-          <div className="updates">{content.hotTopics().map((h, i) => <UpdateCard key={h.slug} h={h} feature={i < 2} />)}</div>
+          <LatestList items={[...content.hotTopics()].sort((a, b) => b.sourceUpdated.localeCompare(a.sourceUpdated))} />
         </section>
 
         <section aria-labelledby="events" style={{ marginTop: "var(--s8)" }}>

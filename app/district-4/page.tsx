@@ -5,7 +5,8 @@ import { pageMeta } from "@/lib/metadata";
 import { PageHeader, PageFoot, ContactActions } from "@/components/Layout";
 import { NeighborhoodCard } from "@/components/Cards";
 import { AccessibleEmbed } from "@/components/AccessibleEmbed";
-import { SmartLink, ButtonLink } from "@/components/SmartLink";
+import { SmartLink } from "@/components/SmartLink";
+import { PopupLink } from "@/components/PopupLink";
 
 export const metadata = pageMeta({ title: "About Council District 4", description: "The geography of Council District 4 and how the district office serves residents.", route: "/district-4/" });
 const meta = { route: "/district-4/", sourceUrl: "https://cd4.lacity.gov/district-4/", verifiedAt: "2026-11-17", contentOwner: "Council District 4 office", status: "pending-review" as const };
@@ -32,7 +33,7 @@ export default function DistrictPage() {
               <h2 id="map-h" style={{ fontSize: "var(--step-2)", marginBottom: "var(--s4)" }}>Interactive district map</h2>
               <AccessibleEmbed title="Council District 4 map" src={site.districtMap.embedUrl} fallbackUrl={site.districtMap.viewerUrl} provider="Google Maps" height={480}
                 loadLabel="Load the map on this page" privacyNote="The map is hosted by Google My Maps. Loading it sends a request to Google. To confirm which district an address is in, use the City’s address lookup." />
-              <div className="btn-row" style={{ marginTop: "var(--s4)" }}><ButtonLink href={site.districtMap.lookupUrl} variant="secondary">Find your Council District by address</ButtonLink></div>
+              <div className="btn-row" style={{ marginTop: "var(--s4)" }}><PopupLink className="btn btn--secondary" href={site.districtMap.lookupUrl}>Check my address</PopupLink></div>
             </section>
             <section id="how-the-office-helps" className="prose" style={{ marginTop: "var(--s7)", scrollMarginTop: "1rem" }}>
               <h2 style={{ marginTop: 0 }}>How the district office helps</h2>

@@ -7,6 +7,7 @@ import { primaryNav } from "@/content/navigation";
 import { Icon } from "./Icon";
 import { SmartLink } from "./SmartLink";
 import { SiteSearch } from "./SiteSearch";
+import { WeatherWidget } from "./WeatherWidget";
 
 const sectionFor = (path: string): string | null => {
   if (/^\/(city-services|city-service)\//.test(path)) return "services";
@@ -18,48 +19,67 @@ const sectionFor = (path: string): string | null => {
   return null;
 };
 
+type Open = { path: string; panel: string | null; menu: boolean; search: boolean };
+
 /**
- * Masthead + primary navigation.
+ * Masthead, primary navigation and global search.
  * Pattern: disclosure buttons (aria-expanded / aria-controls), not ARIA menus.
  * Tab moves through items; Enter/Space toggles; Escape closes and returns focus to the trigger;
  * focus leaving the navigation closes any open panel. Below 992px the same markup becomes
- * an accordion inside a "Menu" disclosure.
+ * an accordion inside a "Menu" disclosure. The search button sits at the end of the navigation row
+ * (beside "Menu" on small screens) and opens one search field under the header on every page.
  */
 export function SiteHeader() {
   const pathname = usePathname();
-  // Menu state is tied to the path it was opened on, so navigating closes everything without an effect.
-  const [state, setState] = useState<{ path: string; open: string | null; menu: boolean }>({ path: pathname, open: null, menu: false });
-  const open = state.path === pathname ? state.open : null;
-  const menuOpen = state.path === pathname ? state.menu : false;
-  const setOpen = useCallback((id: string | null) => setState((s) => ({ path: pathname, open: id, menu: s.path === pathname ? s.menu : false })), [pathname]);
-  const setMenuOpen = useCallback((menu: boolean) => setState({ path: pathname, open: null, menu }), [pathname]);
+  // State is tied to the path it was set on, so navigating closes everything without an effect.
+  const [state, setState] = useState<Open>({ path: pathname, panel: null, menu: false, search: false });
+  const here = state.path === pathname;
+  const open = here ? state.panel : null;
+  const menuOpen = here ? state.menu : false;
+  const searchOpen = here ? state.search : false;
   const navRef = useRef<HTMLElement>(null);
   const menuBtn = useRef<HTMLButtonElement>(null);
+  const searchPanel = useRef<HTMLDivElement>(null);
+  const lastSearchBtn = useRef<HTMLButtonElement | null>(null);
   const current = sectionFor(pathname);
 
-  const closeAndFocus = useCallback((id: string) => {
-    setOpen(null);
-    document.getElementById(`nav-btn-${id}`)?.focus();
-  }, [setOpen]);
+  const setOpen = useCallback((id: string | null) => setState((s) => ({ path: pathname, panel: id, menu: s.path === pathname ? s.menu : false, search: false })), [pathname]);
+  const setMenuOpen = useCallback((menu: boolean) => setState({ path: pathname, panel: null, menu, search: false }), [pathname]);
+  const setSearchOpen = useCallback((search: boolean) => setState({ path: pathname, panel: null, menu: false, search }), [pathname]);
 
   useEffect(() => {
-    if (!open && !menuOpen) return;
+    if (searchOpen) searchPanel.current?.querySelector("input")?.focus();
+  }, [searchOpen]);
+
+  useEffect(() => {
+    if (!open && !menuOpen && !searchOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
-      if (open) closeAndFocus(open);
+      if (open) { const id = open; setOpen(null); document.getElementById(`nav-btn-${id}`)?.focus(); }
+      else if (searchOpen) { setSearchOpen(false); lastSearchBtn.current?.focus(); }
       else { setMenuOpen(false); menuBtn.current?.focus(); }
     };
     const onDown = (e: PointerEvent) => {
-      if (navRef.current?.contains(e.target as Node) || menuBtn.current?.contains(e.target as Node)) return;
-      setOpen(null);
+      const t = e.target as Node;
+      if (navRef.current?.contains(t) || menuBtn.current?.contains(t) || searchPanel.current?.contains(t) || (t as Element).closest?.(".search-toggle")) return;
+      if (open) setOpen(null);
+      if (searchOpen) setSearchOpen(false);
     };
     document.addEventListener("keydown", onKey);
     document.addEventListener("pointerdown", onDown);
     return () => { document.removeEventListener("keydown", onKey); document.removeEventListener("pointerdown", onDown); };
-  }, [open, menuOpen, closeAndFocus, setOpen, setMenuOpen]);
+  }, [open, menuOpen, searchOpen, setOpen, setMenuOpen, setSearchOpen]);
+
+  const searchToggle = (where: "nav" | "masthead") => (
+    <button type="button" className={`search-toggle search-toggle--${where}`} aria-expanded={searchOpen} aria-controls="site-search-panel"
+      onClick={(e) => { lastSearchBtn.current = e.currentTarget; setSearchOpen(!searchOpen); }}>
+      <Icon name={searchOpen ? "close" : "search"} size={20} />
+      <span className={where === "masthead" ? "visually-hidden" : undefined}>Search</span>
+    </button>
+  );
 
   return (
-    <header className="site-header" data-home={pathname === "/"}>
+    <header className="site-header">
       <div className="container">
         <div className="masthead">
           <Link href="/" className="wordmark">
@@ -71,14 +91,17 @@ export function SiteHeader() {
             </span>
             <span className="visually-hidden"> — home</span>
           </Link>
-          <button ref={menuBtn} type="button" className="menu-toggle" aria-expanded={menuOpen} aria-controls="primary-nav" onClick={() => setMenuOpen(!menuOpen)}>
-            <Icon name={menuOpen ? "close" : "menu"} size={20} />
-            Menu
-          </button>
-          <SiteSearch id="header-search" />
+          <div className="masthead__tools">
+            <WeatherWidget />
+            {searchToggle("masthead")}
+            <button ref={menuBtn} type="button" className="menu-toggle" aria-expanded={menuOpen} aria-controls="primary-nav" onClick={() => setMenuOpen(!menuOpen)}>
+              <Icon name={menuOpen ? "close" : "menu"} size={20} />
+              Menu
+            </button>
+          </div>
         </div>
         <nav id="primary-nav" ref={navRef} className="site-nav" aria-label="Primary" data-open={menuOpen}
-          onBlur={(e) => { if (open && !e.currentTarget.contains(e.relatedTarget as Node) && e.relatedTarget) setOpen(null); }}>
+          onBlur={(e) => { if (open && e.relatedTarget && !e.currentTarget.contains(e.relatedTarget as Node)) setOpen(null); }}>
           <ul className="site-nav__list" role="list">
             {primaryNav.map((s, i) => {
               const expanded = open === s.id;
@@ -106,8 +129,14 @@ export function SiteHeader() {
                 </li>
               );
             })}
+            <li className="site-nav__item site-nav__item--search">{searchToggle("nav")}</li>
           </ul>
         </nav>
+      </div>
+      <div id="site-search-panel" ref={searchPanel} className="search-panel" hidden={!searchOpen}>
+        <div className="container">
+          <SiteSearch id="global-search" variant="hero" label="Site search" />
+        </div>
       </div>
     </header>
   );

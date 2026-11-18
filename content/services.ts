@@ -51,7 +51,7 @@ export const serviceCategories: ServiceCategory[] = [
         { label: "License a pet", href: "https://www.laanimalservices.com/laws-policies/animal-licenses/", agency: "LA Animal Services" },
       ] },
       { heading: "Your government", links: [
-        { label: "Find your representatives", href: "https://neighborhoodinfo.lacity.org/", agency: "City of Los Angeles" },
+        { label: "Find your representatives", href: "https://neighborhoodinfo.lacity.gov/", agency: "City of Los Angeles" },
         { label: "City Government & Transparency", href: "/initiative/governance-reform/", agency: "Council District 4" },
       ] },
     ],

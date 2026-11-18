@@ -59,7 +59,7 @@ export const topics: Topic[] = [
       { label: "Los Angeles City Ethics Commission", href: "https://ethics.lacity.gov/", agency: "Ethics Commission", description: "Campaign finance, lobbying, and governmental ethics information and complaints." },
       { label: "Office of the City Controller", href: "https://controller.lacity.gov/", agency: "City Controller", description: "Audits, City spending data, and open-data dashboards." },
       { label: "Neighborhood Councils (EmpowerLA)", href: "https://empowerla.org/", agency: "Department of Neighborhood Empowerment", description: "Find your Neighborhood Council and its meeting schedule." },
-      { label: "Find your representatives", href: "https://neighborhoodinfo.lacity.org/", agency: "City of Los Angeles", description: "Look up the Council District and other officials for any address." },
+      { label: "Find your representatives", href: "https://neighborhoodinfo.lacity.gov/", agency: "City of Los Angeles", description: "Look up the Council District and other officials for any address." },
     ],
     steps: [
       { title: "Look up a Council file", body: "Use the Council File Management System to read the documents and vote history for any item before the City Council." },

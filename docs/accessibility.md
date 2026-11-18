@@ -31,7 +31,7 @@ Run on 2026-11-17 with Chrome via Playwright, first against the local production
 | Token contrast | 80 foreground/background pairs | All meet 4.5:1 text / 3:1 graphics (topic ink ≥ 7:1 on white) |
 | Lighthouse (mobile emulation, local) | Home, a topic guide, Events | Accessibility 100, Best Practices 100, Performance 88–91; SEO flags only the intentional noindex |
 | Images | All templates, all widths | No broken images; decorative marks have empty alt, logos are named |
-| End-to-end total | `tests/site.spec.ts` + `tests/a11y.spec.ts` | 118 tests, 118 passed |
+| End-to-end total | `tests/site.spec.ts` + `tests/a11y.spec.ts` | 131 tests, 131 passed (after the revision 2 home page changes) |
 
 ## Not tested here (needs people and devices)
 
@@ -49,6 +49,8 @@ Run on 2026-11-17 with Chrome via Playwright, first against the local production
 | Google My Maps embed is not fully keyboard or screen-reader accessible | Map content is not available to all users | Text alternative provided (address lookup link, neighborhood list). Consider a City GIS map |
 | "Select Language" hands off to Google Translate | Translated pages are outside this site's control; does not work on protected preview URLs | City decision on translation approach |
 | In `official` toolbar mode the City widget is inserted after page load | 47 px layout shift at the top of the page; the widget's own markup/contrast is ITA's | Not present in default mode; in a server-rendered CMS theme the widget loads normally |
+| White text over photographs (home hero, neighborhood headers, tiles) | Automated tools cannot measure contrast over images. A navy gradient sits behind all such text | Check by eye on real devices; adjust gradient if a replacement photo is lighter |
+| Address lookup opens in a small window | Pop-up blockers may stop it; the link then opens normally in a new tab. The link text says it opens a small window | City may prefer a same-tab link |
 | Calendar on small screens shows event markers without visible titles | Sighted users must open the day link or use the list (default view) to read titles; link names remain complete for assistive tech | Acceptable as list is primary; revisit with user testing |
 | Archive and past-event text is shown as originally published | May include capitalised headlines or wording that is not plain language | Editorial decision during migration |
 | PDF and third-party documents linked from pages | Not remediated or checked | Owning agencies |

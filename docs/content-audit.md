@@ -67,3 +67,11 @@ Phone, email and the two office addresses are as published on `/need-help/` toda
 ## External links
 
 `npm run check:links` checks every external URL on the site; the latest run is in `docs/link-check.json` and summarized in `docs/accessibility.md#test-results`.
+
+## Revision 2 additions (2026-11-17)
+
+- **FAQ** (`content/faqs.ts`): nine questions. Each answer restates content already on the site and links to that page; no new facts were introduced.
+- **Neighborhood blurbs:** one short sentence per area for tiles and page headers (69–74 characters each).
+- **Address lookup** moved from `neighborhoodinfo.lacity.org` to `neighborhoodinfo.lacity.gov` (the old host redirects).
+- **Weather:** live readings for Encino (34.159, −118.501) from Open-Meteo; nothing is shown if the source fails. AccuWeather is linked, not used as a data source, because it has no keyless feed and its pages may not be scraped.
+- **Photos:** see `/photo-credits/`.

@@ -4,7 +4,8 @@ import { site } from "@/content/site";
 import { pageMeta } from "@/lib/metadata";
 import { PageHeader, PageFoot } from "@/components/Layout";
 import { NeighborhoodCard } from "@/components/Cards";
-import { SmartLink, ButtonLink } from "@/components/SmartLink";
+import { ButtonLink } from "@/components/SmartLink";
+import { PopupLink } from "@/components/PopupLink";
 
 export const metadata = pageMeta({ title: "Neighborhoods", description: "Local resources for the six neighborhood areas of Council District 4.", route: "/neighborhoods/" });
 
@@ -27,10 +28,10 @@ export default function NeighborhoodsPage() {
             <h2 id="in-district" style={{ fontFamily: "var(--font-serif)", fontSize: "var(--step-2)" }}>Not sure you live in District 4?</h2>
             <p style={{ marginTop: "var(--s3)" }}>Some neighborhoods, including Reseda, Van Nuys, and Silver Lake, are split between Council Districts. Look up your address to confirm.</p>
             <div className="btn-row" style={{ marginTop: "var(--s4)" }}>
-              <ButtonLink href={site.districtMap.lookupUrl}>Find your Council District</ButtonLink>
+              <PopupLink className="btn" href={site.districtMap.lookupUrl}>Check my address</PopupLink>
               <ButtonLink href="/district-4/#map" variant="secondary">District map</ButtonLink>
             </div>
-            <p className="small muted" style={{ marginTop: "var(--s3)" }}>Lookup provided by the City of Los Angeles at <SmartLink href={site.districtMap.lookupUrl}>neighborhoodinfo.lacity.org</SmartLink>.</p>
+            <p className="small muted" style={{ marginTop: "var(--s3)" }}>Opens the City of Los Angeles address lookup in a small window.</p>
           </div>
         </section>
         <PageFoot title="Neighborhoods" />

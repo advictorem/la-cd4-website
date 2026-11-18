@@ -23,6 +23,14 @@ Nothing below has been done on production. Items marked **City** need a named Ci
 - [ ] Permission to use the LA City logo, seal, City Clerk logo and MyLA311 mark as placed.
 - [ ] Confirm the district outline graphic may be reused, or supply an approved map.
 
+## Data and imagery added in revision 2
+- [ ] Confirm usage rights for the home hero panorama (`public/images/cd4-hills-panorama.webp`).
+- [ ] City review of the six Wikimedia Commons neighborhood photos and their credit lines (`/photo-credits/`).
+- [ ] Weather/air-quality source: Open-Meteo's free tier is for non-commercial use with attribution. Confirm that fits City use, buy their plan, or switch to National Weather Service + AirNow (AirNow needs a free API key).
+- [ ] Confirm linking the weather readout to AccuWeather is acceptable for an official site.
+- [ ] Confirm the social accounts listed in the footer will continue after the representation transition.
+- [ ] Editorial approval of the home-page FAQ answers.
+
 ## Forms
 - [ ] Confirm the Indigov forms (assistance, sign-up) will keep their URLs, or supply the new ones.
 - [ ] Confirm who receives submissions during and after the transition.

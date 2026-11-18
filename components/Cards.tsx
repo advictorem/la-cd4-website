@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
+import { neighborhoodPhotos } from "@/content/images";
 import type { Topic, Neighborhood, HotTopic, ResourceLink, ColorFamily, IconName, Place } from "@/content/types";
 import { formatDate } from "@/lib/content-adapter";
 import { Icon } from "./Icon";
@@ -19,25 +21,47 @@ export function TopicCard({ topic, level = "h3" }: { topic: Topic; level?: "h2" 
   );
 }
 
+/** Photo tile: the whole tile is one link; the image zooms slightly on hover and focus. */
 export function NeighborhoodCard({ n }: { n: Neighborhood }) {
+  const photo = neighborhoodPhotos[n.slug];
   return (
-    <article className="card card--neighborhood">
-      <p className="eyebrow">{n.region}</p>
-      <h3><SmartLink className="card__link" href={`/neighborhood/${n.slug}/`}>{n.title}</SmartLink></h3>
-      <p>{n.overview[0]}</p>
-      <span className="card__foot">Local resources <Icon name="arrow" size={16} /></span>
+    <article className="tile">
+      {photo && <Image className="tile__img" src={photo.src} alt="" fill sizes="(min-width: 62rem) 33vw, (min-width: 40rem) 50vw, 100vw" />}
+      <div className="tile__body">
+        <h3><SmartLink className="tile__link" href={`/neighborhood/${n.slug}/`}>{n.title}</SmartLink></h3>
+        <p>{n.blurb}</p>
+      </div>
     </article>
   );
 }
 
-export function UpdateCard({ h, feature }: { h: HotTopic; feature?: boolean }) {
+/** "Latest"-style list of community updates: rule, category, title, date. */
+export function LatestList({ items }: { items: HotTopic[] }) {
   return (
-    <article className={`card card--update${feature ? " card--lead" : ""}`} data-color={h.color}>
-      <span className="chip"><Icon name={h.icon} size={14} />{h.kicker}</span>
-      <h3><SmartLink className="card__link" href={`/${h.slug}/`}>{h.title}</SmartLink></h3>
-      <p>{h.summary}</p>
-      <span className="card__foot small" style={{ color: "var(--muted)", fontWeight: 600 }}>Source information dated {formatDate(h.sourceUpdated, { year: "numeric", month: "long" })}</span>
-    </article>
+    <ul className="latest" role="list">
+      {items.map((h) => (
+        <li key={h.slug} className="latest__item">
+          <p className="latest__cat">{h.kicker}</p>
+          <h3><SmartLink href={`/${h.slug}/`}>{h.title}</SmartLink></h3>
+          <p className="latest__date"><span className="visually-hidden">Source information dated </span><time dateTime={h.sourceUpdated}>{formatDate(h.sourceUpdated, { year: "numeric", month: "short" })}</time></p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Cluster of topic buttons (no descriptions). Each keeps its icon so color is never the only cue. */
+export function TopicPills({ topics }: { topics: Topic[] }) {
+  return (
+    <ul className="pills" role="list">
+      {topics.map((t) => (
+        <li key={t.slug}>
+          <SmartLink className="pill" href={`/initiative/${t.slug}/`} data-color={t.color}>
+            <Icon name={t.icon} size={18} />{t.title}
+          </SmartLink>
+        </li>
+      ))}
+    </ul>
   );
 }
 

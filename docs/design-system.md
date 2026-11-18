@@ -63,6 +63,27 @@ Color never carries meaning alone: every colored element also has a text label a
 
 Focus is always a 3px navy outline with a white halo (gold on dark surfaces). Forced-colors mode keeps borders and current-state indicators.
 
+## Home page patterns (revision 2)
+
+| Pattern | Notes |
+| --- | --- |
+| Photo hero with parallax | `background-attachment: fixed` with a navy gradient over the left half so white text stays readable. Falls back to a normal background for reduced motion, touch devices and narrow screens. |
+| Header weather + air quality | `WeatherWidget` reads `/api/weather` (server route, cached 15 min). Line icons for sky condition and air. Shows nothing if no reading is available. Links to the AccuWeather hourly page for Encino. |
+| Global search | Search button at the end of the navigation row (beside Menu on small screens) opens one field under the header on every page; same prompt as the hero field. Escape closes and returns focus. |
+| Quick Resource Links | Six task tiles, no colored edge bars. |
+| District Checker | "Am I in District 4?" with the district outline map. The check opens the City's lookup in a small window (`PopupLink`), because the lookup forbids framing. |
+| Topic buttons | Ten outlined pill buttons, icon + title, no descriptions. |
+| Neighborhood photo tiles | Photo, gradient, title and one short sentence; image zooms on hover/focus (not under reduced motion). The same photo is the header background of each neighborhood page. |
+| Community Updates | "Latest"-style list: rule, category, title, date. Four most recent on the home page. |
+| FAQ | Native `<details>` accordion at the bottom of the home page. |
+| Footer social row | Single-color brand glyphs (Simple Icons, CC0) with text names for assistive technology. |
+
+Colored top and left edge bars were removed from all tiles and cards. Topic color now appears only in icons, tints and page headers.
+
+## Photography
+
+Credits and licenses are in `content/images.ts` and published at `/photo-credits/`. Neighborhood photos are from Wikimedia Commons (five CC BY-SA, one CC0), cropped and resized; CC BY-SA requires the credit to stay with the image and any adaptation to carry the same license. The home hero panorama was supplied by the project owner and its usage rights still need to be confirmed.
+
 ## City toolbar
 
 The supplied screenshot shows the toolbar on the current CD4 site: seal, LOS ANGELES, Sign Up for Updates, Windstorm & Fire Updates, 311 City Services, LA City Directory, Select Language. That bar is built into the CD4 WordPress theme; it is **not** what `navbar.lacity.org/global_nav.js` renders today.

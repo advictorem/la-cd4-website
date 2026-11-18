@@ -81,7 +81,7 @@ export const primaryNav: NavSection[] = [
       { links: [
         { label: "District geography & map", href: "/district-4/#map" },
         { label: "How the district office helps", href: "/district-4/#how-the-office-helps" },
-        { label: "Find your Council District", href: "https://neighborhoodinfo.lacity.org/" },
+        { label: "Find your Council District", href: "https://neighborhoodinfo.lacity.gov/" },
         { label: "Office of the City Clerk", href: "https://clerk.lacity.gov/" },
       ] },
     ],

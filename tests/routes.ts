@@ -6,7 +6,7 @@ export const requiredRoutes = [
   "/city-service/for-residents/", "/city-service/for-businesses/", "/city-service/emergency-services/",
   "/sign-up/", "/grant-requests/", "/transit-traffic-safety-requests/", "/scheduling-requests/",
   "/immigrant-rights-resources/", "/wildfire-recovery-resources/", "/hollywood-hills-tourism/", "/forest-lawn-dr-safety-mobility-project/", "/valley-lariverway-project/",
-  "/press-releases/", "/newsletters/", "/search/", "/site-map/", "/event/clockshop-night-hike/",
+  "/press-releases/", "/newsletters/", "/search/", "/site-map/", "/photo-credits/", "/event/clockshop-night-hike/",
 ];
 
 /** One page per template, for accessibility and layout checks. */
