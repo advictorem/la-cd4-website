@@ -3,9 +3,9 @@ import { Icon } from "./Icon";
 import { SmartLink } from "./SmartLink";
 
 /** FAQ accordion built on native <details>, so it works without JavaScript and with every input method. */
-export function FaqList({ items }: { items: Faq[] }) {
+export function FaqList({ items, compact }: { items: Faq[]; compact?: boolean }) {
   return (
-    <div className="faq">
+    <div className={`faq${compact ? " faq--compact" : ""}`}>
       {items.map((f) => (
         <details key={f.q} className="faq__item">
           <summary><span>{f.q}</span><Icon name="chevron" size={22} /></summary>

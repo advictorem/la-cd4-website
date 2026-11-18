@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { content, splitEvents, todayLA } from "@/lib/content-adapter";
 import { site } from "@/content/site";
-import { faqs } from "@/content/faqs";
+import { faqCategories } from "@/content/faqs";
 import { heroPhoto } from "@/content/images";
 import { primaryNav } from "@/content/navigation";
 import { SiteSearch } from "@/components/SiteSearch";
@@ -166,9 +166,22 @@ export default function HomePage() {
       </section>
 
       <section className="section" aria-labelledby="faq-title">
-        <div className="container faq-wrap">
-          <h2 id="faq-title">Frequently Asked Questions</h2>
-          <FaqList items={faqs} />
+        <div className="container">
+          <div className="latest-head">
+            <h2 id="faq-title">Frequently Asked Questions</h2>
+            <SmartLink className="arrow-link" href="/faq/">All questions <Icon name="arrow" size={16} /></SmartLink>
+          </div>
+          <div className="faq-cats">
+            {faqCategories.map((cat) => (
+              <section key={cat.id} aria-labelledby={`faq-${cat.id}`}>
+                <h3 id={`faq-${cat.id}`} className="faq-cats__title">{cat.title}</h3>
+                <FaqList items={cat.items.filter((f) => f.featured)} compact />
+              </section>
+            ))}
+          </div>
+          <div className="btn-row" style={{ marginTop: "var(--s6)" }}>
+            <ButtonLink href="/faq/" variant="secondary">Read more FAQs</ButtonLink>
+          </div>
         </div>
       </section>
     </>

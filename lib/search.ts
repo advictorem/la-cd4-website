@@ -6,7 +6,7 @@
 import { content, formatDate } from "./content-adapter";
 import { site } from "@/content/site";
 import type { ResourceLink } from "@/content/types";
-import { faqs } from "@/content/faqs";
+import { faqs, faqCategories } from "@/content/faqs";
 
 export interface SearchDoc { url: string; title: string; section: string; description: string; body: string; keywords: string }
 export interface SearchHit { url: string; title: string; section: string; snippet: string; score: number }
@@ -21,7 +21,7 @@ export function buildIndex(): SearchDoc[] {
   const add = (d: SearchDoc) => docs.push({ ...d, body: d.body.replace(/\s+/g, " ").trim() });
 
   add({ url: "/", title: "Council District 4", section: "Home", description: site.description, keywords: "home cd4 district 4",
-    body: `${site.description} Get in touch with us. Report a City issue. Quick resource links: request assistance, MyLA311, emergency information, housing and renter help, street and traffic requests, business resources. District checker: am I in District 4? Frequently asked questions. ${faqs.map((f) => `${f.q} ${f.a}`).join(" ")}` });
+    body: `${site.description} Get in touch with us. Report a City issue. Quick resource links: request assistance, MyLA311, emergency information, housing and renter help, street and traffic requests, business resources. District checker: am I in District 4? Frequently asked questions: ${faqs.filter((f) => f.featured).map((f) => f.q).join(" ")}` });
   add({ url: "/city-services/", title: "City Services", section: "City Services", description: "Services for residents and businesses, emergency services, and MyLA311.", keywords: "311 services report request",
     body: `MyLA311 connects you to City services. ${site.myla311.phoneLabel}. ${content.serviceCategories().map((c) => `${c.title}: ${c.summary}`).join(" ")}` });
   add({ url: "/topics-resources/", title: "Topics & Resources", section: "Topics & Resources", description: "Ten resource guides to City programs and the agencies that run them.", keywords: "initiatives topics resources",
@@ -34,6 +34,8 @@ export function buildIndex(): SearchDoc[] {
     body: content.events().map((e) => `${e.title} ${formatDate(e.date)}`).join(". ") });
   add({ url: "/district-4/", title: "About Council District 4", section: "About CD4", description: "Geography of the district and how the district office serves residents.", keywords: "about map boundaries redistricting bridge district",
     body: "Council District 4 extends from the San Fernando Valley across the Santa Monica Mountains to central Los Angeles. Silver Lake, Los Feliz, Hollywood Hills, Studio City, Sherman Oaks, Van Nuys, Encino, Reseda. Hollywood Bowl, Ford Theatre, Griffith Observatory, Hollywood Sign, Ventura Boulevard, Hillhurst Avenue. District boundaries adopted December 2021, effective January 1, 2022. Office of the City Clerk." });
+  add({ url: "/faq/", title: "Frequently asked questions", section: "About CD4", description: "Answers to common questions about housing, safety, and contacting the district office.", keywords: "faq questions answers help",
+    body: faqCategories.map((c) => `${c.title}. ${c.items.map((f) => `${f.q} ${f.a}`).join(" ")}`).join(" ") });
   add({ url: "/press-releases/", title: "Press release archive (2020–2026)", section: "Archive", description: "Historical press releases and statements, with original dates.", keywords: "archive press statements",
     body: content.pressReleases().map((p) => p.title).join(". ") });
   add({ url: "/newsletters/", title: "Newsletter archive (2020–2026)", section: "Archive", description: "Historical district newsletters, with original dates.", keywords: "archive newsletter",

@@ -14,7 +14,7 @@ const sectionFor = (path: string): string | null => {
   if (/^\/(city-services|city-service)\//.test(path)) return "services";
   if (/^\/(topics-resources|initiative)\//.test(path)) return "topics";
   if (/^\/(neighborhoods|neighborhood)\//.test(path)) return "neighborhoods";
-  if (/^\/(district-4)\//.test(path)) return "about";
+  if (/^\/(district-4|faq)\//.test(path)) return "about";
   if (/^\/(need-help|sign-up|grant-requests|scheduling-requests|transit-traffic-safety-requests)\//.test(path)) return "contact";
   if (/^\/(news|events|event|press-releases|newsletters|immigrant-rights-resources|wildfire-recovery-resources|hollywood-hills-tourism|forest-lawn-dr-safety-mobility-project|valley-lariverway-project)\//.test(path)) return "news";
   return null;

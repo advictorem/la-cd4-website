@@ -82,7 +82,8 @@ export const site = {
     longitude: -118.501,
     /** From accuweather.com/en/us/encino/91316/…/327083 */
     accuWeatherLocationKey: "327083",
-    credits: { AccuWeather: "Powered by AccuWeather", "Open-Meteo": "Weather data by Open-Meteo" } as Record<string, string>,
+    /** Credit shown under the header readout, by data source. Open-Meteo is credited in the footer only. */
+    credits: { AccuWeather: "Powered by AccuWeather" } as Record<string, string>,
     attribution: { label: "Weather and air-quality data: Open-Meteo.com", href: "https://open-meteo.com/" },
   },
 

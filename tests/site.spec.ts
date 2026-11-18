@@ -241,7 +241,8 @@ test.describe("content rules", () => {
     const archive = ["/press-releases/", "/newsletters/", "/news/"];
     for (const route of requiredRoutes.filter((r) => !archive.includes(r) && !r.startsWith("/search"))) {
       await page.goto(route);
-      const text = (await page.locator("body").innerText()).replace(/councilmember-nithyaraman/g, "");
+      // "Contact Our Office" is an approved FAQ category title; other first-person office language is still disallowed.
+      const text = (await page.locator("body").innerText()).replace(/councilmember-nithyaraman/g, "").replace(/Contact Our Office/gi, "");
       expect(text, route).not.toMatch(/\bRaman\b|\bNithya\b|\bmy office\b|\bour office\b|\bI look forward\b/i);
     }
   });
@@ -317,13 +318,22 @@ test.describe("home page sections", () => {
     await expect(page.getByRole("link", { name: /View the district map/ })).toHaveCount(0);
     expect(await page.locator("form.address-check").getAttribute("action")).toBeNull(); // nothing is posted to this site
   });
-  test("FAQ answers open and close", async ({ page }) => {
+  test("FAQ: three categories on the home page, with a button to the full FAQ page in About", async ({ page }) => {
     await page.goto("/");
+    await expect(page.locator(".faq-cats__title")).toHaveText(["Housing", "Safety", "Contact Our Office"]);
     const first = page.locator(".faq__item").first();
     await expect(first.locator(".faq__answer")).toBeHidden();
     await first.locator("summary").click();
     await expect(first.locator(".faq__answer")).toBeVisible();
-    expect(await page.locator(".faq__item").count()).toBeGreaterThanOrEqual(6);
+    const homeCount = await page.locator(".faq__item").count();
+    await page.getByRole("link", { name: "Read more FAQs" }).click();
+    await expect(page).toHaveURL(/\/faq\/$/);
+    await expect(page.locator("main h2").filter({ hasText: /^(Housing|Safety|Contact Our Office)$/ })).toHaveCount(3);
+    expect(await page.locator(".faq__item").count()).toBeGreaterThan(homeCount);
+    await expect(page.locator("#nav-btn-about")).toContainText("current section");
+    await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("About CD4");
+    await page.locator("#nav-btn-about").click();
+    await expect(page.locator("#nav-panel-about").getByRole("link", { name: "Frequently asked questions" })).toHaveAttribute("href", "/faq/");
   });
   test("footer lists every social network with a named, single-color logo", async ({ page }) => {
     await page.goto("/district-4/");
@@ -356,10 +366,11 @@ test.describe("weather widget", () => {
     await expect(page.locator("a.weather")).toHaveCount(0);
     await expect(w.locator(".weather__credit")).toHaveText("Powered by AccuWeather");
     await expect(w.locator("svg").first()).toHaveAttribute("fill", "none"); // line icon
-    // The credit never claims AccuWeather when another service supplied the reading.
+    // The header never claims AccuWeather when another service supplied the reading.
     await page.route("**/api/weather/", (r) => r.fulfill({ json: { tempF: 60, condition: "Cloudy", kind: "cloud", isDay: true, aqi: null, aqiCategory: null, source: "Open-Meteo" } }));
     await page.reload();
-    await expect(page.locator(".weather__credit")).toHaveText("Weather data by Open-Meteo");
+    await expect(page.locator(".weather__credit")).toHaveCount(0); // Open-Meteo is credited in the footer only
+    await expect(page.locator(".site-footer")).toContainText("Open-Meteo");
   });
   test("renders nothing when the source is unavailable", async ({ page }) => {
     await page.route("**/api/weather/", (r) => r.fulfill({ status: 503, json: { error: "unavailable" } }));

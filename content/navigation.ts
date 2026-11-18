@@ -79,6 +79,7 @@ id: "neighborhoods", label: "Neighborhoods", href: "/neighborhoods/", overview: 
       { links: [
         { label: "District geography & map", href: "/district-4/#map" },
         { label: "How the district office helps", href: "/district-4/#how-the-office-helps" },
+        { label: "Frequently asked questions", href: "/faq/" },
         { label: "Find your Council District", href: "https://neighborhoodinfo.lacity.gov/" },
         { label: "Office of the City Clerk", href: "https://clerk.lacity.gov/" },
       ] },

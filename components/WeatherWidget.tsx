@@ -58,7 +58,8 @@ export function WeatherWidget() {
           </span>
         )}
       </p>
-      <p className="weather__credit">{site.weather.credits[r.source] ?? ""}</p>
+      {/* Only a required brand credit is shown here; the Open-Meteo attribution is in the footer. */}
+      {site.weather.credits[r.source] && <p className="weather__credit">{site.weather.credits[r.source]}</p>}
     </div>
   );
 }

@@ -68,7 +68,7 @@ Focus is always a 3px navy outline with a white halo (gold on dark surfaces). Fo
 | Pattern | Notes |
 | --- | --- |
 | Photo hero with parallax | `HeroParallax` shifts a taller photo layer at 35% of scroll speed, so the image scrolls more slowly than the content. A navy gradient keeps white text readable. No movement under reduced motion or when "Pause motion" is on. |
-| Header weather + air quality | `WeatherWidget` reads `/api/weather` (server route, cached 15 min). Line icons, not a link. The small grey credit names the service that supplied the reading: "Powered by AccuWeather" when `ACCUWEATHER_API_KEY` is set, otherwise "Weather data by Open-Meteo". |
+| Header weather + air quality | `WeatherWidget` reads `/api/weather` (server route, cached 15 min). Line icons, not a link. A small grey "Powered by AccuWeather" credit appears under it only when `ACCUWEATHER_API_KEY` is set and AccuWeather supplied the reading. Open-Meteo is credited in the footer. |
 | Global search | Search button at the end of the navigation row (beside Menu on small screens) opens one field under the header on every page; same prompt as the hero field. Escape closes and returns focus. |
 | Quick Resource Links | Six task tiles, no colored edge bars. |
 | District Checker | "Am I in District 4?" with the district outline map and an address field (`AddressCheck`). "Check" opens the City's lookup in a small window with the address in the URL fragment, which the lookup reads and searches. Google Places suggestions appear when `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` is set. Nothing typed is sent to this site. |
@@ -78,7 +78,7 @@ Focus is always a 3px navy outline with a white halo (gold on dark surfaces). Fo
 | Topic buttons | Ten outlined pill buttons, icon + title, no descriptions. |
 | Neighborhood photo tiles | Photo, gradient, title and one short sentence; image zooms on hover/focus (not under reduced motion). The same photo is the header background of each neighborhood page. |
 | Community Updates | "Latest"-style list: rule, category, title, date. Four most recent on the home page. |
-| FAQ | Native `<details>` accordion at the bottom of the home page. |
+| FAQ | Native `<details>` accordions. The home page shows two questions in each of three categories (Housing, Safety, Contact Our Office) with a "Read more FAQs" button; the full list is at `/faq/`, under About CD4. |
 | Footer social row | Single-color brand glyphs (Simple Icons, CC0) with text names for assistive technology. |
 
 Colored top and left edge bars were removed from all tiles and cards. Topic color now appears only in icons, tints and page headers.
