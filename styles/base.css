@@ -1,0 +1,59 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: 1rem; }
+body { margin: 0; font-family: var(--font-sans); font-size: var(--step-0); line-height: 1.6; color: var(--ink); background: var(--paper); overflow-wrap: break-word; }
+h1, h2, h3, h4 { margin: 0; line-height: 1.15; color: var(--ink); text-wrap: balance; }
+h1, h2 { font-family: var(--font-serif); font-weight: 600; letter-spacing: -0.012em; }
+h1 { font-size: var(--step-4); }
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-1); font-weight: 700; line-height: 1.3; }
+h4 { font-size: var(--step-0); font-weight: 700; }
+p, ul, ol, dl, figure, address { margin: 0; }
+address { font-style: normal; }
+ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
+img, svg { max-width: 100%; }
+img { height: auto; display: block; }
+a { color: var(--blue-700); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+a:hover { color: var(--blue-600); text-decoration-thickness: 2px; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: var(--focus); outline-offset: 2px; box-shadow: 0 0 0 5px #fff; border-radius: 2px; }
+.on-dark :focus-visible { outline-color: var(--city-gold); box-shadow: 0 0 0 5px var(--city-navy); }
+::selection { background: var(--city-gold); color: var(--city-navy); }
+hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
+
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.skip-link { position: absolute; left: var(--s4); top: -6rem; z-index: 1000; background: var(--city-gold); color: var(--city-navy); font-weight: 700; padding: var(--s3) var(--s4); border-radius: var(--radius-s); }
+.skip-link:focus { top: var(--s2); }
+
+.container { width: 100%; max-width: calc(var(--max) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+.section--wash { background: var(--wash); }
+.section--cream { background: var(--cream); }
+.section--tight { padding-block: clamp(1.5rem, 4vw, 2.5rem); }
+.stack > * + * { margin-top: var(--flow, var(--s4)); }
+.prose { max-width: var(--measure); }
+.prose > * + * { margin-top: var(--s4); }
+.prose h2 { margin-top: var(--s7); }
+.prose h3 { margin-top: var(--s6); }
+.prose ul, .prose ol { padding-left: 1.25rem; }
+.prose li + li { margin-top: var(--s2); }
+.lede { font-size: var(--step-1); line-height: 1.5; color: var(--ink-2); max-width: 60ch; }
+.muted { color: var(--muted); }
+.small { font-size: var(--step--1); }
+.eyebrow { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-ink, var(--muted)); }
+
+.grid { display: grid; gap: var(--s5); }
+@media (min-width: 40rem) { .grid--2, .grid--3, .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 62rem) { .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.split { display: grid; gap: var(--s7) var(--s8); }
+@media (min-width: 62rem) { .split { grid-template-columns: minmax(0, 1fr) 20rem; align-items: start; } .split--even { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.section-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--s3) var(--s5); margin-bottom: var(--s6); }
+.section-head p { max-width: 56ch; color: var(--muted); margin-top: var(--s2); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+@media print {
+  .city-bar, .site-nav, .site-search, .share, .staging-banner, .skip-link, .menu-toggle { display: none !important; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; word-break: break-all; }
+}

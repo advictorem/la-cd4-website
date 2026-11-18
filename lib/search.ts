@@ -64,13 +64,14 @@ const STOP = new Set(["the", "a", "an", "and", "or", "of", "to", "in", "for", "o
 const norm = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9\s-]/g, " ");
 export const tokenize = (q: string) => norm(q).split(/\s+/).filter((t) => t.length > 1 && !STOP.has(t)).slice(0, 8);
 
-function count(hay: string, needle: string) { let n = 0, i = 0; while ((i = hay.indexOf(needle, i)) !== -1) { n++; i += needle.length; } return n; }
+/** Occurrences of needle at the start of a word ("grant" matches "grants", not "immigrant"). */
+function count(hay: string, needle: string) { let n = 0, i = 0; while ((i = hay.indexOf(needle, i)) !== -1) { if (i === 0 || !/[a-z0-9]/.test(hay[i - 1])) n++; i += needle.length; } return n; }
 
 function snippet(doc: SearchDoc, terms: string[]): string {
   const text = doc.body || doc.description;
   const lower = norm(text);
   let pos = -1;
-  for (const t of terms) { pos = lower.indexOf(t); if (pos !== -1) break; }
+  for (const t of terms) { const m = new RegExp(`(^|[^a-z0-9])${t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`).exec(lower); if (m) { pos = m.index + m[1].length; break; } }
   if (pos === -1) return doc.description;
   const start = Math.max(0, text.lastIndexOf(" ", Math.max(0, pos - 70)) + 1);
   const end = Math.min(text.length, pos + 150);

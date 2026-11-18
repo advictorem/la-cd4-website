@@ -1,0 +1,66 @@
+/* Design tokens — documented in docs/design-system.md.
+   Sources: City toolbar screenshot (navy, gold), live cd4.lacity.gov theme (blue, coral, gold, cream, district-map hues). */
+:root {
+  /* Institutional */
+  --city-navy: #04184a;        /* City toolbar background (sampled from reference screenshot) */
+  --city-gold: #ffc24b;        /* "Sign Up for Updates" pill (sampled from reference screenshot) */
+  --blue-900: #14265e;
+  --blue-700: #24418f;         /* live CD4 theme blue — primary actions and links */
+  --blue-600: #1b3373;         /* hover/active for primary */
+  --blue-100: #e6ecf8;
+  --blue-50: #f3f6fc;
+  --coral: #e66948;            /* live CD4 theme accent — decorative rules only (3.3:1) */
+
+  /* Neutrals */
+  --ink: #1a1e27;
+  --ink-2: #313131;            /* live theme body text */
+  --muted: #565a5e;            /* 7.0:1 on white */
+  --line: #d6d9df;
+  --line-strong: #858b95;      /* 3.4:1 on white: borders that carry meaning */
+  --paper: #ffffff;
+  --cream: #faf8f0;            /* from live theme cream #fafae1, desaturated */
+  --wash: #f4f5f7;
+
+  /* Topic families: ink ≥ 7:1 on white and ≥ 4.5:1 on its tint; accent ≥ 3:1 on white */
+  --green-ink: #1c5a37;   --green-accent: #3d8a50;   --green-tint: #e9f4ea;
+  --purple-ink: #4a2982;  --purple-accent: #603fb0;  --purple-tint: #f0ebfa;
+  --terracotta-ink: #93361a; --terracotta-accent: #cb5230; --terracotta-tint: #fceee8;
+  --teal-ink: #0b575f;    --teal-accent: #177f89;    --teal-tint: #e3f3f4;
+  --amber-ink: #744600;   --amber-accent: #b06a00;   --amber-tint: #fdf2d9;
+  --slate-ink: #354458;   --slate-accent: #5b6d85;   --slate-tint: #edf0f4;
+  --ochre-ink: #6d4f0d;   --ochre-accent: #a27818;   --ochre-tint: #f8f1de;
+  --red-ink: #981b1b;     --red-accent: #c42e2e;     --red-tint: #fdebeb;
+
+  /* Type */
+  --font-sans: "Public Sans Variable", "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Source Serif 4 Variable", "Source Serif 4", Georgia, "Times New Roman", serif;
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.25rem;
+  --step-2: clamp(1.375rem, 1.2rem + 0.8vw, 1.625rem);
+  --step-3: clamp(1.625rem, 1.3rem + 1.5vw, 2.25rem);
+  --step-4: clamp(2.125rem, 1.5rem + 3vw, 3.5rem);
+
+  /* Space (4px base) */
+  --s1: 0.25rem; --s2: 0.5rem; --s3: 0.75rem; --s4: 1rem; --s5: 1.5rem; --s6: 2rem; --s7: 3rem; --s8: 4rem; --s9: 6rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --max: 76rem;
+  --measure: 68ch;
+
+  --radius-s: 4px; --radius-m: 8px; --radius-pill: 999px;
+  --shadow-menu: 0 12px 32px rgb(4 24 74 / 0.16), 0 0 0 1px rgb(4 24 74 / 0.08);
+  --focus: 3px solid var(--city-navy);
+  --city-bar-h: 47px;          /* height specified by navbar.lacity.org */
+  --ease: 160ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Color families: components read --c-ink / --c-accent / --c-tint */
+[data-color], :root { --c-ink: var(--blue-700); --c-accent: var(--blue-700); --c-tint: var(--blue-100); }
+[data-color="green"] { --c-ink: var(--green-ink); --c-accent: var(--green-accent); --c-tint: var(--green-tint); }
+[data-color="purple"] { --c-ink: var(--purple-ink); --c-accent: var(--purple-accent); --c-tint: var(--purple-tint); }
+[data-color="terracotta"] { --c-ink: var(--terracotta-ink); --c-accent: var(--terracotta-accent); --c-tint: var(--terracotta-tint); }
+[data-color="teal"] { --c-ink: var(--teal-ink); --c-accent: var(--teal-accent); --c-tint: var(--teal-tint); }
+[data-color="amber"] { --c-ink: var(--amber-ink); --c-accent: var(--amber-accent); --c-tint: var(--amber-tint); }
+[data-color="slate"] { --c-ink: var(--slate-ink); --c-accent: var(--slate-accent); --c-tint: var(--slate-tint); }
+[data-color="ochre"] { --c-ink: var(--ochre-ink); --c-accent: var(--ochre-accent); --c-tint: var(--ochre-tint); }
+[data-color="red"] { --c-ink: var(--red-ink); --c-accent: var(--red-accent); --c-tint: var(--red-tint); }
