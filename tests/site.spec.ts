@@ -278,13 +278,12 @@ test.describe("home page sections", () => {
     await expect(page.locator(".pills .pill")).toHaveCount(10);
     await expect(page.locator(".pills p")).toHaveCount(0);
   });
-  test("neighborhood tiles have photos and short, even descriptions", async ({ page }) => {
+  test("neighborhood tiles have photos and show only the name at 36px", async ({ page }) => {
     await page.goto("/");
     const tiles = page.locator(".tile");
     await expect(tiles).toHaveCount(6);
-    const lens = await tiles.locator("p").evaluateAll((ps) => ps.map((p) => p.textContent!.length));
-    expect(Math.max(...lens)).toBeLessThanOrEqual(80);
-    expect(Math.max(...lens) - Math.min(...lens)).toBeLessThanOrEqual(12);
+    await expect(tiles.locator("p")).toHaveCount(0); // names only
+    await expect(tiles.locator("h3").first()).toHaveCSS("font-size", "36px");
     for (const img of await tiles.locator("img").all()) { await img.scrollIntoViewIfNeeded(); await expect.poll(() => img.evaluate((i: HTMLImageElement) => i.naturalWidth)).toBeGreaterThan(0); }
     await page.goto("/neighborhood/reseda/");
     await expect(page.locator(".page-header--photo")).toHaveCSS("background-image", /reseda-v2\.webp/);

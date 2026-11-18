@@ -184,7 +184,7 @@ a.city-bar__link, button.city-bar__link { display: inline-flex; align-items: cen
 .tile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgb(10 16 30 / 0) 30%, rgb(10 16 30 / 0.55) 58%, rgb(10 16 30 / 0.88) 100%); }
 .tile:hover .tile__img, .tile:focus-within .tile__img { transform: scale(1.07); }
 .tile__body { padding: var(--s5); color: #fff; width: 100%; }
-.tile h3, .tile h2 { font-family: var(--font-serif); font-weight: 600; font-size: var(--step-2); color: #fff; }
+.tile h3, .tile h2 { font-family: var(--font-serif); font-weight: 600; font-size: 2.25rem; line-height: 1.1; color: #fff; text-shadow: 0 1px 10px rgb(10 16 30 / 0.5); } /* 36px */
 .tile__link { color: #fff; text-decoration: none; }
 .tile__link::after { content: ""; position: absolute; inset: 0; border-radius: 1rem; }
 .tile__link:hover { color: #fff; text-decoration: underline; text-decoration-thickness: 2px; }
