@@ -12,7 +12,7 @@ Target: WCAG 2.2 AA as the quality bar; at minimum WCAG 2.1 AA, the technical st
 - Color: token pairs are checked by script (`npm run check:contrast`); color is never the only signal.
 - Events: chronological list is the default and always available; in the calendar, empty days are plain text and only days with events contain links; month changes are announced.
 - Search results, no-results, copy-link, embed loading and calendar month status use polite live regions.
-- External links have a visible icon and "(external site)" text for screen readers; links do not force new tabs.
+- External links open in a new tab (owner request). Each has a visible icon and "(external site, opens in a new tab)" text for screen readers, and `rel="noopener noreferrer"`. Internal links stay in the same tab.
 - Third-party forms and the map load only on request, in titled iframes, with a direct link as the fallback.
 - `prefers-reduced-motion` removes transitions; `forced-colors` keeps borders and current-state indicators; text reflows at 320 CSS px.
 - `lang="en"` on the document; language-menu entries carry their own `lang`.

@@ -123,7 +123,8 @@ Use of each mark needs City approval (see the launch checklist).
 |---|---|
 | Order | Header photo, then Local Resources straight away (no "About" text), Projects and Updates, Related Topics, Share This Page. No review line or photo credit on the page; credits are on `/photo-credits/`. |
 | Local Resources | Four `PlaceList` blocks in a 2 x 2 grid (one column on phones). Each has a 16:9 stock photo above a Title Case heading; no icons. The photos are decorative (`alt=""`) and are the same on every neighborhood page (`resourcePhotos` in `content/images.ts`). |
-| MyLA311 box (`Report311`) | Light blue panel in the MyLA311 logo blue (`#00609a` button, `#e3f1f9` background) with the official logo, unaltered. Large heading, full-width "Open MyLA311" button, then "or Contact the district office directly" with the office phone from `site.contact`. |
+| MyLA311 box (`Report311`) | Light blue panel in the MyLA311 logo blue (`#00609a` button, `#e3f1f9` background) with the official logo, unaltered. Large heading, full-width "Open MyLA311" button, then "Or contact MyLA311 by dialing 311 or (213) 473-3231". Logo shown at 78 x 72. |
 | Sticky column | From 62rem up, the MyLA311 box and Other Neighborhoods stay 16px from the top while the left column scrolls, and release where Related Topics begins. Not sticky on smaller screens. |
+| Projects and Updates | Featured band: light wash background, navy top rule, 36px heading with a pin icon in a navy circle. |
 | Related Topics | `TopicCard filled`: card filled with the topic tint, white icon box, no border; the accent outline appears only on hover and keyboard focus. |
 

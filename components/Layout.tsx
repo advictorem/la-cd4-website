@@ -103,14 +103,13 @@ export function ContactActions({ heading = "Need help with a City service?" }: {
 
 /** MyLA311 call to action in the MyLA311 blue, with the official logo (neighborhood pages). */
 export function Report311({ heading = "Report a problem in this area" }: { heading?: string }) {
-  const c = site.contact;
   return (
     <aside className="report311" aria-label="Report a problem">
-      <Image src="/brand/myla311-logo.png" alt="MyLA311" width={87} height={80} />
+      <Image src="/brand/myla311-logo.png" alt="MyLA311" width={78} height={72} />
       <h2>{heading}</h2>
       <p>Request City services such as pothole repair, graffiti removal, and bulky-item pickup.</p>
       <SmartLink href={site.myla311.web} className="btn report311__btn">Open MyLA311</SmartLink>
-      <p className="report311__or"><span>or</span> <SmartLink href="/need-help/">Contact the district office</SmartLink> directly at <a href={c.phoneHref}>{c.phone}</a></p>
+      <p className="report311__or">Or contact MyLA311 by dialing <a href="tel:311">311</a> or <a href="tel:+12134733231">(213) 473-3231</a></p>
     </aside>
   );
 }

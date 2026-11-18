@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { content } from "@/lib/content-adapter";
 import { pageMeta } from "@/lib/metadata";
 import { PageHeader, PageFoot, Report311 } from "@/components/Layout";
+import { Icon } from "@/components/Icon";
 import { PlaceList, LatestList, TopicCard } from "@/components/Cards";
 import { SmartLink } from "@/components/SmartLink";
 import { neighborhoodPhotos, resourcePhotos } from "@/content/images";
@@ -38,8 +39,8 @@ export default async function NeighborhoodPage({ params }: { params: Promise<{ s
               <p className="small muted" style={{ marginTop: "var(--s5)" }}>Listings are carried over from the current CD4 website and are being re-confirmed. For emergencies call 911; do not rely on station phone numbers.</p>
             </section>
             {projects.length > 0 && (
-              <section aria-labelledby="projects" style={{ marginTop: "var(--s8)" }}>
-                <h2 id="projects" style={{ fontSize: "var(--step-2)", marginBottom: "var(--s5)" }}>Projects and Updates in This Area</h2>
+              <section aria-labelledby="projects" className="projects-feature">
+                <h2 id="projects"><span className="projects-feature__icon"><Icon name="pin" size={26} /></span>Projects and Updates in This Area</h2>
                 <LatestList items={projects} />
               </section>
             )}

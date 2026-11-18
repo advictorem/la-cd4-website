@@ -19,8 +19,8 @@ export function AccessibleEmbed({ title, src, fallbackUrl, provider, height = 90
         <p className="small muted">{privacyNote}</p>
         <div className="btn-row">
           {state === "idle" && <button type="button" className="btn" onClick={() => setState("loading")}>{loadLabel}</button>}
-          <a className={`btn ${state === "idle" ? "btn--secondary" : ""}`} href={fallbackUrl} rel="noopener noreferrer">
-            Open on {provider}<Icon name="external" size={16} /><span className="visually-hidden"> (external site)</span>
+          <a className={`btn ${state === "idle" ? "btn--secondary" : ""}`} href={fallbackUrl} target="_blank" rel="noopener noreferrer">
+            Open on {provider}<Icon name="external" size={16} /><span className="visually-hidden"> (external site, opens in a new tab)</span>
           </a>
         </div>
         <p className="small" role="status" aria-live="polite">{state === "loading" ? `Loading ${title}…` : state === "ready" ? `${title} loaded below.` : ""}</p>

@@ -11,15 +11,15 @@ type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & { href: str
  * One link component for the whole site.
  * Internal links use the Next.js router; external links get rel protection,
  * a visible icon and a text alternative so the destination change is announced.
- * Links open in the same tab so the Back button keeps working.
+ * External links open in a new tab, and say so in their accessible name; internal links stay in the same tab.
  */
 export function SmartLink({ href, children, showIcon = true, ...rest }: Props) {
   if (isExternal(href)) {
     return (
-      <a href={href} rel="noopener noreferrer" {...rest}>
+      <a href={href} target="_blank" rel="noopener noreferrer" {...rest}>
         {children}
         {showIcon && <Icon name="external" size={14} className="ext-icon" />}
-        <span className="visually-hidden"> (external site)</span>
+        <span className="visually-hidden"> (external site, opens in a new tab)</span>
       </a>
     );
   }

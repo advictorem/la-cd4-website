@@ -13,7 +13,7 @@ export function Footer() {
           <ul role="list">
             {c.social.map((sn) => (
               <li key={sn.label}>
-                <a href={sn.href} rel="noopener noreferrer" aria-label={`Council District 4 on ${sn.label} (external site)`}>
+                <a href={sn.href} target="_blank" rel="noopener noreferrer" aria-label={`Council District 4 on ${sn.label} (external site, opens in a new tab)`}>
                   {/* Single-color brand glyphs from Simple Icons (CC0). */}
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d={(socialIcons as Record<string, string>)[sn.label]} /></svg>
                 </a>

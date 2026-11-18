@@ -258,7 +258,7 @@ test.describe("content rules", () => {
     await context.grantPermissions(["clipboard-read", "clipboard-write"]);
     await page.goto("/initiative/parks/");
     await page.getByRole("button", { name: "Copy link" }).click();
-    await expect(page.locator(".share__status")).toHaveText("Link copied");
+    await expect(page.locator(".share__status")).toHaveText("URL link copied to clipboard");
     expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/\/initiative\/parks\/$/);
     await expect(page.getByRole("link", { name: "Email" })).toHaveAttribute("href", /^mailto:\?subject=/);
     await expect(page.locator(".share").getByRole("button", { name: /More/ })).toHaveCount(0);
@@ -346,7 +346,7 @@ test.describe("home page sections", () => {
     await page.goto("/district-4/");
     const links = page.locator(".site-footer__social a");
     await expect(links).toHaveCount(5);
-    for (const n of ["Instagram", "Facebook", "X", "TikTok", "Bluesky"]) await expect(page.getByRole("link", { name: `Council District 4 on ${n} (external site)` })).toBeVisible();
+    for (const n of ["Instagram", "Facebook", "X", "TikTok", "Bluesky"]) await expect(page.getByRole("link", { name: `Council District 4 on ${n} (external site, opens in a new tab)` })).toBeVisible();
     await expect(links.first().locator("svg")).toHaveAttribute("fill", "currentColor");
   });
   test("tiles no longer carry colored edge bars", async ({ page }) => {
@@ -550,8 +550,12 @@ test.describe("neighborhood pages", () => {
       await expect(box).toHaveCSS("background-color", "rgb(227, 241, 249)");
       await expect(box.getByRole("heading", { name: "Report a problem in this area" })).toBeVisible();
       await expect(box.getByRole("link", { name: /Open MyLA311/ })).toHaveAttribute("href", "https://myla311.lacity.gov/");
-      await expect(box.getByRole("link", { name: "Contact the district office" })).toHaveAttribute("href", "/need-help/");
-      await expect(box.locator('a[href^="tel:"]')).toHaveText("213-473-7004");
+      await expect(box.locator(".report311__or")).toHaveText("Or contact MyLA311 by dialing 311 or (213) 473-3231");
+      await expect(box.locator('a[href="tel:+12134733231"]')).toHaveText("(213) 473-3231");
+      await expect(box.locator("img")).toHaveCSS("width", "78px");
+      await expect(box.getByRole("link", { name: /Open MyLA311/ })).toHaveAttribute("target", "_blank");
+      const proj = main.locator(".projects-feature h2");
+      if (await proj.count()) { await expect(proj).toHaveCSS("font-size", "36px"); await expect(proj.locator("svg")).toHaveCount(1); }
       // Related topics: filled with the topic tint, no visible outline until hover.
       const card = main.locator(".card--filled").first();
       await expect(main.locator(".card--filled")).toHaveCount(3);

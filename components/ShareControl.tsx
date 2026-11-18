@@ -12,7 +12,7 @@ export function ShareControl({ title }: { title: string }) {
   async function copy() {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      setStatus("Link copied");
+      setStatus("URL link copied to clipboard");
     } catch {
       setStatus("Copy failed. Select the address bar to copy the link.");
     }

@@ -46,12 +46,12 @@ export const neighborhoodPhotos: Record<string, Photo> = {
 
 /** Small category photos for the Local Resources block on neighborhood pages (Wikimedia Commons; cropped to 16:9 and resized). */
 export const resourcePhotos: Record<"councils" | "civic" | "safety" | "parks", Photo> = {
-  councils: { src: "/images/resources/councils.webp", alt: "", title: "Interior entrance of the Summit Community Center in Summit, New Jersey", artist: "Tomwsulcer", license: "CC0",
-    licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/deed.en", source: "https://commons.wikimedia.org/wiki/File:Interior_entrance_of_the_Summit_Community_Center_in_Summit,_New_Jersey.jpg" },
-  civic: { src: "/images/resources/civic.webp", alt: "", title: "052707-031-FarmersMarket (Farmers Market, Los Angeles)", artist: "Bobak Ha’Eri", license: "CC BY 3.0",
-    licenseUrl: "https://creativecommons.org/licenses/by/3.0", source: "https://commons.wikimedia.org/wiki/File:052707-031-FarmersMarket.jpg" },
-  safety: { src: "/images/resources/safety.webp", alt: "", title: "Engine Co. No. 27 (Los Angeles Fire Department Museum)", artist: "Los Angeles (Wikimedia Commons user)", license: "CC BY-SA 3.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0", source: "https://commons.wikimedia.org/wiki/File:Engine_Co._No._27_(Los_Angeles_Fire_Department_Museum).JPG" },
+  councils: { src: "/images/resources/councils-v2.webp", alt: "", title: "FEMA - 35786 - Town hall meeting in Iowa", artist: "Patsy Lynch / FEMA", license: "Public domain",
+    source: "https://commons.wikimedia.org/wiki/File:FEMA_-_35786_-_Town_hall_meeting_in_Iowa.jpg" },
+  civic: { src: "/images/resources/civic-v2.webp", alt: "", title: "Hollywood Post Office front view", artist: "Andrew Tilles", license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0", source: "https://commons.wikimedia.org/wiki/File:Hollywood_Post_Office_front_view.jpg" },
+  safety: { src: "/images/resources/safety-v2.webp", alt: "", title: "LAPD Rampart Community Police Station", artist: "Lapdrampart (Wikimedia Commons user)", license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0", source: "https://commons.wikimedia.org/wiki/File:LAPD_Rampart_Community_Police_Station.JPG" },
   parks: { src: "/images/resources/parks.webp", alt: "", title: "Downtown LA from Griffith Park", artist: "Serouj", license: "Public domain",
     source: "https://commons.wikimedia.org/wiki/File:Downtown_LA_from_Griffith_Park.jpg" },
 };
