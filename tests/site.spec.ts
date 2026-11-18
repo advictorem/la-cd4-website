@@ -158,10 +158,12 @@ test.describe("search", () => {
     await page.keyboard.press("Enter");
     const box = page.getByRole("search", { name: "Site search" }).getByRole("searchbox");
     await expect(box).toBeFocused(); // focus moves into the field when the panel opens
+    await expect(toggle).toHaveText("Close search"); // shows "Close" (hidden " search" completes the name)
     await expect(box).toHaveAttribute("placeholder", "Search services, topics, neighborhoods"); // same prompt as the home hero
     await page.keyboard.press("Escape");
     await expect(page.locator("#site-search-panel")).toBeHidden();
     await expect(toggle).toBeFocused();
+    await expect(toggle).toHaveText("Search");
     await toggle.click();
     await box.fill("library");
     await page.keyboard.press("Enter");

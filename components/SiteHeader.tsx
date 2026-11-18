@@ -76,7 +76,7 @@ export function SiteHeader() {
     <button type="button" className={`search-toggle search-toggle--${where}`} aria-expanded={searchOpen} aria-controls="site-search-panel"
       onClick={(e) => { lastSearchBtn.current = e.currentTarget; setSearchOpen(!searchOpen); }}>
       <Icon name={searchOpen ? "close" : "search"} size={20} />
-      <span className={where === "masthead" ? "visually-hidden" : undefined}>Search</span>
+      <span className={where === "masthead" ? "visually-hidden" : undefined}>{searchOpen ? <>Close<span className="visually-hidden"> search</span></> : "Search"}</span>
     </button>
   );
 
