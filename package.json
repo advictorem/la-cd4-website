@@ -1,0 +1,36 @@
+{
+  "name": "la-cd4-website",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Council District 4 (City of Los Angeles) neutral service-portal redesign — staging build",
+  "engines": { "node": ">=20.9" },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test",
+    "test:a11y": "playwright test tests/a11y.spec.ts",
+    "check:links": "node scripts/check-links.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "check": "npm run lint && npm run typecheck && npm run check:contrast && npm run build"
+  },
+  "dependencies": {
+    "@fontsource-variable/public-sans": "^5.3.0",
+    "@fontsource-variable/source-serif-4": "^5.3.1",
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "typescript": "^5"
+  }
+}
