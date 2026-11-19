@@ -571,6 +571,8 @@ test.describe("phone layout", () => {
     await page.goto("/neighborhood/encino/");
     const bar = page.getByRole("navigation", { name: "Quick actions" });
     const office = bar.getByRole("link", { name: "Contact District Office" });
+    await expect(office.locator("svg")).toHaveCount(1); // phone icon
+    await expect(office.locator("svg")).toHaveCSS("color", "rgb(255, 255, 255)");
     const report = bar.getByRole("link", { name: /MyLA311 Report a City Issue/ });
     await expect(office).toHaveAttribute("href", "/need-help/");
     await expect(report).toHaveAttribute("href", "https://myla311.lacity.gov/");
@@ -610,6 +612,41 @@ test("desktop: no bottom action bar, all topic pills shown, search button keeps 
   await expect(page.locator("main .pills .pill:visible")).toHaveCount(10);
   await expect(page.locator(".pills__more")).toBeHidden();
   await expect(page.locator(".hero .site-search__text")).toBeVisible();
+});
+
+test.describe("event pages", () => {
+  test("every event has a featured image, a facts card with short dates, and an RSVP control", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    const { events } = await import("../content/events");
+    expect(events.length).toBeGreaterThan(10);
+    for (const e of events) {
+      await page.goto(`/event/${e.slug}/`);
+      const main = page.locator("main");
+      const img = main.locator(".event-photo img");
+      await expect(img, e.slug).toHaveCount(1);
+      expect(await img.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0), e.slug).toBe(true);
+      const facts = main.locator(".event-facts > div");
+      await expect(facts).toHaveCount(3);
+      expect(await facts.locator("dt").allTextContents()).toEqual(["Date", "Time", "Location"]);
+      await expect(facts.nth(0).locator("dd")).toHaveText(/^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [A-Z][a-z]{2} \d{1,2}, 20\d\d$/);
+      await expect(facts.nth(1).locator("dd")).not.toContainText(/day,/); // the date is not repeated in the time cell
+      // three cells in one row, separated by divider lines
+      const ys = await facts.evaluateAll((els) => els.map((x) => Math.round(x.getBoundingClientRect().top)));
+      expect(new Set(ys).size).toBe(1);
+      await expect(facts.nth(1)).toHaveCSS("border-left-width", "1px");
+      // every event in the captured data is in the past, so RSVP is shown closed and nothing links to an expired sign-up
+      const rsvp = main.locator(".event-card__rsvp");
+      await expect(rsvp.getByRole("button", { name: "RSVP closed" })).toBeDisabled();
+      await expect(rsvp.locator("a")).toHaveCount(0);
+    }
+  });
+  test("time strings are shortened consistently", async ({ page }) => {
+    await page.goto("/event/clockshop-night-hike/");
+    await expect(page.locator(".event-facts > div").nth(0).locator("dd")).toHaveText("Thu, Nov 12, 2026");
+    await expect(page.locator(".event-facts > div").nth(1).locator("dd")).toHaveText("6:00 PM – 8:30 PM");
+    await page.goto("/event/free-world-cup-community-watch-party/");
+    await expect(page.locator(".event-facts > div").nth(1).locator("dd")).toHaveText("Doors at 4:00 PM Match at 6:00 PM");
+  });
 });
 
 test.describe("neighborhood pages", () => {

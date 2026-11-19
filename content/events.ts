@@ -1,5 +1,8 @@
 import type { EventRecord, ArchiveItem } from "./types";
 import scrape from "./data/live-scrape.json";
+import extras from "./data/event-extras.json";
+
+const extra = extras as Record<string, { image?: string; rsvpUrl?: string }>;
 
 /**
  * Event and archive data captured from cd4.lacity.gov on 2026-11-17
@@ -24,6 +27,8 @@ export const events: EventRecord[] = (scrape.events as RawEvent[])
     // Registration links for past events (webinar sign-ups) expire, so they are not carried over.
     links: e.links.filter((l) => l.label.length > 3 && !/^here$/i.test(l.label) && !/zoom\.us|givebutter|eventbrite/i.test(l.url)).map((l) => ({ label: l.label, href: l.url })),
     sourceUrl: e.url,
+    image: extra[e.slug]?.image,
+    rsvpUrl: extra[e.slug]?.rsvpUrl,
   }))
   .sort((a, b) => b.date.localeCompare(a.date));
 

@@ -1,0 +1,69 @@
+{
+ "clockshop-night-hike": {
+  "image": "/images/events/clockshop-night-hike.webp",
+  "rsvpUrl": "https://clockshop.org/event/field-day-after-dark/"
+ },
+ "public-assembly-prs": {
+  "image": "/images/events/public-assembly-prs.webp",
+  "rsvpUrl": "https://givebutter.com/pa52"
+ },
+ "labor-day-pool-party": {
+  "image": "/images/events/labor-day-pool-party.webp",
+  "rsvpUrl": "http://bit.ly/CD4-Labor-Day"
+ },
+ "hollywood-community-cleanup": {
+  "image": "/images/events/hollywood-community-cleanup.webp",
+  "rsvpUrl": "http://bit.ly/CD4-Hollywood-Cleanup"
+ },
+ "vsno-summer-pool-party": {
+  "image": "/images/events/vsno-summer-pool-party.webp",
+  "rsvpUrl": "http://bit.ly/CD4-Summer-Pool-Party"
+ },
+ "wildfireday-la-cd4": {
+  "image": "/images/events/wildfireday-la-cd4.webp",
+  "rsvpUrl": "http://bit.ly/WildfireDayLA"
+ },
+ "cd4-solstice-hike": {
+  "image": "/images/events/cd4-solstice-hike.webp",
+  "rsvpUrl": "http://bit.ly/Solstice-Hike"
+ },
+ "free-world-cup-community-watch-party": {
+  "image": "/images/events/free-world-cup-community-watch-party.webp",
+  "rsvpUrl": "https://www.tixr.com/groups/streetfoodcinema/events/f-tbol-for-the-people-live-usa-vs-paraguay-match-185398?_gl=1*1v722l5*_gcl_au*MTQ0NTAzODAwMy4xNzc5Mzk4MTU2*_ga*MTIxNTk3MDQzMy4xNzc5Mzk4MTU2*_ga_9V0BNLK408*czE3NzkzOTgxNTUkbzEkZzEkdDE3NzkzOTg3NTgkajYwJGwwJGgxMjc0OTE2Nzcz"
+ },
+ "compost-day-la": {
+  "image": "/images/events/compost-day-la.webp",
+  "rsvpUrl": "https://www.mobilize.us/lacompost/event/789560/"
+ },
+ "oct26concert": {
+  "image": "/images/events/oct26concert.webp",
+  "rsvpUrl": "https://www.eventbrite.com/e/free-fall-festival-van-nuyssherman-oaks-rec-center-w-new-romantics-tickets-1681107530879?aff=erelpanelorg"
+ },
+ "oct12concert": {
+  "image": "/images/events/oct12concert.webp",
+  "rsvpUrl": "https://www.eventbrite.com/e/free-fall-festival-van-nuyssherman-oaks-rec-center-w-adelaide-pilar-tickets-1681096166889?aff=erelpanelorg"
+ },
+ "sunset-hike": {
+  "image": "/images/events/sunset-hike.webp",
+  "rsvpUrl": "https://www.eventbrite.com/e/sunset-hike-tickets-1633036308559?aff=oddtdtcreator"
+ },
+ "summer-pool-party": {
+  "image": "/images/events/summer-pool-party.webp",
+  "rsvpUrl": "https://www.eventbrite.com/e/pool-before-school-celebration-tickets-1553522881759?utm-campaign=social&utm-content=attendeeshare&utm-medium=discovery&utm-term=listing&utm-source=cp&aff=ebdsshcopyurl"
+ },
+ "cd4-conversation-homelessness": {
+  "rsvpUrl": "https://docs.google.com/forms/d/e/1FAIpQLSeNS8FLJ8lFDV3cFH3U57coJ0AKCXr3G5EBE-p4Yn9UbYc-fQ/viewform"
+ },
+ "new-years-hike": {
+  "rsvpUrl": "https://www.eventbrite.com/e/new-years-hike-w-council-district-4-tickets-1977320687404?aff=oddtdtcreator"
+ },
+ "reseda-turkey-giveaway": {
+  "rsvpUrl": "https://limiter.addonforge.com/limiter?formId=1FAIpQLSf3pKkEJTzsYoOjuTzBUAp2i1CYs6Gx65a6Cwz-EdR1sorybg"
+ },
+ "know-your-rights-workshop-2": {
+  "rsvpUrl": "https://docs.google.com/forms/d/e/1FAIpQLSfTFHgfHjDvKAWwskhLuVsbFZsfn7_rLP-RrHHdyfiP0GuVng/viewform"
+ },
+ "lahd-assistance": {
+  "rsvpUrl": "https://docs.google.com/forms/d/e/1FAIpQLScMouxn_AZP5XFrxAAAhKlGBmNBDg-_Cn-QUBSAofo31t66uQ/viewform"
+ }
+}

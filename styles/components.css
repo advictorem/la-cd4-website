@@ -588,3 +588,25 @@ html[data-citynav="loaded"] #citybar-fallback { display: none; }
   html { scroll-padding-bottom: 5rem; }
 }
 @media print { .mobile-actions { display: none !important; } }
+
+/* ---------- Event detail: featured image and facts card ---------- */
+.event-photo { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-m); overflow: hidden; background: var(--wash); }
+.event-photo img { object-fit: cover; }
+.event-card { margin-top: var(--s5); border: 1px solid var(--line-strong); border-radius: var(--radius-m); background: #fff; overflow: hidden; }
+.event-facts { display: grid; margin: 0; }
+.event-facts > div { padding: var(--s4) var(--s5); min-width: 0; }
+.event-facts > div + div { border-top: 1px solid var(--line); }
+.event-facts dt { display: flex; align-items: center; gap: var(--s2); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.event-facts dt svg { color: var(--city-navy); flex: none; }
+.event-facts dd { margin: var(--s2) 0 0; font-size: var(--step-0); font-weight: 600; color: var(--ink); line-height: 1.35; overflow-wrap: anywhere; }
+@media (min-width: 48rem) {
+  .event-facts { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.4fr); }
+  .event-facts > div + div { border-top: 0; border-left: 1px solid var(--line); }
+}
+.event-card__rsvp { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s5); padding: var(--s4) var(--s5); border-top: 1px solid var(--line); background: var(--wash); }
+.event-card__rsvp p { font-size: 1rem; color: var(--ink-2); }
+.event-card__rsvp .btn { min-width: 10rem; justify-content: center; }
+.btn[disabled] { background: #e3e6ec; border-color: #c5cad5; color: #4a5263; cursor: not-allowed; }
+
+/* Bottom bar phone icon */
+.mobile-actions__btn svg:not(.ext-icon) { flex: none; }

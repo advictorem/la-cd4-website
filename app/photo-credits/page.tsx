@@ -38,6 +38,7 @@ export default function PhotoCredits() {
               </span>
             </li>
           ))}
+          <li><span className="muted">Event pages</span><span><strong>Event images</strong><br />From the event listings on the current Council District 4 website (cd4.lacity.gov). Cropped and resized. Events without a usable listing image show the home page photo.</span></li>
         </ul>
       </div>
     </>

@@ -136,3 +136,11 @@ Use of each mark needs City approval (see the launch checklist).
 | Bottom action bar (`MobileActions`) | Fixed to the bottom of the screen on every page: "Contact District Office" (to `/need-help/`) and the MyLA311 logo with "Report a City Issue" (MyLA311, new tab), side by side, 52px tall. The page has bottom padding and `scroll-padding-bottom` so the bar never covers the footer or a focused control. Hidden in print and on larger screens. |
 | Topics (`TopicPills`) | Full-width list rows instead of the pill cluster. On the home page the first five show, with a "Show all 10 topics" disclosure button (`aria-expanded`). A select menu was not used because selects that navigate on change are hard to use with a keyboard and screen reader. |
 
+
+## Event detail page
+
+| Part | Rule |
+|---|---|
+| Featured image | 16:9 at the top of the page. Taken from the header image of the event's listing on the current CD4 site (`content/data/event-extras.json`). Listings that only had a plain color strip, or only a flyer carrying an officeholder's name, use the home page photo instead. Decorative (`alt=""`); all facts are in the card. |
+| Facts card | One bordered container: Date, Time, Location in three cells with divider lines (stacked rows on phones). Date is abbreviated ("Thu, Nov 12, 2026"); the time cell drops the repeated date. Missing values read "To be announced". |
+| RSVP | Upcoming events: "RSVP" button to the organizer's registration link, or to the original listing when none was captured. Past events: a disabled "RSVP closed" button, so nobody is sent to an expired sign-up form. |

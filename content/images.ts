@@ -54,3 +54,6 @@ export const resourcePhotos: Record<"councils" | "civic" | "safety" | "parks", P
   parks: { src: "/images/resources/parks.webp", alt: "", title: "Downtown LA from Griffith Park", artist: "Serouj", license: "Public domain",
     source: "https://commons.wikimedia.org/wiki/File:Downtown_LA_from_Griffith_Park.jpg" },
 };
+
+/** Shown on event pages whose live listing had no usable image. */
+export const eventFallbackPhoto = heroPhoto;

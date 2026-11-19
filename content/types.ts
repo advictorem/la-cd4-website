@@ -136,6 +136,10 @@ export interface EventRecord {
   summary?: string;
   links: ResourceLink[];
   sourceUrl: string;
+  /** Header image from the live event listing; absent when the listing only had a plain color strip or an officeholder-branded flyer. */
+  image?: string;
+  /** Registration link from the live listing. Only offered while the event is upcoming. */
+  rsvpUrl?: string;
 }
 
 export interface ArchiveItem {
