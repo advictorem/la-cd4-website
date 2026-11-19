@@ -9,7 +9,8 @@ import { ButtonLink, SmartLink } from "@/components/SmartLink";
 import { AddressCheck } from "@/components/AddressCheck";
 import { HeroParallax } from "@/components/HeroParallax";
 import { Icon } from "@/components/Icon";
-import { TopicPills, NeighborhoodCard, LatestList, QuickService, SectionHead } from "@/components/Cards";
+import { TopicPills } from "@/components/TopicPills";
+import { NeighborhoodCard, LatestList, QuickService, SectionHead } from "@/components/Cards";
 import { EventList } from "@/components/Events";
 import { FaqList } from "@/components/Faq";
 import { EmptyState, RepresentationNotice } from "@/components/Layout";
@@ -79,7 +80,7 @@ export default function HomePage() {
         <div className="container">
           <h2 id="topics-title" className="section-title">Topics & Resources</h2>
           <p className="section-intro">Plain-language guides to City programs, with links to the agencies that run them.</p>
-          <TopicPills topics={topics} />
+          <TopicPills topics={topics} collapseAfter={5} />
           <p style={{ marginTop: "var(--s5)" }}><SmartLink className="arrow-link" href="/topics-resources/">All topics <Icon name="arrow" size={16} /></SmartLink></p>
         </div>
       </section>

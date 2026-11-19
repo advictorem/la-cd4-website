@@ -10,6 +10,7 @@ import { site } from "@/content/site";
 import { CityBar } from "@/components/CityBar";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Footer } from "@/components/Footer";
+import { MobileActions } from "@/components/MobileActions";
 import { SignupPrompt } from "@/components/SignupPrompt";
 import { StagingBanner } from "@/components/Layout";
 
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <SiteHeader />
         <main id="main" tabIndex={-1}>{children}</main>
         <Footer />
+        <MobileActions />
         <SignupPrompt />
       </body>
     </html>

@@ -555,6 +555,63 @@ test("the MyLA311 box matches the neighborhood pages on other templates", async 
   }
 });
 
+test.describe("phone layout", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+  test("search buttons are icon-only but keep their names", async ({ page }) => {
+    await page.goto("/");
+    const hero = page.locator(".hero .site-search button");
+    await expect(hero).toHaveAccessibleName("Search");
+    expect((await hero.boundingBox())!.width).toBeLessThanOrEqual(60);
+    await page.locator(".masthead .search-toggle").click();
+    const panel = page.locator("#site-search-panel .site-search button");
+    await expect(panel).toHaveAccessibleName("Search");
+    expect((await panel.boundingBox())!.width).toBeLessThanOrEqual(60);
+  });
+  test("two actions stay fixed to the bottom of the screen", async ({ page }) => {
+    await page.goto("/neighborhood/encino/");
+    const bar = page.getByRole("navigation", { name: "Quick actions" });
+    const office = bar.getByRole("link", { name: "Contact District Office" });
+    const report = bar.getByRole("link", { name: /MyLA311 Report a City Issue/ });
+    await expect(office).toHaveAttribute("href", "/need-help/");
+    await expect(report).toHaveAttribute("href", "https://myla311.lacity.gov/");
+    const check = async () => {
+      const b = (await bar.boundingBox())!;
+      expect(Math.round(b.y + b.height)).toBe(844);
+      const [o, r] = [(await office.boundingBox())!, (await report.boundingBox())!];
+      expect(Math.abs(o.y - r.y)).toBeLessThan(2); // side by side
+      expect(o.height).toBeGreaterThanOrEqual(44);
+    };
+    await check();
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await check();
+    // The last line of the footer clears the bar.
+    const last = (await page.locator(".site-footer").boundingBox())!;
+    expect(last.y + last.height).toBeLessThanOrEqual((await bar.boundingBox())!.y + 1);
+  });
+  test("topics collapse to a short list with a show-all control", async ({ page }) => {
+    await page.goto("/");
+    const pills = page.locator("main .pills .pill");
+    await expect(pills).toHaveCount(10);
+    await expect(page.locator("main .pills .pill:visible")).toHaveCount(5);
+    const more = page.getByRole("button", { name: "Show all 10 topics" });
+    await expect(more).toHaveAttribute("aria-expanded", "false");
+    await more.click();
+    await expect(page.locator("main .pills .pill:visible")).toHaveCount(10);
+    await expect(page.getByRole("button", { name: "Show fewer topics" })).toHaveAttribute("aria-expanded", "true");
+    const w = await pills.first().evaluate((e) => e.getBoundingClientRect().width);
+    expect(w).toBeGreaterThan(300); // full-width rows
+  });
+});
+
+test("desktop: no bottom action bar, all topic pills shown, search button keeps its label", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/");
+  await expect(page.locator(".mobile-actions")).toBeHidden();
+  await expect(page.locator("main .pills .pill:visible")).toHaveCount(10);
+  await expect(page.locator(".pills__more")).toBeHidden();
+  await expect(page.locator(".hero .site-search__text")).toBeVisible();
+});
+
 test.describe("neighborhood pages", () => {
   for (const slug of ["reseda", "encino", "hollywood-hollywood-hills", "los-feliz-silver-lake", "sherman-oaks-van-nuys", "studio-city-cahuenga-pass"]) {
     test(`${slug}: layout and content rules`, async ({ page }) => {

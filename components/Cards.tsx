@@ -72,19 +72,6 @@ export function LatestList({ items, calendar }: { items: HotTopic[]; calendar?: 
 }
 
 /** Cluster of topic buttons (no descriptions). Each keeps its icon so color is never the only cue. */
-export function TopicPills({ topics }: { topics: Topic[] }) {
-  return (
-    <ul className="pills" role="list">
-      {topics.map((t) => (
-        <li key={t.slug}>
-          <SmartLink className="pill" href={`/initiative/${t.slug}/`} data-color={t.color}>
-            <Icon name={t.icon} size={18} />{t.title}
-          </SmartLink>
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 export function QuickService({ href, label, hint, color, icon }: { href: string; label: string; hint: string; color: ColorFamily; icon: IconName }) {
   return (

@@ -10,7 +10,7 @@ export function SiteSearch({ id, variant = "header", defaultValue, label }: { id
       </div>
       <button type="submit">
         <Icon name="search" size={20} />
-        <span className={variant === "hero" ? undefined : "visually-hidden"}>Search</span>
+        <span className={variant === "hero" ? "site-search__text" : "visually-hidden"}>Search</span>
       </button>
     </form>
   );

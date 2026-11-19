@@ -128,3 +128,11 @@ Use of each mark needs City approval (see the launch checklist).
 | Projects and Updates | Featured band: light wash background, 36px heading with a pin icon in a navy circle. Each update is a white row with a month / year calendar tile (`LatestList calendar`); the date is the most recent dated information in the source, so no day is shown. |
 | Related Topics | `TopicCard filled`: card filled with the topic tint, white icon box, no border; the accent outline appears only on hover and keyboard focus. |
 
+## Phone-only patterns (up to 40rem)
+
+| Pattern | Rule |
+|---|---|
+| Search buttons | Icon only in the hero and the search panel; the word "Search" stays as the accessible name. |
+| Bottom action bar (`MobileActions`) | Fixed to the bottom of the screen on every page: "Contact District Office" (to `/need-help/`) and the MyLA311 logo with "Report a City Issue" (MyLA311, new tab), side by side, 52px tall. The page has bottom padding and `scroll-padding-bottom` so the bar never covers the footer or a focused control. Hidden in print and on larger screens. |
+| Topics (`TopicPills`) | Full-width list rows instead of the pill cluster. On the home page the first five show, with a "Show all 10 topics" disclosure button (`aria-expanded`). A select menu was not used because selects that navigate on change are hard to use with a keyboard and screen reader. |
+

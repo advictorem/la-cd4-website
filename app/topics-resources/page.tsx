@@ -2,7 +2,8 @@ import { content } from "@/lib/content-adapter";
 import { primaryNav } from "@/content/navigation";
 import { pageMeta } from "@/lib/metadata";
 import { PageHeader, PageFoot } from "@/components/Layout";
-import { TopicCard, TopicPills } from "@/components/Cards";
+import { TopicCard } from "@/components/Cards";
+import { TopicPills } from "@/components/TopicPills";
 
 export const metadata = pageMeta({ title: "Topics & Resources", description: "Ten plain-language guides to City programs, with links to the agencies that run them.", route: "/topics-resources/" });
 
